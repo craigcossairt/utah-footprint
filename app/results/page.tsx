@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { AreaCard } from "@/components/ui/area-card";
 import { ButtonLink } from "@/components/ui/button";
 import { TopChanges } from "@/components/results/top-changes";
+import { Assistant } from "@/components/results/assistant";
 import { fromQuery } from "@/lib/answers";
 import { areas } from "@/lib/areas";
 import { computeAll, rankActions } from "@/lib/results";
@@ -57,6 +58,10 @@ export default async function Results({
 
       <div className="mt-16">
         <TopChanges actions={ranked} />
+      </div>
+
+      <div className="mt-16">
+        <Assistant answers={answers} />
       </div>
 
       <div className="mt-12 flex flex-wrap gap-4">
