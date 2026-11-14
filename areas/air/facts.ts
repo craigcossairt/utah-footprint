@@ -19,6 +19,22 @@ export const facts: Fact[] = [
     year: 2022,
   },
   {
+    key: "air.carMpg",
+    value: 22.2,
+    unit: "miles per gallon, average gasoline car on the road",
+    source: "EPA, Greenhouse Gas Emissions from a Typical Passenger Vehicle",
+    url: "https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle",
+    year: 2023,
+  },
+  {
+    key: "air.gasPricePerGallon",
+    value: 3.946,
+    unit: "dollars per gallon, regular gasoline, Rocky Mountain region, week of 9 Nov 2026",
+    source: "EIA, Gasoline and Diesel Fuel Update",
+    url: "https://www.eia.gov/petroleum/gasdiesel/",
+    year: 2026,
+  },
+  {
     key: "air.inversionMobileSharePct",
     value: 48,
     unit: "percent of a typical winter inversion's PM2.5 from mobile sources (vehicles, trains and aircraft)",

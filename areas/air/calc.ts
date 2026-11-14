@@ -36,6 +36,21 @@ export function vehicleFactor(v: Vehicle = "gas"): number {
   return mine === null || gas === null ? 1 : mine / gas;
 }
 
+// Effective miles per gallon of gasoline for the gas-money estimate, or null when the car uses no
+// gasoline (electric) or we have no sourced figure (diesel, natural gas, hydrogen).
+function gallonsMpg(v: Vehicle): number | null {
+  switch (v) {
+    case "gas":
+      return fact("air.carMpg").value; // EPA typical car
+    case "hybrid":
+      return fact("air.hybridMpg").value;
+    case "plugin":
+      return fact("air.pluginMpg").value / (1 - fact("air.pluginElectricPct").value / 100);
+    default:
+      return null;
+  }
+}
+
 function round(n: number, to = 10): number {
   return Math.round(n / to) * to;
 }
@@ -49,13 +64,20 @@ const T = {
     savesUnit: "lbs CO2 per year",
     summary: (miles: number, perYear: number) =>
       `Driving ${miles} miles each way adds up to about ${fmt(perYear)} miles a year.`,
+    summaryGas: (miles: number, perYear: number, dollars: number) =>
+      `Driving ${miles} miles each way adds up to about ${fmt(perYear)} miles and $${fmt(dollars)} in gas a year.`,
     noCommute: "No commute by car, so no commute emissions. Errands and trips still count toward the typical figure.",
+    gas: (dollars: number) => `About $${fmt(dollars)} a year in gas.`,
     transit: "Take the bus or TRAX to work 2 days a week",
     transitCost: "Fare depends on route; many employers offer passes.",
+    transitCostGas: "Before the fare, which depends on the route; many employers offer passes.",
     carpool: "Share the commute with one other person",
     carpoolCost: "Free to find a match; split the gas.",
+    carpoolCostGas: "Free to find a match.",
     remote: "Work from home 1 day a week, if your job allows",
     remoteCost: "Free.",
+    gasAssumption: (mpg: number, price: number) =>
+      `Gas savings use ${mpg} miles per gallon and EIA's Rocky Mountain regular price of $${price} a gallon (week of 9 Nov 2026). They leave out parking, wear and insurance, so real savings are higher.`,
     car: {
       sourced: (name: string, pct: number) =>
         `Your ${name} is counted at ${pct}% of a gasoline car's CO2 per mile, from US DOE figures (fuel production included) and Utah's 2024 power plants (EIA).`,
@@ -76,14 +98,21 @@ const T = {
     savesUnit: "libras de CO2 al año",
     summary: (miles: number, perYear: number) =>
       `Manejar ${miles} millas de ida suma unas ${fmt(perYear)} millas al año.`,
+    summaryGas: (miles: number, perYear: number, dollars: number) =>
+      `Manejar ${miles} millas de ida suma unas ${fmt(perYear)} millas y $${fmt(dollars)} de gasolina al año.`,
     noCommute:
       "No va al trabajo en carro, así que no hay emisiones por ese viaje. Los mandados y paseos sí cuentan en la cifra típica.",
+    gas: (dollars: number) => `Unos $${fmt(dollars)} al año en gasolina.`,
     transit: "Tome el autobús o TRAX al trabajo 2 días a la semana",
     transitCost: "La tarifa depende de la ruta; muchos empleadores ofrecen pases.",
+    transitCostGas: "Antes de la tarifa, que depende de la ruta; muchos empleadores ofrecen pases.",
     carpool: "Comparta el viaje al trabajo con otra persona",
     carpoolCost: "Buscar compañero es gratis; dividan la gasolina.",
+    carpoolCostGas: "Buscar compañero es gratis.",
     remote: "Trabaje desde casa 1 día a la semana, si su trabajo lo permite",
     remoteCost: "Gratis.",
+    gasAssumption: (mpg: number, price: number) =>
+      `El ahorro en gasolina usa ${mpg} millas por galón y el precio regular de la región de las Montañas Rocosas de la EIA, $${price} por galón (semana del 9 de nov. de 2026). No incluye estacionamiento, desgaste ni seguro, así que el ahorro real es mayor.`,
     car: {
       sourced: (name: string, pct: number) =>
         `Su ${name} cuenta como el ${pct}% del CO2 por milla de un carro de gasolina, según cifras del Departamento de Energía de EE. UU. (incluye producir el combustible) y las plantas eléctricas de Utah en 2024 (EIA).`,
@@ -126,18 +155,27 @@ function calculateCore(a: Answers, lang: Lang): AreaResult {
     return { headline: 0, unit: t.unit, typical: round(typical, 100), summary: t.noCommute, actions: [], assumptions };
   }
 
+  // Gas money: only for cars that burn gasoline and have a sourced mpg. Others show no dollar figure.
+  const mpg = gallonsMpg(vehicle);
+  const gas = mpg ? (commuteMilesPerYear / mpg) * fact("air.gasPricePerGallon").value : 0;
+  if (mpg) assumptions.push(t.gasAssumption(Math.round(mpg * 10) / 10, fact("air.gasPricePerGallon").value));
+  const note = (share: number, plain: string, withGas: string) =>
+    gas ? `${t.gas(round(gas * share, 10))} ${withGas}` : plain;
+
   return {
     headline: round(commute, 10),
     unit: t.unit,
     typical: round(typical, 100),
-    summary: t.summary(a.commuteMiles, round(commuteMilesPerYear, 100)),
+    summary: gas
+      ? t.summaryGas(a.commuteMiles, round(commuteMilesPerYear, 100), round(gas, 10))
+      : t.summary(a.commuteMiles, round(commuteMilesPerYear, 100)),
     actions: [
       {
         id: "air.transit2",
         title: t.transit,
         saves: round(commute * (2 / 5), 10),
         unit: t.savesUnit,
-        costNote: t.transitCost,
+        costNote: note(2 / 5, t.transitCost, t.transitCostGas),
         program: programs.transit,
       },
       {
@@ -145,7 +183,7 @@ function calculateCore(a: Answers, lang: Lang): AreaResult {
         title: t.carpool,
         saves: round(commute / 2, 10),
         unit: t.savesUnit,
-        costNote: t.carpoolCost,
+        costNote: note(1 / 2, t.carpoolCost, t.carpoolCostGas),
         program: programs.rideshare,
       },
       {
@@ -153,7 +191,7 @@ function calculateCore(a: Answers, lang: Lang): AreaResult {
         title: t.remote,
         saves: round(commute / 5, 10),
         unit: t.savesUnit,
-        costNote: t.remoteCost,
+        costNote: note(1 / 5, t.remoteCost, t.remoteCost),
         program: programs.travelwise,
       },
     ].sort((x, y) => y.saves - x.saves),
