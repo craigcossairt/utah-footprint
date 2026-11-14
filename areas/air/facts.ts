@@ -18,6 +18,14 @@ export const facts: Fact[] = [
     url: "https://www.fhwa.dot.gov/policyinformation/statistics/2022/ps1.cfm",
     year: 2022,
   },
+  {
+    key: "air.inversionMobileSharePct",
+    value: 48,
+    unit: "percent of a typical winter inversion's PM2.5 from mobile sources (vehicles, trains and aircraft)",
+    source: "Utah Division of Air Quality, Understanding Utah's Air Quality",
+    url: "https://deq.utah.gov/daq/understanding-utahs-air-quality",
+    year: 2019,
+  },
 ];
 
 export function fact(key: string): Fact {

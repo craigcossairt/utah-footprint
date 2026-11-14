@@ -2,7 +2,7 @@ import type { AreaResult, Lang } from "@/lib/contract";
 import { AreaCard, SourceLink } from "@/components/ui/area-card";
 import { aqiWord, todaySources } from "@/lib/today";
 import type { AirResult } from "./calc";
-import { facts, programs } from "./facts";
+import { fact, facts, programs } from "./facts";
 import { getAirForZip, getDustOutlook } from "./today-air";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
@@ -41,6 +41,13 @@ const T = {
       </>
     ),
     outlookNote: (place: string, at: string) => `Open-Meteo forecast for ${place}, the next 3 days. Fetched ${at}.`,
+    inversion: (pct: number) => (
+      <>
+        In a typical winter inversion, about <span className="num font-semibold">{pct}%</span> of the fine-particle
+        pollution comes from vehicles, trains and aircraft. Every commute day you skip or share is one less car under
+        the lid.
+      </>
+    ),
   },
   es: {
     title: "Aire",
@@ -66,6 +73,13 @@ const T = {
     ),
     outlookNote: (place: string, at: string) =>
       `Pronóstico de Open-Meteo para ${place}, los próximos 3 días. Consultado ${at}.`,
+    inversion: (pct: number) => (
+      <>
+        En una inversión típica de invierno, cerca del <span className="num font-semibold">{pct}%</span> de la
+        contaminación por partículas finas viene de vehículos, trenes y aviones. Cada día que no maneja al trabajo, o
+        que comparte el viaje, es un carro menos bajo la capa de aire.
+      </>
+    ),
   },
 };
 
@@ -85,6 +99,10 @@ export default async function Card({ result, lang = "en" }: { result: AreaResult
         </p>
       ) : null}
       <TodayAir zip={zip} t={t} />
+      <p className="mt-3 text-sm">
+        {t.inversion(fact("air.inversionMobileSharePct").value)}{" "}
+        <SourceLink href={fact("air.inversionMobileSharePct").url}>Utah Division of Air Quality</SourceLink>
+      </p>
       <p className="mt-3 text-sm">
         {t.dust} <SourceLink href={programs.lakeDust.url}>{programs.lakeDust.name}</SourceLink>
       </p>
