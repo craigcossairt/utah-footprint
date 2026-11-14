@@ -58,20 +58,6 @@ map failed (ErrorNote: "Enter the size instead"). Taps of at least 44 px, "Undo 
 Add the assumption "Lawn size measured by you on a satellite map." to the water card.
 Done when: Marisol's lawn can be measured on the live URL, on a phone, in under 30 seconds.
 
-### B2. Work out my commute miles from two addresses
-Good fit: Britney · Size: L · Claimed: Craig's agent 12:08
-Key: `GOOGLE_MAPS_SERVER_KEY`. Don't wait for it: build the fixtures path first; it goes live once the key is in Vercel.
-Touches: `app/api/distance/**`, `lib/maps-server.ts`, `components/check/commute-route.tsx`, `data/fixtures/routes.json`, the commute step of `components/check/check-flow.tsx`
-Do: on the commute question, add "Work it out from my addresses": home, and work or school. `POST /api/distance`
-with `{ from, to }` calls the Routes API `computeRoutes` on the server (`travelMode: DRIVE`, field mask
-`routes.distanceMeters,routes.duration`) and returns one-way miles, rounded to a whole mile, which fill the stepper.
-Cache by address pair in memory. In fixtures mode, or when the call fails or takes over 5 seconds, return Marisol's saved
-route from `routes.json` if the pair matches, otherwise an ErrorNote ("We couldn't measure that route. Set the miles yourself.").
-Show a line the person can still adjust ("Rose Park to the University of Utah: 7 miles one way by road"). Never save the
-addresses: not in `localStorage`, the URL or logs. Under the inputs: "Your addresses go to Google Maps to measure the
-route. We don't keep them." Spanish copy in `COPY`.
-Done when: the stepper fills from two real Salt Lake addresses on the live URL.
-
 ### B3. Data center line on the energy card
 Good fit: Jennifer · Size: M · Claimed: (open)
 Touches: `areas/energy/**`
@@ -131,3 +117,4 @@ Done when: each energy action on `/results` shows a dollar figure, with both pri
 (Move items here: `B<n>. <title>`, done by, commit SHA, URL to check.)
 - B10. Dollar savings on the water actions, Jenn, c2e52e2, /results (water actions: about $89, $55 and $44 a year at SLC 2026 rates; rate on /sources)
 - Car type on the driving question (own idea), Jenn, 930d341, /check question 4 then /results air card
+- B2. Commute miles from two addresses, Craig's agent, 78b17f1, /check question 4, "Work it out from my addresses". Works now with the saved route (type "Rose Park" and "University of Utah"); any other pair shows the error note until `GOOGLE_MAPS_SERVER_KEY` is in Vercel (Routes API enabled, then redeploy). Live call not yet run against Google.
