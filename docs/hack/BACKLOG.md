@@ -105,7 +105,7 @@ Screenshot anything broken, cut off or confusing into `#bugs` with the page.
 Done when: posted. Leave this item open for the next pass.
 
 ### B7. Home page in Spanish
-Good fit: anyone · Size: M · Claimed: (open)
+Good fit: anyone · Size: M · Claimed: Craig's agent 12:08
 Touches: `app/page.tsx`, `components/home/**`, `lib/i18n.ts`
 Do: `/?lang=es` shows the home page labels in Spanish, the way `/check` and `/results` already do. Numbers and sources stay the same.
 Done when: `/?lang=es` reads fully in Spanish on a phone.
