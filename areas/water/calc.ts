@@ -7,6 +7,14 @@ const SWAP_SQFT = 500; // the lawn area the "replace lawn" action assumes
 
 const round = (n: number, to = 100) => Math.round(n / to) * to;
 const n = (v: number) => v.toLocaleString("en-US");
+const GALLONS_PER_CCF = 748; // 100 cubic feet of water, the unit on a water bill
+
+// What one more gallon costs on Salt Lake City's 2026 residential bill, between 8 and 21 ccf a month.
+export function dollarsPerGallon(): number {
+  const extra = fact("water.slcBill21Ccf") - fact("water.slcBill8Ccf");
+  return extra / (21 - 8) / GALLONS_PER_CCF;
+}
+const dollars = (gallons: number) => Math.max(1, Math.round(gallons * dollarsPerGallon()));
 
 export function lawnGallons(sqFt: number): number {
   return sqFt * fact("water.lawnInches") * GALLONS_PER_SQFT_INCH;
@@ -30,6 +38,9 @@ const T = {
     leakTitle: "Find and fix leaks: put food coloring in each toilet tank and look for drips",
     leakCost: "Free to check. A worn toilet flapper is a quick, cheap fix.",
     leakProgram: "EPA WaterSense: how to check for leaks",
+    money: (d: number) => ` About $${d} a year off a Salt Lake City water bill.`,
+    rate: (c: string) =>
+      `Dollar savings use Salt Lake City's 2026 residential water rate: each extra 100 cubic feet (748 gallons) adds about $${c} to the bill, between a low and a medium monthly use. Rates differ by city and by how much you use; Salt Lake County customers pay more.`,
     assumptions: () => [
       `Indoor use is ${fact("water.indoorGpcd")} gallons per person per day, Salt Lake City's 2024 figure for its residents.`,
       `The lawn gets ${fact("water.lawnInches")} inches of water a year, what Salt Lake City customers applied on average in 2024.`,
@@ -55,6 +66,9 @@ const T = {
     leakTitle: "Busque y arregle fugas: ponga colorante de comida en el tanque de cada inodoro y revise los goteos",
     leakCost: "Revisar es gratis. Cambiar la válvula (flapper) gastada del inodoro es rápido y barato.",
     leakProgram: "EPA WaterSense: cómo buscar fugas (en inglés)",
+    money: (d: number) => ` Unos $${d} al año menos en una factura de agua de Salt Lake City.`,
+    rate: (c: string) =>
+      `El ahorro en dólares usa la tarifa residencial de agua de Salt Lake City para 2026: cada 100 pies cúbicos extra (748 galones) suman unos $${c} a la factura, entre un uso mensual bajo y uno mediano. Las tarifas cambian según la ciudad y cuánto usa; los clientes del condado de Salt Lake pagan más.`,
     assumptions: () => [
       `El uso dentro de la casa es de ${fact("water.indoorGpcd")} galones por persona al día, la cifra de 2024 de Salt Lake City para sus residentes.`,
       `El césped recibe ${fact("water.lawnInches")} pulgadas de agua al año, lo que aplicaron en promedio los clientes de Salt Lake City en 2024.`,
@@ -108,6 +122,7 @@ export function calculate(a: Answers, lang: Lang = "en"): AreaResult {
     costNote: t.leakCost,
     program: { name: t.leakProgram, url: links.epaLeaks },
   });
+  for (const act of actions) act.costNote += t.money(dollars(act.saves));
   actions.sort((x, y) => y.saves - x.saves);
 
   return {
@@ -116,6 +131,6 @@ export function calculate(a: Answers, lang: Lang = "en"): AreaResult {
     typical: round(typical, 1000),
     summary: yard > 0 ? t.summaryYard(yardShare) : t.summaryNoYard,
     actions,
-    assumptions: t.assumptions(),
+    assumptions: [...t.assumptions(), t.rate((dollarsPerGallon() * GALLONS_PER_CCF).toFixed(2))],
   };
 }

@@ -2,6 +2,7 @@ import type { Fact } from "@/lib/contract";
 
 const SLC_2025 = "https://www.slc.gov/utilities/wp-content/uploads/sites/22/2026/03/SLCDPU_Water_Conservation_Plan_2025.pdf";
 const GSL_2026 = "https://d36oiwf74r1rap.cloudfront.net/wp-content/uploads/2026/01/GSL-Jan2026.pdf";
+const SLC_RATES = "https://www.slc.gov/utilities/pay-my-bill/current-rates/";
 const EPA_LEAKS = "https://www.epa.gov/watersense/fix-leak-week";
 const USU_RAIN = "https://extension.usu.edu/sustainability/research/rain-barrels-in-utah";
 const USU_2025 =
@@ -103,6 +104,22 @@ export const facts: Fact[] = [
     unit: "percent of outdoor city water use that is used up and does not flow back (previously assumed 40%)",
     source: "Great Salt Lake Strike Team, Data and Insights Summary, Jan 2026 (page 24)",
     url: GSL_2026,
+    year: 2026,
+  },
+  {
+    key: "water.slcBill8Ccf",
+    value: 47.15,
+    unit: "dollars, Salt Lake City monthly residential water bill at 8 ccf (3/4 inch meter, 2026)",
+    source: "Salt Lake City Public Utilities, Current Rates",
+    url: SLC_RATES,
+    year: 2026,
+  },
+  {
+    key: "water.slcBill21Ccf",
+    value: 104.77,
+    unit: "dollars, Salt Lake City monthly residential water bill at 21 ccf (3/4 inch meter, 2026)",
+    source: "Salt Lake City Public Utilities, Current Rates",
+    url: SLC_RATES,
     year: 2026,
   },
 ];
