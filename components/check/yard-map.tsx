@@ -74,7 +74,7 @@ export function YardMap({ lang, onUse }: { lang: Lang; onUse: (sqFt: number) => 
   const [sqFt, setSqFt] = useState(0);
   const [corners, setCorners] = useState(0);
 
-  // Load the script as soon as the panel opens, so "Show my home" is quick.
+  // Load the script as soon as the question shows, so "Show my home" is quick.
   useEffect(() => {
     // Google calls this global when the key is rejected; geocoding then never answers.
     (window as unknown as { gm_authFailure?: () => void }).gm_authFailure = () => setState("failed");
@@ -151,7 +151,8 @@ export function YardMap({ lang, onUse }: { lang: Lang; onUse: (sqFt: number) => 
             tilt: 0,
             disableDefaultUI: true,
             zoomControl: true,
-            gestureHandling: "greedy",
+            // One finger scrolls the page past the map on a phone; two fingers move the map. Taps still add corners.
+            gestureHandling: "cooperative",
             clickableIcons: false,
           });
           map.current.addListener("click", (e) => {
@@ -199,7 +200,7 @@ export function YardMap({ lang, onUse }: { lang: Lang; onUse: (sqFt: number) => 
   const shown = sqFt.toLocaleString("en-US");
 
   return (
-    <div className="mt-3 border-t-2 border-line pt-3">
+    <div className="mt-2">
       {state === "failed" ? <ErrorNote>{c.failed}</ErrorNote> : null}
       {state !== "failed" ? (
         <>

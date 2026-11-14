@@ -43,7 +43,8 @@ const COPY = {
     yards: ["No lawn", "Apartment, condo, or a yard with no grass", "Small", "About 500 square feet, like a two-car driveway", "Medium", "About 1,500 square feet", "Large", "About 3,000 square feet or more"],
     heat: ["Natural gas furnace", "You get a gas bill", "Electric heat", "Baseboard or electric furnace, no gas bill", "Heat pump", "One outdoor unit heats and cools"],
     custom: ["I know the size", "Enter square feet"],
-    measure: ["Measure it on a map", "Hide the map"],
+    measure: ["Measure your lawn on a map", "Or pick the closest size", "Measure again"],
+    measured: (n: string) => `Lawn set to ${n} sq ft from the map.`,
     errZip: "Enter a 5-digit Utah ZIP code. They start with 84.",
     errYard: "Pick the closest size.",
     errYardSize: "Enter a size between 0 and 50,000 square feet.",
@@ -79,7 +80,8 @@ const COPY = {
     yards: ["Sin césped", "Apartamento, condominio o un patio sin pasto", "Pequeño", "Unos 500 pies cuadrados, como una entrada para dos carros", "Mediano", "Unos 1,500 pies cuadrados", "Grande", "Unos 3,000 pies cuadrados o más"],
     heat: ["Calentador de gas natural", "Recibe una factura de gas", "Calefacción eléctrica", "Zócalos o calentador eléctrico, sin factura de gas", "Bomba de calor", "Una unidad afuera que calienta y enfría"],
     custom: ["Sé el tamaño", "Escriba los pies cuadrados"],
-    measure: ["Medirlo en un mapa", "Ocultar el mapa"],
+    measure: ["Mida su césped en un mapa", "O elija el tamaño más parecido", "Medir otra vez"],
+    measured: (n: string) => `Césped de ${n} pies cuadrados, medido en el mapa.`,
     errZip: "Escriba un código postal de Utah de 5 dígitos. Empiezan con 84.",
     errYard: "Elija el tamaño más parecido.",
     errYardSize: "Escriba un tamaño entre 0 y 50,000 pies cuadrados.",
@@ -131,7 +133,7 @@ const TOTAL = 6;
 export function CheckFlow() {
   const router = useRouter();
   const [lang, setLang] = useState<Lang>("en");
-  const [showMap, setShowMap] = useState(false);
+  const [showMap, setShowMap] = useState(true);
   const [canMap, setCanMap] = useState(false);
   useEffect(() => setCanMap(mapsAvailable()), []);
   const c = COPY[lang];
@@ -291,6 +293,32 @@ export function CheckFlow() {
 
         {step === 3 && (
           <Question ref={heading} title={c.q3[0]} help={c.q3[1]}>
+            {canMap && (
+              <div className="mb-6">
+                <p className="font-semibold">{c.measure[0]}</p>
+                {showMap ? (
+                  <YardMap
+                    lang={lang}
+                    onUse={(sq) => {
+                      set({ yardChoice: "custom", yardCustom: String(sq) });
+                      setShowMap(false);
+                    }}
+                  />
+                ) : (
+                  <p className="mt-2 flex flex-wrap items-center gap-x-3" role="status">
+                    {c.measured(Number(d.yardCustom || 0).toLocaleString("en-US"))}
+                    <button
+                      type="button"
+                      onClick={() => setShowMap(true)}
+                      className="min-h-11 text-sm font-semibold underline underline-offset-4"
+                    >
+                      {c.measure[2]}
+                    </button>
+                  </p>
+                )}
+                <p className="mt-6 border-t-2 border-line pt-4 font-semibold">{c.measure[1]}</p>
+              </div>
+            )}
             <Choices
               name="yard"
               value={d.yardChoice}
@@ -309,27 +337,6 @@ export function CheckFlow() {
                   onChange={(e) => set({ yardCustom: e.target.value.replace(/\D/g, "") })}
                   className="num mt-1 block w-44 rounded-control border-2 border-ink bg-surface px-4 py-2 text-2xl font-extrabold"
                 />
-              </div>
-            )}
-            {d.yardChoice === "custom" && canMap && (
-              <div className="mt-2">
-                <button
-                  type="button"
-                  onClick={() => setShowMap((v) => !v)}
-                  aria-expanded={showMap}
-                  className="min-h-11 text-sm font-semibold underline underline-offset-4"
-                >
-                  {showMap ? c.measure[1] : c.measure[0]}
-                </button>
-                {showMap && (
-                  <YardMap
-                    lang={lang}
-                    onUse={(sq) => {
-                      set({ yardCustom: String(sq) });
-                      setShowMap(false);
-                    }}
-                  />
-                )}
               </div>
             )}
           </Question>
