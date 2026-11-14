@@ -1,4 +1,4 @@
 [
   { "id": "marisol", "name": "Marisol Vega", "neighborhood": "Rose Park, Salt Lake City",
-    "answers": { "zip": "84116", "household": 4, "yardSqFt": 1800, "commuteMiles": 9, "heating": "gas" } }
+    "answers": { "zip": "84116", "household": 4, "yardSqFt": 1800, "commuteMiles": 6, "heating": "gas" } }
 ]

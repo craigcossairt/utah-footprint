@@ -1,23 +1,23 @@
 {
  "plan": {
-  "plan|en|4|1800|9|gas|": {
+  "plan|en|4|1800|6|gas|": {
    "kind": "plan",
-   "intro": "Your home uses 106,000 gallons a year of water, and commuting adds 3,970 lbs of CO2 a year from the commute.",
+   "intro": "Your home uses 106,000 gallons a year of water, and commuting adds 2,650 lbs of CO2 a year from the commute.",
    "steps": [
     {
-     "text": "Share the commute with one other person to save 1,980 lbs CO2 per year. You can connect through UTA Rideshare: carpool and vanpool.",
+     "text": "Share the commute with one other person to save 1,320 lbs CO2 per year. You can connect through UTA Rideshare: carpool and vanpool.",
      "factKeys": [
       "change.air.carpool"
      ]
     },
     {
-     "text": "Take the bus or TRAX to work 2 days a week to cut 1,590 lbs CO2 per year. Check UTA trip planner and passes to plan your ride.",
+     "text": "Take the bus or TRAX to work 2 days a week to cut 1,060 lbs CO2 per year. Check UTA trip planner and passes to plan your ride.",
      "factKeys": [
       "change.air.transit2"
      ]
     },
     {
-     "text": "Work from home 1 day a week, if your job allows, to save 790 lbs CO2 per year. Learn more through TravelWise, Utah Department of Transportation.",
+     "text": "Work from home 1 day a week, if your job allows, to save 530 lbs CO2 per year. Learn more through TravelWise, Utah Department of Transportation.",
      "factKeys": [
       "change.air.remote1"
      ]
@@ -41,24 +41,24 @@
     }
    ]
   },
-  "plan|es|4|1800|9|gas|": {
+  "plan|es|4|1800|6|gas|": {
    "kind": "plan",
-   "intro": "Su hogar usa 106,000 galones de agua al año y produce 3,970 libras de CO2 por el viaje al trabajo. Los patios son la parte del uso de agua en Utah que los hogares controlan más.",
+   "intro": "Su hogar usa 106,000 galones de agua al año y produce 2,650 libras de CO2 por el viaje al trabajo. Los patios son la parte del uso de agua en Utah que los hogares controlan más.",
    "steps": [
     {
-     "text": "Comparta el viaje al trabajo con otra persona para ahorrar 1,980 libras de CO2 al año. Puede encontrar un grupo con UTA Rideshare: carpool and vanpool.",
+     "text": "Comparta el viaje al trabajo con otra persona para ahorrar 1,320 libras de CO2 al año. Puede encontrar un grupo con UTA Rideshare: carpool and vanpool.",
      "factKeys": [
       "change.air.carpool"
      ]
     },
     {
-     "text": "Tome el autobús o TRAX para ir al trabajo 2 días a la semana y ahorrará 1,590 libras de CO2 al año. Puede planear sus viajes con UTA trip planner and passes.",
+     "text": "Tome el autobús o TRAX para ir al trabajo 2 días a la semana y ahorrará 1,060 libras de CO2 al año. Puede planear sus viajes con UTA trip planner and passes.",
      "factKeys": [
       "change.air.transit2"
      ]
     },
     {
-     "text": "Trabaje desde casa 1 día a la semana si su empleo lo permite para ahorrar 790 libras de CO2 al año. El programa TravelWise, Utah Department of Transportation le puede ayudar.",
+     "text": "Trabaje desde casa 1 día a la semana si su empleo lo permite para ahorrar 530 libras de CO2 al año. El programa TravelWise, Utah Department of Transportation le puede ayudar.",
      "factKeys": [
       "change.air.remote1"
      ]
@@ -84,7 +84,7 @@
   }
  },
  "ask": {
-  "ask|en|4|1800|9|gas||does my lawn really affect the lake": {
+  "ask|en|4|1800|6|gas||does my lawn really affect the lake": {
    "kind": "ask",
    "covered": true,
    "answer": "Yards are the part of Utah's water use that households control most. In the Great Salt Lake basin, 26.8 percent of human-caused water depletions come from cities, homes and industry, while 91 percent of outdoor city water use is used up and does not flow back.",
@@ -106,10 +106,10 @@
     }
    ]
   },
-  "ask|en|4|1800|9|gas||which change should i make first": {
+  "ask|en|4|1800|6|gas||which change should i make first": {
    "kind": "ask",
    "covered": true,
-   "answer": "The top ranked action is to share the commute with one other person. It saves 1,980 lbs CO2 per year. The second action is to take the bus or TRAX to work 2 days a week, which saves 1,590 lbs CO2 per year.",
+   "answer": "The top ranked action is to share the commute with one other person. It saves 1,320 lbs CO2 per year. The second action is to take the bus or TRAX to work 2 days a week, which saves 1,060 lbs CO2 per year.",
    "citations": [
     {
      "key": "change.air.carpool",
@@ -123,10 +123,10 @@
     }
    ]
   },
-  "ask|en|4|1800|9|gas||why is my air number so high": {
+  "ask|en|4|1800|6|gas||why is my air number so high": {
    "kind": "ask",
    "covered": true,
-   "answer": "Your commute adds up to 3,970 lbs of CO2 a year from driving 9 miles each way, which is about 4,500 miles a year. A typical gasoline car makes about 400 grams of CO2 a mile. Your total is still below the 9,300 lbs of CO2 from all driving one Utah resident typically does in a year.",
+   "answer": "Your commute adds up to 2,650 lbs of CO2 a year from driving 6 miles each way, which is about 3,000 miles a year. A typical gasoline car makes about 400 grams of CO2 a mile. Your total is still below the 9,300 lbs of CO2 from all driving one Utah resident typically does in a year.",
    "citations": [
     {
      "key": "result.air",
@@ -140,7 +140,7 @@
     }
    ]
   },
-  "ask|es|4|1800|9|gas||mi césped de verdad afecta al lago": {
+  "ask|es|4|1800|6|gas||mi césped de verdad afecta al lago": {
    "kind": "ask",
    "covered": true,
    "answer": "El jardín es la parte del uso del agua de Utah que los hogares más controlan. Las ciudades, hogares e industria representan el 26.8% del agua consumida por personas en la cuenca del Great Salt Lake. Además, el 91% del agua usada al aire libre en las ciudades se consume por completo y no regresa.",
@@ -162,10 +162,10 @@
     }
    ]
   },
-  "ask|es|4|1800|9|gas||qué cambio debo hacer primero": {
+  "ask|es|4|1800|6|gas||qué cambio debo hacer primero": {
    "kind": "ask",
    "covered": true,
-   "answer": "La primera acción en la lista es compartir el viaje al trabajo con otra persona. Este cambio ahorra 1,980 lbs CO2 al año. Es gratis buscar con quién viajar y se divide la gasolina.",
+   "answer": "La primera acción en la lista es compartir el viaje al trabajo con otra persona. Este cambio ahorra 1,320 lbs CO2 al año. Es gratis buscar con quién viajar y se divide la gasolina.",
    "citations": [
     {
      "key": "change.air.carpool",
@@ -174,10 +174,10 @@
     }
    ]
   },
-  "ask|es|4|1800|9|gas||por qué mi número de aire es tan alto": {
+  "ask|es|4|1800|6|gas||por qué mi número de aire es tan alto": {
    "kind": "ask",
    "covered": true,
-   "answer": "Su número es de 3,970 lbs of CO2 a year from the commute. Conducir 9 millas de ida y vuelta suma cerca de 4,500 millas al año. Esto es menor que las 9,300 de un residente típico de Utah, que cuenta todos los viajes en auto.",
+   "answer": "Su número es de 2,650 lbs of CO2 a year from the commute. Conducir 6 millas de ida y vuelta suma cerca de 3,000 millas al año. Esto es menor que las 9,300 de un residente típico de Utah, que cuenta todos los viajes en auto.",
    "citations": [
     {
      "key": "result.air",

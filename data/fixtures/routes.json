@@ -6,7 +6,7 @@
       "label": { "en": "the University of Utah", "es": "la Universidad de Utah" },
       "match": ["university of utah", "universidad de utah", "presidents circle"]
     },
-    "miles": 7,
-    "note": "Saved route for the demo household. Distance as given in backlog item B2; re-measure with the Routes API once the server key is set."
+    "miles": 6,
+    "note": "Saved route for the demo household. Google Routes API returned 10,344 metres (6.4 miles, rounds to 6) for Rose Park to the University of Utah on 14 Nov 2026."
   }
 ]
