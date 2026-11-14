@@ -119,5 +119,16 @@ Touches: your section of `docs/hack/LEARNED.md`
 Do: one thing you learned about Utah's water, air or power; one about building with a coding agent. Before 12:40.
 Done when: all four sections are filled.
 
+### B10. Dollar savings on the water actions
+Good fit: Jenn · Size: M · Claimed: (open)
+Touches: `areas/water/**`
+Do: add "About $N a year" to each water action's cost note, from gallons saved × Salt Lake City Public Utilities' residential water rate (open the rates page; note the billing unit, 1 hundred cubic feet = 748 gallons). Add the rate as a fact in `facts.ts` and a "What we assumed" line saying rates differ by city and tier. EN and ES. Pattern: the Air card's gas savings in `areas/air/calc.ts`.
+Done when: each water action on `/results` shows a dollar figure, with the rate on `/sources`.
+
+### B11. Dollar savings on the energy actions
+Good fit: Jennifer · Size: M · Claimed: (open)
+Touches: `areas/energy/**`
+Do: add "About $N a year" to each energy action, from kWh saved × Utah's average residential electricity price (EIA Electric Power Monthly) and heating savings × Utah's residential natural gas price (EIA Natural Gas, or Enbridge Gas Utah's residential rate). Add both as facts and an assumptions line. EN and ES. Pattern: the Air card's gas savings in `areas/air/calc.ts`.
+Done when: each energy action on `/results` shows a dollar figure, with both prices on `/sources`.
 ## Done
 (Move items here: `B<n>. <title>`, done by, commit SHA, URL to check.)
