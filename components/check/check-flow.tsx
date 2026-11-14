@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Minus, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { CommuteRoute } from "@/components/check/commute-route";
 import { ErrorNote, StepProgress } from "@/components/ui/feedback";
 import { STORAGE_KEY, toQuery } from "@/lib/answers";
 import { VEHICLES, type Answers, type Lang, type Vehicle } from "@/lib/contract";
@@ -317,6 +318,7 @@ export function CheckFlow() {
                 onChange={(e) => set({ commuteMiles: Number(e.target.value) })}
                 className="mt-4 h-10 w-full accent-accent"
               />
+              <CommuteRoute lang={lang} disabled={!d.drives} max={60} onMiles={(m) => set({ commuteMiles: m })} />
               <label htmlFor="car" className="mt-4 block font-semibold">
                 {c.car}
               </label>
