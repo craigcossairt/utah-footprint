@@ -1,0 +1,122 @@
+<title>Footprint Color Grill</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Prototype only. Base tokens from app/globals.css, plus candidate area colors. Single light look by choice, like the product. */
+:root{color-scheme:light;--bg:#f4eedf;--surface:#fbf7ec;--ink:#2b2118;--muted:#65574a;--line:#d6cab2;--accent:#a8432a;--accent-ink:#fffaf0;--lake:#3f6679;--sage:#55693f;--amber:#9a6a12;--lake-deep:#24485a;--lake-pale:#dbe5e6;--sage-pale:#e1e5d3;--amber-pale:#efe0bf;--brown:#4a3424}
+*{box-sizing:border-box}
+body{margin:0;background:#ddd5c3;color:var(--ink);font-family:"Public Sans",system-ui,sans-serif;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+.ctl{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ink);color:var(--bg);padding:8px max(12px,env(safe-area-inset-left,0px));display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:14px}
+.ctl b{font-family:Archivo}
+.ctl button{font:inherit;background:transparent;color:var(--bg);border:1px solid #6b5d4f;border-radius:4px;padding:4px 8px;cursor:pointer}
+.ctl button[aria-pressed=true]{background:var(--bg);color:var(--ink)}
+.belief{background:var(--surface);border-bottom:1px solid var(--line);padding:8px 12px;font-size:14px}
+.stage{padding:16px;overflow:hidden}
+.frame{background:var(--bg);box-shadow:0 0 0 1px var(--line);transform-origin:top left}
+.w390{width:390px;font-size:17px}.w1440{width:1440px;font-size:20px}
+.hdr{display:flex;justify-content:space-between;align-items:center;padding:.6em 1em;border-bottom:1px solid var(--line);font-family:Archivo;font-weight:800}
+.hdr small{font-family:"Public Sans";font-weight:400;font-size:.8em;text-decoration:underline}
+.main{padding:1.4em 1em;max-width:64em;margin:0 auto}
+.w1440 .main{padding:2.2em 2em}
+.eb{font-size:.8em;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0}
+.h1{font-family:Archivo;font-weight:800;font-size:1.9em;line-height:1.1;margin:.2em 0 .4em}
+.w1440 .h1{font-size:2.8em}
+.num{font-family:Archivo;font-weight:800;font-variant-numeric:tabular-nums}
+.big{font-size:2.7em;line-height:1}
+.w1440 .big{font-size:3.3em}
+.sm{font-size:.82em}.mu{color:var(--muted)}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);border-radius:6px;padding:.6em 1em;font-family:Archivo;font-weight:600}
+.hero{display:grid;gap:1.5em}
+.w1440 .hero{grid-template-columns:1.2fr 1fr;gap:3em}
+.gauge{display:flex;gap:1em;align-items:stretch;margin-top:1em}
+.gcol{width:4em;height:12em;border:2px solid var(--ink);border-radius:6px;position:relative;overflow:hidden;background:var(--surface)}
+.gcol .ok{position:absolute;left:0;right:0;top:12%;height:30%;background:var(--sage-pale);border-top:2px dashed var(--sage);border-bottom:2px dashed var(--sage)}
+.gcol .lv{position:absolute;left:0;right:0;bottom:0;height:20%;background:var(--lake)}
+.board{display:grid;border-top:4px solid var(--ink);margin-top:1.4em}
+.w1440 .board{grid-template-columns:repeat(3,1fr)}
+.cell{padding:1em 0;border-bottom:1px solid var(--line)}
+.w1440 .cell{border-bottom:0;padding:1.2em 1.6em 1.2em 0}
+.w1440 .cell+.cell{border-left:1px solid var(--line);padding-left:1.6em}
+.bars{display:grid;grid-template-columns:5em 1fr;gap:.3em .6em;align-items:center;font-size:.8em;margin-top:.8em}
+.bars i{display:block;height:.6em;border-radius:2px}
+.lbl{font-size:.8em;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+/* --- V1 area colors --- */
+.v1 .cell .lbl::before{content:"";display:inline-block;width:.7em;height:.7em;border-radius:2px;margin-right:.4em;background:var(--c)}
+.v1 .cell .yo{background:var(--c)}
+.v1 .cell{border-top:4px solid var(--c);margin-top:-4px}
+/* --- V2 wayside sign --- */
+.v2 .hdr{background:var(--brown);color:var(--bg);border:0}
+.v2 .hero-panel{background:var(--brown);color:var(--bg);border-radius:10px;padding:1.2em}
+.v2 .hero-panel .mu{color:#d9cbb2}
+.v2 .hero-panel .h1 span{color:#f0b49e}
+.v2 .board{border-top:0;gap:1em}
+.v2 .cell{background:var(--surface);border:2px solid var(--brown);border-radius:10px;padding:1em 1.2em;border-left:10px solid var(--c)}
+.v2 .w1440 .cell+.cell,.w1440.v2 .cell+.cell{border-left:10px solid var(--c);padding-left:1.2em}
+.v2 .cell .yo{background:var(--brown)}
+/* --- V3 lake band --- */
+.v3 .band{background:var(--lake-deep);color:var(--bg);margin:-1.4em -1em 1.4em;padding:1.6em 1em;background-image:repeating-linear-gradient(180deg,transparent 0 1.2em,rgba(255,255,255,.06) 1.2em 1.3em)}
+.w1440.v3 .band{margin:-2.2em -2em 2em;padding:2.4em 2em}
+.v3 .band .mu,.v3 .band .eb{color:#bcd0d6}
+.v3 .band .h1 span{color:#ffd9a8}
+.v3 .gcol{border-color:var(--bg)}
+.v3 .cell .num.big{color:var(--c)}
+.v3 .cell .yo{background:var(--c)}
+/* --- V4 topo --- */
+.v4 .frame-bg{background-color:var(--bg);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='240' viewBox='0 0 360 240'%3E%3Cg fill='none' stroke='%23c9bb9d' stroke-width='1.2' opacity='.7'%3E%3Cpath d='M-20 60 C 60 20, 140 100, 220 60 S 340 20, 380 70'/%3E%3Cpath d='M-20 90 C 60 50, 140 130, 220 90 S 340 50, 380 100'/%3E%3Cpath d='M-20 120 C 70 85, 150 160, 230 120 S 340 85, 380 130'/%3E%3Cpath d='M-20 155 C 70 120, 150 195, 230 155 S 340 120, 380 165'/%3E%3Cpath d='M-20 190 C 80 160, 160 230, 240 190 S 340 160, 380 200'/%3E%3Cellipse cx='300' cy='40' rx='30' ry='14'/%3E%3Cellipse cx='300' cy='40' rx='50' ry='26'/%3E%3C/g%3E%3C/svg%3E")}
+.v4 .cell .num.big{color:var(--c)}
+.v4 .cell .yo{background:var(--c)}
+.v4 .cell{background:rgba(244,238,223,.85)}
+/* --- V5 candy blocks --- */
+.v5 .cell{background:var(--c);color:#fffaf0;border-radius:10px;padding:1em 1.2em;border:0}
+.v5 .board{border-top:0;gap:1em}
+.w1440.v5 .cell+.cell{border-left:0;padding-left:1.2em}
+.v5 .cell .mu,.v5 .cell .lbl{color:#f3ead8}
+.v5 .cell .yo{background:#fffaf0}
+.v5 .cell .ty{background:rgba(255,255,255,.35)!important}
+.v5 .hero-panel{background:var(--accent);color:var(--accent-ink);border-radius:10px;padding:1.2em}
+.v5 .hero-panel .mu{color:#f6dccf}
+</style>
+<div class="ctl" role="toolbar" aria-label="Prototype controls">
+  <span><b>Treatment</b> <span id="vb"></span></span>
+  <span><b>Width</b> <span id="wb"></span></span>
+</div>
+<div class="belief" id="belief"></div>
+<div class="stage"><div id="frame" class="frame"></div></div>
+<script>
+// Fixture: live readings and the sample home's numbers at 12:10 on 14 Nov 2026.
+const AREAS=[{l:"Water",n:"106,000",u:"gallons a year",w:90,t:100,cmp:"10% less than a typical Utah home (118,000)",c:"var(--lake)"},
+ {l:"Energy",n:"20,400",u:"lbs CO2 a year",w:100,t:100,cmp:"About the same as a typical Utah home (20,400)",c:"var(--amber)"},
+ {l:"Air",n:"3,970",u:"lbs of CO2 a year from the commute",w:43,t:100,cmp:"57% less than one Utah resident's driving (9,300)",c:"var(--sage)"}];
+const V={
+ v1:["1. Area colors","Believes: color should mean something. Each area gets one muted color (water lake blue, energy amber, air sage) used for its stripe, swatch and bar. Page stays cream."],
+ v2:["2. Wayside sign","Believes: the personality is the National Park Service sign. Dark brown header and hero panel, cream lettering, framed panels with an area-colored edge."],
+ v3:["3. Lake band","Believes: the lake is the main character. A deep blue band carries today's level; the numbers below take their area color."],
+ v4:["4. Topo","Believes: texture from a Utah topo map. Faint contour lines behind everything, area colors on the big numbers only."],
+ v5:["5. Candy blocks","Pushes back: every area is a fully saturated block, hero in red rock. Here to find where color turns into noise."]};
+const W={"390":"Phone 390","1440":"Laptop 1440"};
+let cur={v:"v1",w:"1440"};
+try{Object.assign(cur,JSON.parse(localStorage.getItem("cgrill")||"{}"))}catch{}
+function page(){
+ const hero=`<div class="hero"><div class="hero-panel"><p class="eb">Utah, today</p><h1 class="h1">The Great Salt Lake is <span class="num" style="color:var(--accent)">7.6 feet</span> below healthy.</h1>
+  <div class="gauge"><div class="gcol"><div class="ok"></div><div class="lv"></div></div><div class="sm"><p style="margin:.6em 0 0"><b>Healthy range</b><br>4,198 to 4,205 ft</p><p style="margin:3.2em 0 0"><b>Today</b><br>4,190.4 ft</p></div></div>
+  <p class="sm mu">Measured Nov 14, 9:45 AM MST. <u>USGS gauge</u></p></div>
+  <div><p class="eb" style="border-top:4px solid var(--ink);padding-top:.8em">Air in Salt Lake City</p><p style="margin:.2em 0"><span class="num big">57</span> <b>Moderate</b></p>
+  <h2 class="h1" style="font-size:1.3em;margin-top:1em;border-top:4px solid var(--ink);padding-top:.8em">What does your home have to do with it?</h2><p>Answer six questions. See your water, power and driving next to a typical Utah home.</p><span class="btn">Check my home →</span></div></div>`;
+ const band = cur.v==="v3" ? `<div class="band">${hero}</div>` : hero;
+ const board=`<p class="eb" style="margin-top:2.4em">Sample home</p><h2 class="h1">Marisol Vega, Rose Park</h2><div class="board">${AREAS.map(a=>`<div class="cell" style="--c:${a.c}"><p class="lbl" style="margin:0">${a.l}</p><p class="num big" style="margin:.1em 0 0">${a.n}</p><p class="mu sm" style="margin:0">${a.u}</p><div class="bars"><span>This home</span><i class="yo" style="width:${a.w}%;background:var(--ink)"></i><span class="mu">Typical</span><i class="ty" style="width:${a.t}%;background:var(--line)"></i></div><p class="sm" style="margin:.5em 0 0">${a.cmp}</p></div>`).join("")}</div>`;
+ return `<div class="frame-bg"><div class="hdr">My Utah Footprint <small>Sources</small></div><div class="main">${band}${board}</div></div>`;
+}
+function btn(id,o,k,f){document.getElementById(id).innerHTML=Object.keys(o).map(x=>`<button data-k="${k}" data-v="${x}" aria-pressed="${cur[k]===x}">${f?f(o[x]):o[x]}</button>`).join(" ")}
+function draw(){
+ btn("vb",V,"v",x=>x[0].split(". ")[0]);btn("wb",W,"w");
+ document.getElementById("belief").textContent=V[cur.v][0]+": "+V[cur.v][1];
+ const f=document.getElementById("frame");f.className=`frame w${cur.w} ${cur.v}`;f.innerHTML=page();
+ // inline style vars on .yo override per-variant, so clear them where the variant colors bars
+ if(cur.v!=="v2") f.querySelectorAll(".yo").forEach(e=>e.style.background="");
+ const k=Math.min(1,(document.querySelector(".stage").clientWidth-32)/+cur.w);
+ f.style.transform=`scale(${k})`;f.parentElement.style.height=(f.offsetHeight*k+32)+"px";
+ try{localStorage.setItem("cgrill",JSON.stringify(cur))}catch{}
+}
+document.addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b)return;cur[b.dataset.k]=b.dataset.v;draw()});
+addEventListener("resize",draw);draw();
+</script>

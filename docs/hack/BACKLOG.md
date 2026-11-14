@@ -57,20 +57,11 @@ States: loading (Skeleton over the map), address not found (ErrorNote), no shape
 map failed (ErrorNote: "Enter the size instead"). Taps of at least 44 px, "Undo last corner" and "Clear". Spanish copy in `COPY`.
 Add the assumption "Lawn size measured by you on a satellite map." to the water card.
 Done when: Marisol's lawn can be measured on the live URL, on a phone, in under 30 seconds.
-
-### B2. Work out my commute miles from two addresses
-Good fit: Britney · Size: L · Claimed: (open)
-Key: `GOOGLE_MAPS_SERVER_KEY`. Don't wait for it: build the fixtures path first; it goes live once the key is in Vercel.
-Touches: `app/api/distance/**`, `lib/maps-server.ts`, `components/check/commute-route.tsx`, `data/fixtures/routes.json`, the commute step of `components/check/check-flow.tsx`
-Do: on the commute question, add "Work it out from my addresses": home, and work or school. `POST /api/distance`
-with `{ from, to }` calls the Routes API `computeRoutes` on the server (`travelMode: DRIVE`, field mask
-`routes.distanceMeters,routes.duration`) and returns one-way miles, rounded to a whole mile, which fill the stepper.
-Cache by address pair in memory. In fixtures mode, or when the call fails or takes over 5 seconds, return Marisol's saved
-route from `routes.json` if the pair matches, otherwise an ErrorNote ("We couldn't measure that route. Set the miles yourself.").
-Show a line the person can still adjust ("Rose Park to the University of Utah: 7 miles one way by road"). Never save the
-addresses: not in `localStorage`, the URL or logs. Under the inputs: "Your addresses go to Google Maps to measure the
-route. We don't keep them." Spanish copy in `COPY`.
-Done when: the stepper fills from two real Salt Lake addresses on the live URL.
+Status (Jenn, 12:12): built and pushed in caeed18. The "Measure it on a map" link shows under "I know the size" only when
+`NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_KEY` is set at build time (and `NEXT_PUBLIC_DEMO_MODE` isn't `fixtures`). Tested with a fake
+key: link shows, and a rejected key or no answer in 8 s shows "The map didn't load. Enter the size instead." Not yet tested
+with a real key (none in this session), so drawing and the area are unverified. Needs: the key in Vercel, then a redeploy,
+then one phone test. Not done: the "measured on a satellite map" assumption on the water card (needs a flag in Answers).
 
 ### B3. Data center line on the energy card
 Good fit: Jennifer · Size: M · Claimed: (open)
@@ -90,25 +81,12 @@ Do: open "Submit Project" at https://www.mlh.com/events/hack-for-humanity-salt-l
 length limit into `SUBMISSION.md`, and draft each answer: goal, unique value, after-event plan, what we learned (from `LEARNED.md`).
 Done when: every field has paste-ready text, by 12:30.
 
-### B5. Click every source link
-Good fit: anyone · Size: M · Claimed: (open)
-Touches: the `facts.ts` of whichever area has a broken link (fix it, then tell its owner in `#ship`)
-Do: on the live `/sources`, open every link. Each must open and show the number it's cited for. Post broken or
-unclear ones in `#facts` with the fact key. Fix them wherever they are.
-Done when: a line under this item says "All N links checked at <time>", with any fixes listed.
-
 ### B6. Phone pass of the demo path, both languages
 Good fit: Jenn · Size: S · Repeat every 20 minutes · Claimed: (open)
 Touches: nothing (report only)
 Do: on your phone, go `/` → `/check` → `/results` → ask a question → `/sources`, in English and then with `?lang=es`.
 Screenshot anything broken, cut off or confusing into `#bugs` with the page.
 Done when: posted. Leave this item open for the next pass.
-
-### B7. Home page in Spanish
-Good fit: anyone · Size: M · Claimed: (open)
-Touches: `app/page.tsx`, `components/home/**`, `lib/i18n.ts`
-Do: `/?lang=es` shows the home page labels in Spanish, the way `/check` and `/results` already do. Numbers and sources stay the same.
-Done when: `/?lang=es` reads fully in Spanish on a phone.
 
 ### B8. Timed run of the demo script
 Good fit: Britney · Size: S · Repeat 3 times from 12:10 · Claimed: (open)
@@ -131,3 +109,6 @@ Done when: each energy action on `/results` shows a dollar figure, with both pri
 (Move items here: `B<n>. <title>`, done by, commit SHA, URL to check.)
 - B10. Dollar savings on the water actions, Jenn, c2e52e2, /results (water actions: about $89, $55 and $44 a year at SLC 2026 rates; rate on /sources)
 - Car type on the driving question (own idea), Jenn, 930d341, /check question 4 then /results air card
+- B2. Commute miles from two addresses, Craig's agent, 78b17f1, /check question 4, "Work it out from my addresses". Works now with the saved route (type "Rose Park" and "University of Utah"); any other pair shows the error note until `GOOGLE_MAPS_SERVER_KEY` is in Vercel (Routes API enabled, then redeploy). Live call not yet run against Google.
+- B7. Home page in Spanish, Craig's agent, 7e749eb, /?lang=es (all home labels, gauge and air word in Spanish; "Ver en español" on / switches; links carry lang to /check and /results; `LakeGauge` got an optional `lang` prop)
+- B5. Click every source link, Craig's agent, no code change, /sources. All 40 links checked at 12:10 MST (36 fact links and 4 "Today's readings" links, 26 different pages): every one opens and shows the number it is cited for. No fixes needed, none blocked. Links were listed from `main` because this agent's network could not open the live site, and pages were read through a fetch service, not a browser. Not confirmed: the page numbers in four water citations ("PDF page 21" on `water.residentialGpcd`, "page 24" on the three Great Salt Lake facts); the figures themselves are in those PDFs.

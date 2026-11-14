@@ -4,8 +4,11 @@ import { ArrowLeft, ArrowRight, Minus, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { CommuteRoute } from "@/components/check/commute-route";
 import { ErrorNote, StepProgress } from "@/components/ui/feedback";
 import { STORAGE_KEY, toQuery } from "@/lib/answers";
+import { mapsAvailable } from "@/lib/maps-browser";
+import { YardMap } from "./yard-map";
 import { VEHICLES, type Answers, type Lang, type Vehicle } from "@/lib/contract";
 
 type Draft = {
@@ -38,6 +41,7 @@ const COPY = {
     yards: ["No lawn", "Apartment, condo, or a yard with no grass", "Small", "About 500 square feet, like a two-car driveway", "Medium", "About 1,500 square feet", "Large", "About 3,000 square feet or more"],
     heat: ["Natural gas furnace", "You get a gas bill", "Electric heat", "Baseboard or electric furnace, no gas bill", "Heat pump", "One outdoor unit heats and cools"],
     custom: ["I know the size", "Enter square feet"],
+    measure: ["Measure it on a map", "Hide the map"],
     errZip: "Enter a 5-digit Utah ZIP code. They start with 84.",
     errYard: "Pick the closest size.",
     errYardSize: "Enter a size between 0 and 50,000 square feet.",
@@ -71,6 +75,7 @@ const COPY = {
     yards: ["Sin césped", "Apartamento, condominio o un patio sin pasto", "Pequeño", "Unos 500 pies cuadrados, como una entrada para dos carros", "Mediano", "Unos 1,500 pies cuadrados", "Grande", "Unos 3,000 pies cuadrados o más"],
     heat: ["Calentador de gas natural", "Recibe una factura de gas", "Calefacción eléctrica", "Zócalos o calentador eléctrico, sin factura de gas", "Bomba de calor", "Una unidad afuera que calienta y enfría"],
     custom: ["Sé el tamaño", "Escriba los pies cuadrados"],
+    measure: ["Medirlo en un mapa", "Ocultar el mapa"],
     errZip: "Escriba un código postal de Utah de 5 dígitos. Empiezan con 84.",
     errYard: "Elija el tamaño más parecido.",
     errYardSize: "Escriba un tamaño entre 0 y 50,000 pies cuadrados.",
@@ -120,6 +125,9 @@ const TOTAL = 6;
 export function CheckFlow() {
   const router = useRouter();
   const [lang, setLang] = useState<Lang>("en");
+  const [showMap, setShowMap] = useState(false);
+  const [canMap, setCanMap] = useState(false);
+  useEffect(() => setCanMap(mapsAvailable()), []);
   const c = COPY[lang];
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("lang") === "es") setLang("es");
@@ -292,6 +300,27 @@ export function CheckFlow() {
                 />
               </div>
             )}
+            {d.yardChoice === "custom" && canMap && (
+              <div className="mt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowMap((v) => !v)}
+                  aria-expanded={showMap}
+                  className="min-h-11 text-sm font-semibold underline underline-offset-4"
+                >
+                  {showMap ? c.measure[1] : c.measure[0]}
+                </button>
+                {showMap && (
+                  <YardMap
+                    lang={lang}
+                    onUse={(sq) => {
+                      set({ yardCustom: String(sq) });
+                      setShowMap(false);
+                    }}
+                  />
+                )}
+              </div>
+            )}
           </Question>
         )}
 
@@ -317,6 +346,7 @@ export function CheckFlow() {
                 onChange={(e) => set({ commuteMiles: Number(e.target.value) })}
                 className="mt-4 h-10 w-full accent-accent"
               />
+              <CommuteRoute lang={lang} disabled={!d.drives} max={60} onMiles={(m) => set({ commuteMiles: m })} />
               <label htmlFor="car" className="mt-4 block font-semibold">
                 {c.car}
               </label>

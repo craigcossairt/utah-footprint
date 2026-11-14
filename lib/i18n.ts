@@ -104,3 +104,75 @@ export type Dict = (typeof t)["en"];
 
 const AREA_ES: Record<string, string> = { water: "Agua", energy: "Energía", air: "Aire" };
 export const areaName = (lang: Lang, id: string, label: string) => (lang === "es" ? (AREA_ES[id] ?? label) : label);
+
+// Home page labels. Numbers and sources come from data and are the same in both languages.
+const whenIn = (locale: string) => (utc: string) =>
+  new Date(utc).toLocaleString(locale, {
+    timeZone: "America/Denver",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  });
+
+// EPA AQI categories, in the words AirNow uses in each language.
+const AQI_WORDS = {
+  en: ["Good", "Moderate", "Unhealthy for sensitive groups", "Unhealthy", "Very unhealthy", "Hazardous"],
+  es: ["Buena", "Moderada", "Insalubre para grupos sensibles", "Insalubre", "Muy insalubre", "Peligrosa"],
+};
+const aqiIn = (lang: Lang) => (aqi: number) =>
+  AQI_WORDS[lang][[50, 100, 150, 200, 300].filter((top) => aqi > top).length];
+
+export const home = {
+  en: {
+    kicker: (stale: boolean) => `Utah, ${stale ? "earlier reading" : "today"}`,
+    lakeBefore: "The Great Salt Lake is ",
+    feet: (gap: string) => `${gap} feet`,
+    lakeAfter: " below healthy.",
+    lakeHealthy: "The Great Salt Lake is inside its healthy range.",
+    measured: (when: string) => `Measured ${when}.`,
+    gaugeSource: "USGS gauge",
+    healthySource: "Healthy range",
+    airTitle: "Air in Salt Lake City",
+    aqiWord: aqiIn("en"),
+    airNote: (when: string) => `Air quality index, estimated ${when}.`,
+    aqiSource: "What the index means",
+    startTitle: "What does your home have to do with it?",
+    startBody:
+      "Answer six questions. See your water, power and driving numbers next to a typical Utah home, and the changes that would matter most.",
+    startNote: "Two minutes. No account. Your answers stay on this device.",
+    check: "Check my home",
+    sampleLink: "See a sample home first",
+    other: "Ver en español",
+    qrAlt: "QR code for utah-footprint.vercel.app",
+    qr: "Scan to check your own home on your phone.",
+    cleared: "Saved answers on this device were cleared.",
+    when: whenIn("en-US"),
+  },
+  es: {
+    kicker: (stale: boolean) => `Utah, ${stale ? "lectura anterior" : "hoy"}`,
+    lakeBefore: "El Gran Lago Salado está ",
+    feet: (gap: string) => `${gap} pies`,
+    lakeAfter: " por debajo de su nivel saludable.",
+    lakeHealthy: "El Gran Lago Salado está dentro de su nivel saludable.",
+    measured: (when: string) => `Medido el ${when}.`,
+    gaugeSource: "Medidor del USGS",
+    healthySource: "Nivel saludable",
+    airTitle: "Aire en Salt Lake City",
+    aqiWord: aqiIn("es"),
+    airNote: (when: string) => `Índice de calidad del aire, estimado el ${when}.`,
+    aqiSource: "Qué significa el índice",
+    startTitle: "¿Qué tiene que ver su hogar con esto?",
+    startBody:
+      "Responda seis preguntas. Vea sus números de agua, energía y manejo junto a los de un hogar típico de Utah, y los cambios que más importarían.",
+    startNote: "Dos minutos. Sin cuenta. Sus respuestas se quedan en este dispositivo.",
+    check: "Revisar mi hogar",
+    sampleLink: "Ver primero un hogar de ejemplo",
+    other: "View in English",
+    qrAlt: "Código QR de utah-footprint.vercel.app",
+    qr: "Escanee para revisar su propio hogar en su teléfono.",
+    cleared: "Se borraron las respuestas guardadas en este dispositivo.",
+    when: whenIn("es-US"),
+  },
+} satisfies Record<Lang, unknown>;

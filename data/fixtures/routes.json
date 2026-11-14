@@ -1,0 +1,12 @@
+[
+  {
+    "id": "marisol",
+    "from": { "label": { "en": "Rose Park", "es": "Rose Park" }, "match": ["rose park"] },
+    "to": {
+      "label": { "en": "the University of Utah", "es": "la Universidad de Utah" },
+      "match": ["university of utah", "universidad de utah", "presidents circle"]
+    },
+    "miles": 7,
+    "note": "Saved route for the demo household. Distance as given in backlog item B2; re-measure with the Routes API once the server key is set."
+  }
+]
