@@ -100,12 +100,8 @@ Touches: your section of `docs/hack/LEARNED.md`
 Do: one thing you learned about Utah's water, air or power; one about building with a coding agent. Before 12:40.
 Done when: all four sections are filled.
 
-### B11. Dollar savings on the energy actions
-Good fit: Jennifer · Size: M · Claimed: Jennifer 12:07
-Touches: `areas/energy/**`
-Do: add "About $N a year" to each energy action, from kWh saved × Utah's average residential electricity price (EIA Electric Power Monthly) and heating savings × Utah's residential natural gas price (EIA Natural Gas, or Enbridge Gas Utah's residential rate). Add both as facts and an assumptions line. EN and ES. Pattern: the Air card's gas savings in `areas/air/calc.ts`.
-Done when: each energy action on `/results` shows a dollar figure, with both prices on `/sources`.
 ## Done
+- B11. Dollar savings on the energy actions: done by Jennifer, 5823619. Check `/results` (each energy action shows "About $N a year"; both EIA prices on `/sources`).
 (Move items here: `B<n>. <title>`, done by, commit SHA, URL to check.)
 - B10. Dollar savings on the water actions, Jenn, c2e52e2, /results (water actions: about $89, $55 and $44 a year at SLC 2026 rates; rate on /sources)
 - Car type on the driving question (own idea), Jenn, 930d341, /check question 4 then /results air card
