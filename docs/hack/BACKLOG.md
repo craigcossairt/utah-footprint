@@ -120,7 +120,7 @@ Do: one thing you learned about Utah's water, air or power; one about building w
 Done when: all four sections are filled.
 
 ### B10. Dollar savings on the water actions
-Good fit: Jenn · Size: M · Claimed: (open)
+Good fit: Jenn · Size: M · Claimed: Jenn 12:05
 Touches: `areas/water/**`
 Do: add "About $N a year" to each water action's cost note, from gallons saved × Salt Lake City Public Utilities' residential water rate (open the rates page; note the billing unit, 1 hundred cubic feet = 748 gallons). Add the rate as a fact in `facts.ts` and a "What we assumed" line saying rates differ by city and tier. EN and ES. Pattern: the Air card's gas savings in `areas/air/calc.ts`.
 Done when: each water action on `/results` shows a dollar figure, with the rate on `/sources`.
