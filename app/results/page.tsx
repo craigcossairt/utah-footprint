@@ -7,6 +7,8 @@ import { fromQuery } from "@/lib/answers";
 import { areas } from "@/lib/areas";
 import { computeAll, rankActions } from "@/lib/results";
 import { sample } from "@/lib/sample";
+import { t } from "@/lib/i18n";
+import { toQuery } from "@/lib/answers";
 
 // Reads the answers from the URL on each request.
 export const instant = false;
@@ -18,30 +20,36 @@ export default async function Results({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const { answers, isSample } = fromQuery(await searchParams);
+  const params = await searchParams;
+  const { answers, isSample } = fromQuery(params);
+  const lang = params.lang === "es" ? "es" : "en";
+  const d = t[lang];
+  const otherHref = `/results?${isSample ? "" : toQuery(answers) + "&"}${lang === "es" ? "" : "lang=es"}`.replace(/[?&]$/, "");
   const computed = computeAll(answers);
   const ranked = rankActions(computed);
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-4 py-8 lg:px-8 lg:py-12">
+    <main lang={lang} className="mx-auto w-full max-w-5xl px-4 py-8 lg:px-8 lg:py-12">
       <p className="text-sm font-semibold uppercase tracking-wide text-muted">
-        {isSample ? "Sample home" : `Your home in ${answers.zip}`}
+        {isSample ? d.sample : d.yourHome(answers.zip)}
       </p>
       <h1 className="mt-2 text-3xl font-extrabold lg:text-5xl">
-        {isSample ? `${sample.name}, ${sample.neighborhood}` : "Your Utah footprint"}
+        {isSample ? `${sample.name}, ${sample.neighborhood}` : d.title}
       </h1>
       <p className="mt-3 max-w-3xl text-muted">
-        {answers.household} {answers.household === 1 ? "person" : "people"},{" "}
-        <span className="num">{answers.yardSqFt.toLocaleString("en-US")}</span> square feet of lawn,{" "}
-        {answers.commuteMiles > 0 ? `${answers.commuteMiles} miles to work one way` : "no commute by car"},{" "}
-        {heatWords[answers.heating]}. These are estimates from those answers, not meter readings.
+        {answers.household} {d.person(answers.household)},{" "}
+        <span className="num">{answers.yardSqFt.toLocaleString("en-US")}</span> {d.lawn}, {d.miles(answers.commuteMiles)},{" "}
+        {d.heat[answers.heating]}. {d.estimates} {d.cardsNote}
       </p>
       <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2">
         <a href="#top-heading" className="text-sm underline underline-offset-4">
-          Jump to the top changes
+          {d.jump}
         </a>
         <a href="/sources" className="text-sm underline underline-offset-4">
-          Where every number comes from
+          {d.sources}
+        </a>
+        <a href={otherHref} hrefLang={lang === "es" ? "en" : "es"} className="text-sm font-semibold underline underline-offset-4">
+          {d.other}
         </a>
       </div>
 
@@ -57,24 +65,18 @@ export default async function Results({
       </div>
 
       <div className="mt-16">
-        <TopChanges actions={ranked} />
+        <TopChanges actions={ranked} lang={lang} />
       </div>
 
       <div className="mt-16">
-        <Assistant answers={answers} />
+        <Assistant answers={answers} lang={lang} />
       </div>
 
       <div className="mt-12 flex flex-wrap gap-4">
         <ButtonLink href="/check" variant={isSample ? "primary" : "secondary"}>
-          {isSample ? "Check my own home" : "Change my answers"}
+          {isSample ? d.checkOwn : d.change}
         </ButtonLink>
       </div>
     </main>
   );
 }
-
-const heatWords = {
-  gas: "heated with natural gas",
-  electric: "electric heat",
-  "heat-pump": "heated with a heat pump",
-} as const;

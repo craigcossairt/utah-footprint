@@ -1,19 +1,19 @@
 import { SourceLink } from "@/components/ui/area-card";
 import type { RankedAction } from "@/lib/results";
+import type { Lang } from "@/lib/gemini";
+import { t } from "@/lib/i18n";
 
 // Every area's actions in one list, biggest share of the home's own number first.
-export function TopChanges({ actions }: { actions: RankedAction[] }) {
+export function TopChanges({ actions, lang = "en" }: { actions: RankedAction[]; lang?: Lang }) {
+  const d = t[lang];
   return (
     <section aria-labelledby="top-heading" className="border-t-4 border-ink pt-4">
       <h2 id="top-heading" className="text-2xl font-extrabold lg:text-3xl">
-        Top changes for this home
+        {d.topTitle}
       </h2>
-      <p className="mt-2 max-w-3xl text-muted">
-        Ranked by how much of this home&apos;s own number in that area each change would cut, since gallons and
-        pounds of CO2 can&apos;t be compared directly.
-      </p>
+      <p className="mt-2 max-w-3xl text-muted">{d.topNote}</p>
       {actions.length === 0 ? (
-        <p className="mt-4">No changes to suggest from these answers. Try a different lawn size or commute.</p>
+        <p className="mt-4">{d.topEmpty}</p>
       ) : (
         <ol className="mt-4 divide-y divide-line border-y border-line">
           {actions.map((a, i) => (
@@ -25,7 +25,7 @@ export function TopChanges({ actions }: { actions: RankedAction[] }) {
                 <p className="text-sm font-semibold uppercase tracking-wide text-muted">{a.areaLabel}</p>
                 <p className="text-lg font-semibold">{a.title}</p>
                 <p className="text-sm">
-                  Saves about <span className="num font-semibold">{a.saves.toLocaleString("en-US")}</span> {a.unit}.{" "}
+                  {d.saves} <span className="num font-semibold">{a.saves.toLocaleString("en-US")}</span> {a.unit}.{" "}
                   <span className="text-muted">{a.costNote}</span>
                 </p>
                 {a.program ? <SourceLink href={a.program.url}>{a.program.name}</SourceLink> : null}
@@ -33,7 +33,7 @@ export function TopChanges({ actions }: { actions: RankedAction[] }) {
               <div className="col-start-2 mt-3 lg:col-start-3 lg:mt-1">
                 <p className="text-sm">
                   <span className="num text-2xl font-extrabold">{a.share}%</span>{" "}
-                  <span className="text-muted">of your {a.areaLabel.toLowerCase()} number</span>
+                  <span className="text-muted">{d.ofYour(a.areaLabel)}</span>
                 </p>
                 <div className="mt-1 h-2 w-full rounded-sm bg-line" aria-hidden>
                   <div className="h-2 rounded-sm bg-ink" style={{ width: `${Math.min(100, Math.max(2, a.share))}%` }} />

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ErrorNote, Skeleton } from "@/components/ui/feedback";
 import type { Answers } from "@/lib/contract";
 import type { AskReply, Citation, Lang, PlanReply } from "@/lib/gemini";
+import { t, type Dict } from "@/lib/i18n";
 
 const QUESTIONS = {
   en: ["Does my lawn really affect the lake?", "Which change should I make first?", "Why is my air number so high?"],
@@ -24,16 +25,17 @@ async function post<T>(url: string, body: object): Promise<T> {
   return res.json();
 }
 
-function originNote(o: PlanReply["origin"]): string {
-  if (o === "gemini" || o === "cache") return "Written by Gemini from the facts listed below.";
-  if (o === "saved") return "A saved Gemini answer, shown because the live call didn't come back.";
-  if (o === "template") return "Gemini isn't available, so this comes straight from our formulas.";
+function originNote(o: PlanReply["origin"], d: Dict): string {
+  if (o === "gemini" || o === "cache") return d.origin.gemini;
+  if (o === "saved") return d.origin.saved;
+  if (o === "template") return d.origin.template;
   return "";
 }
 
 export function Assistant({ answers, lang = "en" }: { answers: Answers; lang?: Lang }) {
   const [planState, setPlan] = useState<PlanReply | "loading" | "error">("loading");
   const [slow, setSlow] = useState(false);
+  const d = t[lang];
 
   useEffect(() => {
     let live = true;
@@ -53,14 +55,12 @@ export function Assistant({ answers, lang = "en" }: { answers: Answers; lang?: L
   return (
     <section aria-labelledby="plan-heading" className="border-t-4 border-ink pt-4">
       <h2 id="plan-heading" className="text-2xl font-extrabold lg:text-3xl">
-        Your plan, in plain words
+        {d.planTitle}
       </h2>
       <p className="mt-3 flex max-w-3xl items-start gap-2 border-l-4 border-lake pl-3 text-sm">
         <ShieldCheck size={20} strokeWidth={2} className="mt-0.5 shrink-0 text-lake" aria-hidden />
         <span>
-          <strong>Our formulas do the math. Gemini only explains it.</strong> It sees the results above and our sourced
-          facts, never your ZIP code or name. It must name the facts it used, and we block any answer with a number
-          that isn&apos;t in our data.
+          <strong>{d.trustLead}</strong> {d.trust}
         </span>
       </p>
 
@@ -68,7 +68,7 @@ export function Assistant({ answers, lang = "en" }: { answers: Answers; lang?: L
         <div>
           {planState === "loading" ? (
             <div>
-              <p className="text-sm font-semibold">Gemini is reading your numbers…</p>
+              <p className="text-sm font-semibold">{d.reading}</p>
               <div className="mt-3 space-y-3">
                 <Skeleton className="h-5 w-11/12" />
                 <Skeleton className="h-5 w-9/12" />
@@ -76,12 +76,12 @@ export function Assistant({ answers, lang = "en" }: { answers: Answers; lang?: L
               </div>
               {slow ? (
                 <p className="mt-3 text-sm text-muted">
-                  Still working. If it takes more than 15 seconds, we show the plan from our formulas instead.
+                  {d.slow}
                 </p>
               ) : null}
             </div>
           ) : planState === "error" ? (
-            <ErrorNote>We couldn&apos;t load the plan. The top changes above come from the same numbers.</ErrorNote>
+            <ErrorNote>{d.planError}</ErrorNote>
           ) : (
             <div>
               <p className="text-lg">{planState.intro}</p>
@@ -95,8 +95,8 @@ export function Assistant({ answers, lang = "en" }: { answers: Answers; lang?: L
                   </li>
                 ))}
               </ol>
-              <p className="mt-4 text-sm text-muted">{originNote(planState.origin)}</p>
-              <Citations items={planState.citations} />
+              <p className="mt-4 text-sm text-muted">{originNote(planState.origin, d)}</p>
+              <Citations items={planState.citations} d={d} />
             </div>
           )}
         </div>
@@ -110,6 +110,7 @@ function AskBox({ answers, lang }: { answers: Answers; lang: Lang }) {
   const [q, setQ] = useState("");
   const [state, setState] = useState<{ q: string; reply?: AskReply; error?: boolean; loading?: boolean } | null>(null);
   const input = useRef<HTMLInputElement>(null);
+  const d = t[lang];
 
   async function send(question: string) {
     const text = question.trim();
@@ -131,7 +132,7 @@ function AskBox({ answers, lang }: { answers: Answers; lang: Lang }) {
   return (
     <div>
       <h3 className="flex items-center gap-2 text-xl font-extrabold">
-        <MessageCircleQuestion size={22} strokeWidth={2} aria-hidden /> Ask about your numbers
+        <MessageCircleQuestion size={22} strokeWidth={2} aria-hidden /> {d.askTitle}
       </h3>
       <form
         className="mt-3 flex flex-col gap-3 sm:flex-row"
@@ -141,7 +142,7 @@ function AskBox({ answers, lang }: { answers: Answers; lang: Lang }) {
         }}
       >
         <label htmlFor="ask" className="sr-only">
-          Your question
+          {d.askLabel}
         </label>
         <input
           ref={input}
@@ -149,14 +150,14 @@ function AskBox({ answers, lang }: { answers: Answers; lang: Lang }) {
           value={q}
           maxLength={300}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Does my lawn really affect the lake?"
+          placeholder={QUESTIONS[lang][0]}
           className="min-h-12 flex-1 rounded-control border-2 border-ink bg-surface px-3 py-2"
         />
         <Button type="submit" variant="secondary" disabled={state?.loading}>
-          {state?.loading ? "Asking" : "Ask Gemini"}
+          {state?.loading ? d.asking : d.askButton}
         </Button>
       </form>
-      <p className="mt-3 text-sm text-muted">Or try one:</p>
+      <p className="mt-3 text-sm text-muted">{d.tryOne}</p>
       <ul className="mt-1 space-y-1">
         {QUESTIONS[lang].map((s) => (
           <li key={s}>
@@ -170,28 +171,28 @@ function AskBox({ answers, lang }: { answers: Answers; lang: Lang }) {
       <div className="mt-5">
         {state?.loading ? (
           <div>
-            <p className="text-sm font-semibold">Gemini is checking our facts…</p>
+            <p className="text-sm font-semibold">{d.checking}</p>
             <div className="mt-3 space-y-3">
               <Skeleton className="h-5 w-11/12" />
               <Skeleton className="h-5 w-8/12" />
             </div>
           </div>
         ) : state?.error ? (
-          <ErrorNote>{state.q ? "That didn't go through. Try again in a moment." : "Type a question first."}</ErrorNote>
+          <ErrorNote>{state.q ? d.askError : d.askEmpty}</ErrorNote>
         ) : state?.reply ? (
           <div className="border-l-4 border-ink pl-3">
-            <p className="text-sm text-muted">You asked: {state.q}</p>
+            <p className="text-sm text-muted">{d.youAsked} {state.q}</p>
             <p className="mt-2 text-lg">{state.reply.answer}</p>
             {!state.reply.covered && state.reply.origin !== "unavailable" ? (
               <p className="mt-2 text-sm text-muted">
-                None of our sourced facts answer this, so Gemini doesn&apos;t guess. See all our facts on the{" "}
+                {d.noSource}{" "}
                 <a href="/sources" className="underline underline-offset-4">
-                  Sources page
+                  {d.sourcesPage}
                 </a>
                 .
               </p>
             ) : null}
-            <Citations items={state.reply.citations} />
+            <Citations items={state.reply.citations} d={d} />
           </div>
         ) : null}
       </div>
@@ -199,11 +200,11 @@ function AskBox({ answers, lang }: { answers: Answers; lang: Lang }) {
   );
 }
 
-function Citations({ items }: { items: Citation[] }) {
+function Citations({ items, d }: { items: Citation[]; d: Dict }) {
   if (items.length === 0) return null;
   return (
     <div className="mt-3">
-      <p className="text-sm font-semibold">Facts used</p>
+      <p className="text-sm font-semibold">{d.factsUsed}</p>
       <ul className="mt-1 space-y-1">
         {items.map((c) => (
           <li key={c.key} className="text-sm">
