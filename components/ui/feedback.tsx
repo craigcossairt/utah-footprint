@@ -14,11 +14,12 @@ export function ErrorNote({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function StepProgress({ step, total }: { step: number; total: number }) {
+export function StepProgress({ step, total, label }: { step: number; total: number; label?: string }) {
+  const text = label ?? `Question ${step} of ${total}`;
   return (
     <div>
       <p className="text-sm text-muted">
-        Question {step} of {total}
+        {text}
       </p>
       <div
         className="mt-2 h-1.5 w-full rounded-sm bg-line"
@@ -26,7 +27,7 @@ export function StepProgress({ step, total }: { step: number; total: number }) {
         aria-valuemin={1}
         aria-valuemax={total}
         aria-valuenow={step}
-        aria-label={`Question ${step} of ${total}`}
+        aria-label={text}
       >
         <div
           className="h-1.5 rounded-sm bg-ink transition-[width] duration-200 ease-out"

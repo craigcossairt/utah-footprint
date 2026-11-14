@@ -73,7 +73,7 @@ export default async function Results({
       </div>
 
       <div className="mt-12 flex flex-wrap gap-4">
-        <ButtonLink href="/check" variant={isSample ? "primary" : "secondary"}>
+        <ButtonLink href={lang === "es" ? "/check?lang=es" : "/check"} variant={isSample ? "primary" : "secondary"}>
           {isSample ? d.checkOwn : d.change}
         </ButtonLink>
       </div>
