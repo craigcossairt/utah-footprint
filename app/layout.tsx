@@ -9,8 +9,8 @@ const archivo = Overpass({ variable: "--font-archivo", subsets: ["latin"], weigh
 const publicSans = Atkinson_Hyperlegible_Next({ variable: "--font-public-sans", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "My Utah Footprint",
-  description: "See your water, power and air numbers for your Utah home, and what to change first.",
+  title: "EcoSwitch",
+  description: "A smarter way to power down. See your water, power and air numbers for your Utah home, and what to change first.",
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };
@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-3 lg:px-8">
             <Link href="/" className="flex items-center gap-2 font-display text-lg font-extrabold tracking-tight">
               <Mountain size={22} strokeWidth={2} className="text-sage" aria-hidden />
-              My Utah Footprint
+              EcoSwitch
             </Link>
             <Link href="/sources" className="text-sm text-muted underline underline-offset-4">
               Sources

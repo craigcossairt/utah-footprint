@@ -6,7 +6,7 @@ import { computeAll } from "@/lib/results";
 // Reads the answers from the URL on each request, like /results.
 export const instant = false;
 
-export const metadata: Metadata = { title: "My progress | My Utah Footprint" };
+export const metadata: Metadata = { title: "My progress | EcoSwitch" };
 
 // Dollar figures already sit in each action's cost note ("About $270 a year…", "Unos $270 al año…").
 // We read them back out so the tracker uses exactly the numbers the cards show.

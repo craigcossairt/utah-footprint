@@ -14,7 +14,7 @@ import { toQuery } from "@/lib/answers";
 // Reads the answers from the URL on each request.
 export const instant = false;
 
-export const metadata: Metadata = { title: "My footprint | My Utah Footprint" };
+export const metadata: Metadata = { title: "My footprint | EcoSwitch" };
 
 export default async function Results({
   searchParams,

@@ -1,4 +1,4 @@
-# My Utah Footprint
+# EcoSwitch
 
 Six questions, two minutes: see your Utah home's water, power and air numbers next to a typical
 Utah home, the changes that matter most, and where every number came from.
