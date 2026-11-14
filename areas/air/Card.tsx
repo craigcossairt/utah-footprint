@@ -20,6 +20,7 @@ const AQI_ES: Record<string, string> = {
 const T = {
   en: {
     title: "Air",
+    whereYouLive: "The air where you live",
     spend: (d: number) => `Your commute costs about $${fmt(d)} a year in gas. Here is how to keep more of it:`,
     change: "What would change it most",
     keep: (d: number) => `Save $${fmt(d)} a year`,
@@ -62,6 +63,7 @@ const T = {
   },
   es: {
     title: "Aire",
+    whereYouLive: "El aire donde usted vive",
     spend: (d: number) => `Ir al trabajo le cuesta unos $${fmt(d)} al año en gasolina. Así puede ahorrar más:`,
     change: "Lo que más lo cambiaría",
     keep: (d: number) => `Ahorre $${fmt(d)} al año`,
@@ -124,15 +126,21 @@ export default async function Card({ result, lang = "en" }: { result: AreaResult
         </p>
       ) : null}
       {result.actions.length > 0 ? <MoneyActions result={result} money={money} t={t} /> : null}
-      <TodayAir zip={zip} t={t} />
-      <p className="mt-3 text-sm">
-        {t.inversion(fact("air.inversionMobileSharePct").value)}{" "}
-        <SourceLink href={fact("air.inversionMobileSharePct").url}>Utah Division of Air Quality</SourceLink>
-      </p>
-      <p className="mt-3 text-sm">
-        {t.dust} <SourceLink href={programs.lakeDust.url}>{programs.lakeDust.name}</SourceLink>
-      </p>
-      <Outlook zip={zip} t={t} />
+      {/* Part two of the card: the air itself. Today, the next 3 days, then the two "why" lines. */}
+      <section aria-labelledby="air-where-you-live" className="mt-6">
+        <h3 id="air-where-you-live" className="text-sm font-semibold uppercase tracking-wide text-muted">
+          {t.whereYouLive}
+        </h3>
+        <TodayAir zip={zip} t={t} />
+        <Outlook zip={zip} t={t} />
+        <p className="mt-3 text-sm">
+          {t.inversion(fact("air.inversionMobileSharePct").value)}{" "}
+          <SourceLink href={fact("air.inversionMobileSharePct").url}>Utah Division of Air Quality</SourceLink>
+        </p>
+        <p className="mt-3 text-sm">
+          {t.dust} <SourceLink href={programs.lakeDust.url}>{programs.lakeDust.name}</SourceLink>
+        </p>
+      </section>
     </AreaCard>
   );
 }
@@ -207,7 +215,7 @@ async function TodayAir({ zip, t }: { zip?: string; t: (typeof T)["en"] | (typeo
     const air = await getAirForZip(zip);
     const { pm25, pm10, usAqi, measuredAtUtc } = air;
     return (
-      <div className="mt-4 border-l-4 border-line pl-3 text-sm">
+      <div className="mt-2 border-l-4 border-line pl-3 text-sm">
         <p className="font-semibold">
           {t.airIn(air.place, air.stale)}: {t.aqi(aqiWord(usAqi))}, AQI <span className="num">{usAqi}</span>
           {air.driver ? <span className="font-normal">, {t.driver[air.driver]}</span> : null}
