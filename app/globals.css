@@ -8,13 +8,15 @@
   --color-ink: #1c2422; /* basalt */
   --color-muted: #55615d; /* weathered basalt, AA on bg */
   --color-line: #d5dad5; /* hairlines */
+  --color-line-strong: #86918a; /* the "typical home" comparison bar: 3:1 on bg, readable on a projector */
   --color-accent: #b0305f; /* brine pink: the lake's north arm. The one primary action, focus ring */
   --color-accent-ink: #ffffff; /* text on accent */
   --color-lake: #1d5a6a; /* deep lake teal: water, and source links */
-  --color-sage: #4a6636; /* sagebrush: land, "good", and the air area */
+  --color-sage: #4a6636; /* sagebrush: land and the healthy range */
+  --color-sky: #3b5b8c; /* Wasatch sky: the air area, kept apart from "good" green (6.3:1 on bg) */
   --color-sun: #9b5f00; /* desert sun: the energy area */
   --color-ok: #3f5f2a;
-  --color-warn: #8a5a00;
+  --color-warn: #b45309; /* orange, kept apart from the energy ochre (4.6:1 on bg) */
   --color-bad: #a3262a;
 
   --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;

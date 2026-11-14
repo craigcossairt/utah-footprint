@@ -9,7 +9,7 @@ and a brief disagree, this file wins.
 **Borrowed from:** Highway Gothic road signs (Overpass for headings and numbers), the Great Salt Lake itself
 (salt-white ground, basalt ink, the north arm's brine pink as the one accent, deep lake teal), and a USGS gauge
 readout (big tabular numbers, a unit, a timestamp). Body text is Atkinson Hyperlegible, made for low-vision readers.
-**Area colors:** water `lake`, energy `sun`, air `sage`. Only on an area's label and its "This home" bar.
+**Area colors:** water `lake`, energy `sun`, air `sky`. Only on an area's label and its "This home" bar.
 **Not:** a green-leaf eco startup page, a climate-doom dashboard, a cream-and-terracotta template, or a default grey one.
 **Target screens:** phone 390×844 and laptop 1440×900 (mirrored to the projector). Nothing else.
 
@@ -22,9 +22,11 @@ readout (big tabular numbers, a unit, a timestamp). Body text is Atkinson Hyperl
 | `text-ink` / `bg-ink` / `border-ink` | body text, strong rules, bars |
 | `text-muted` | secondary text |
 | `border-line` / `bg-line` | hairlines, quiet bars |
+| `bg-line-strong` | the "typical Utah home" comparison bar |
 | `bg-accent` / `text-accent` | the one primary action, and one emphasised figure per screen. Only that. |
 | `text-lake` / `bg-lake` | water, and source links |
-| `text-sage` / `bg-sage` | land, healthy range, the air area |
+| `text-sage` / `bg-sage` | land, healthy range |
+| `text-sky` / `bg-sky` | the air area |
 | `text-sun` / `bg-sun` | the energy area |
 | `text-ok` / `text-warn` / `text-bad` | status, always with a word or icon |
 
