@@ -17,23 +17,20 @@ export type GMap = {
   setZoom(z: number): void;
   addListener(ev: string, fn: (e: MapsEvent) => void): Listener;
 };
-export type GPath = { getArray(): LatLng[]; getLength(): number; pop(): void; push(p: LatLng): void };
-export type GPolygon = {
-  getPath(): GPath;
-  setMap(m: GMap | null): void;
-  addListener(ev: string, fn: () => void): Listener;
-};
+type Overlay = { setMap(m: GMap | null): void };
+export type GShape = Overlay & { setPath(p: LatLng[]): void };
 export type Maps = {
   Map: new (el: HTMLElement, opts: Record<string, unknown>) => GMap;
-  Polygon: new (opts: Record<string, unknown>) => GPolygon;
+  Polygon: new (opts: Record<string, unknown>) => GShape;
+  Polyline: new (opts: Record<string, unknown>) => GShape;
+  Circle: new (opts: Record<string, unknown>) => Overlay;
   Geocoder: new () => {
     geocode(
       req: { address: string; componentRestrictions?: { country: string } },
       cb: (results: { geometry: { location: LatLng } }[] | null, status: string) => void,
     ): void;
   };
-  event: { addListener(obj: unknown, ev: string, fn: () => void): Listener };
-  geometry: { spherical: { computeArea(path: LatLng[]): number } };
+  geometry?: { spherical: { computeArea(path: LatLng[]): number } };
 };
 
 let loading: Promise<Maps> | null = null;

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ErrorNote, Skeleton } from "@/components/ui/feedback";
 import type { Lang } from "@/lib/contract";
-import { loadMaps, SQFT_PER_SQM, type GMap, type GPolygon, type Maps } from "@/lib/maps-browser";
+import { loadMaps, SQFT_PER_SQM, type GMap, type GShape, type LatLng, type Maps } from "@/lib/maps-browser";
 
 const COPY = {
   en: {
@@ -20,6 +20,7 @@ const COPY = {
     noShape: "Tap at least 3 corners to measure a lawn.",
     use: (n: string) => `Use ${n} sq ft`,
     total: "Lawn measured",
+    corners: (n: number) => (n === 1 ? "1 corner so far" : `${n} corners so far`),
     mapLabel: "Satellite map of your home. Tap the corners of your lawn.",
   },
   es: {
@@ -35,16 +36,39 @@ const COPY = {
     noShape: "Toque al menos 3 esquinas para medir un césped.",
     use: (n: string) => `Usar ${n} pies cuadrados`,
     total: "Césped medido",
+    corners: (n: number) => (n === 1 ? "1 esquina hasta ahora" : `${n} esquinas hasta ahora`),
     mapLabel: "Mapa satelital de su casa. Toque las esquinas de su césped.",
   },
 };
+
+type Patch = { pts: LatLng[]; line: GShape; fill: GShape; dots: { setMap(m: GMap | null): void }[] };
+
+// Design tokens, read from the page so the map shapes follow DESIGN.md.
+function token(name: string): string {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+const white = () => token("--color-surface");
+
+// Area in square meters of a small shape on the ground, used only if Google's geometry library is missing.
+function flatArea(pts: LatLng[]): number {
+  const R = 6371008.8; // mean Earth radius in meters, unit conversion
+  const rad = Math.PI / 180;
+  const k = Math.cos(pts[0].lat() * rad);
+  let sum = 0;
+  for (let i = 0; i < pts.length; i++) {
+    const a = pts[i];
+    const b = pts[(i + 1) % pts.length];
+    sum += a.lng() * rad * k * (b.lat() * rad) - b.lng() * rad * k * (a.lat() * rad);
+  }
+  return (Math.abs(sum) / 2) * R * R;
+}
 
 export function YardMap({ lang, onUse }: { lang: Lang; onUse: (sqFt: number) => void }) {
   const c = COPY[lang];
   const box = useRef<HTMLDivElement>(null);
   const maps = useRef<Maps | null>(null);
   const map = useRef<GMap | null>(null);
-  const patches = useRef<GPolygon[]>([]);
+  const patches = useRef<Patch[]>([]);
   const [address, setAddress] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "ready" | "notFound" | "failed">("idle");
   const [sqFt, setSqFt] = useState(0);
@@ -59,32 +83,50 @@ export function YardMap({ lang, onUse }: { lang: Lang; onUse: (sqFt: number) => 
       .catch(() => setState("failed"));
   }, []);
 
-  function measure() {
+  // Each patch keeps its own list of corners. The map shapes are redrawn from that list, so a tap
+  // always counts even if a shape fails to draw.
+  function redraw() {
     const m = maps.current;
-    if (!m) return;
-    const total = patches.current.reduce(
-      (sum, p) => sum + (p.getPath().getLength() >= 3 ? m.geometry.spherical.computeArea(p.getPath().getArray()) : 0),
-      0,
-    );
+    let total = 0;
+    for (const p of patches.current) {
+      try {
+        p.line.setPath(p.pts.length >= 3 ? [...p.pts, p.pts[0]] : p.pts);
+        p.fill.setPath(p.pts.length >= 3 ? p.pts : []);
+        if (p.pts.length >= 3) total += m?.geometry ? m.geometry.spherical.computeArea(p.pts) : flatArea(p.pts);
+      } catch {
+        if (p.pts.length >= 3) total += flatArea(p.pts);
+      }
+    }
     setSqFt(Math.round(total * SQFT_PER_SQM));
-    setCorners(patches.current.at(-1)?.getPath().getLength() ?? 0);
+    setCorners(patches.current.at(-1)?.pts.length ?? 0);
   }
 
   function newPatch() {
     const m = maps.current;
     if (!m || !map.current) return;
-    const poly = new m.Polygon({
-      map: map.current,
-      paths: [],
-      editable: true,
-      strokeColor: "#ffffff",
-      strokeWeight: 2,
-      fillColor: "#ffffff",
-      fillOpacity: 0.25,
+    const w = white();
+    patches.current.push({
+      pts: [],
+      dots: [],
+      line: new m.Polyline({ map: map.current, path: [], strokeColor: w, strokeWeight: 3, clickable: false }),
+      fill: new m.Polygon({ map: map.current, strokeOpacity: 0, fillColor: w, fillOpacity: 0.3, clickable: false }),
     });
-    for (const ev of ["set_at", "insert_at", "remove_at"]) m.event.addListener(poly.getPath(), ev, measure);
-    patches.current.push(poly);
-    measure();
+  }
+
+  function addCorner(at: LatLng) {
+    const m = maps.current;
+    if (!m || !map.current) return;
+    if (patches.current.length === 0) newPatch();
+    const p = patches.current.at(-1);
+    if (!p) return;
+    p.pts.push(at);
+    try {
+      // Radius is in meters: about one step wide, easy to see at zoom 20.
+      p.dots.push(
+        new m.Circle({ map: map.current, center: at, radius: 0.5, strokeColor: token("--color-ink"), strokeWeight: 2, fillColor: white(), fillOpacity: 1, clickable: false }),
+      );
+    } catch {}
+    redraw();
   }
 
   async function find() {
@@ -113,10 +155,7 @@ export function YardMap({ lang, onUse }: { lang: Lang; onUse: (sqFt: number) => 
             clickableIcons: false,
           });
           map.current.addListener("click", (e) => {
-            if (!e.latLng) return;
-            if (patches.current.length === 0) newPatch();
-            patches.current.at(-1)!.getPath().push(e.latLng);
-            measure();
+            if (e.latLng) addCorner(e.latLng);
           });
         } else {
           map.current.setCenter(at);
@@ -129,21 +168,32 @@ export function YardMap({ lang, onUse }: { lang: Lang; onUse: (sqFt: number) => 
     }
   }
 
+  function remove(p: Patch) {
+    for (const o of [p.line, p.fill, ...p.dots]) o.setMap(null);
+  }
+
   function undo() {
     const last = patches.current.at(-1);
     if (!last) return;
-    if (last.getPath().getLength() > 0) last.getPath().pop();
-    else if (patches.current.length > 1) {
-      last.setMap(null);
+    if (last.pts.length > 0) {
+      last.pts.pop();
+      last.dots.pop()?.setMap(null);
+    } else if (patches.current.length > 1) {
+      remove(last);
       patches.current.pop();
     }
-    measure();
+    redraw();
   }
 
   function clear() {
-    for (const p of patches.current) p.setMap(null);
+    patches.current.forEach(remove);
     patches.current = [];
-    measure();
+    redraw();
+  }
+
+  function addPatch() {
+    newPatch();
+    redraw();
   }
 
   const shown = sqFt.toLocaleString("en-US");
@@ -187,8 +237,9 @@ export function YardMap({ lang, onUse }: { lang: Lang; onUse: (sqFt: number) => 
           {state === "ready" ? (
             <>
               <p className="mt-2 text-sm text-muted">{c.tapHelp}</p>
-              <p className="mt-2">
+              <p className="mt-2" aria-live="polite">
                 {c.total}: <span className="num text-2xl font-extrabold">{shown}</span> sq ft
+                {corners > 0 ? <span className="ml-3 text-sm text-muted">{c.corners(corners)}</span> : null}
               </p>
               <div className="mt-2 flex flex-wrap gap-2">
                 <Button type="button" variant="ghost" onClick={undo}>
@@ -197,7 +248,7 @@ export function YardMap({ lang, onUse }: { lang: Lang; onUse: (sqFt: number) => 
                 <Button type="button" variant="ghost" onClick={clear}>
                   {c.clear}
                 </Button>
-                <Button type="button" variant="ghost" onClick={newPatch} disabled={corners < 3}>
+                <Button type="button" variant="ghost" onClick={addPatch} disabled={corners < 3}>
                   {c.newPatch}
                 </Button>
               </div>
