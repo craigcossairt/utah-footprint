@@ -26,7 +26,7 @@ Goal line, at the open and the close: **"Most Utahns can't see their environment
 | 0:12–0:24 | 2 Problem | Jenn | "The Great Salt Lake is below its healthy range today. The facts are spread across a dozen agency sites, so a family can't tell which habits matter." |
 | 0:24–0:38 | 3 How it works | Jennifer | "Marisol in Rose Park answers six questions on her phone, in English or Spanish, no account: lawn, commute, car, heat." |
 | 0:38–0:58 | 4 Water | Jenn | "I built water. Her lawn costs about $160 a year to water; a smart controller saves $89, with a $100 rebate. 91% of yard water never flows back to the rivers, so yards are the part households control." |
-| 0:58–1:14 | 5 Energy | Jennifer | "I built energy. About 60% of her 20,400 lbs of CO2 is her power bill: Utah's plants are 8th highest per MWh. Insulation saves about $220 a year." |
+| 0:58–1:14 | 5 Energy | Jennifer | "I built energy. About 60% of her 20,400 lbs of CO2 is her power bill: Utah's grid put out 1,322 lbs of CO2 per MWh in 2024. Insulation saves about $220 a year." |
 | 1:14–1:30 | 6 Air | Jennifer | "Britney built driving. Her commute costs about $530 a year in gas; sharing it saves $270. An electric car counts at about a third of a gas car." |
 | 1:30–1:46 | 7 Ask | Jennifer | "She can ask. Gemini answers only from our 41 sourced facts and names them; no source, it says so. Our formulas do the math, not the model." |
 | 1:46–2:00 | 9 Close · QR | Jenn | "Four of us built this today, three with a coding agent for the first time." The goal line. "Scan it and try your own home." |
