@@ -70,6 +70,9 @@ export default async function Home() {
               <Link href="/results" className="text-sm underline underline-offset-4">
                 See a sample home first
               </Link>
+              <Link href="/results?lang=es" hrefLang="es" lang="es" className="text-sm underline underline-offset-4">
+                Ver un hogar de ejemplo en español
+              </Link>
             </div>
             <div className="mt-6 hidden items-center gap-4 lg:flex">
               {/* eslint-disable-next-line @next/next/no-img-element */}
