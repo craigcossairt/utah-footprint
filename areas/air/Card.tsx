@@ -3,7 +3,7 @@ import { AreaCard, SourceLink } from "@/components/ui/area-card";
 import { aqiWord, todaySources } from "@/lib/today";
 import type { AirResult } from "./calc";
 import { facts, programs } from "./facts";
-import { getAirForZip } from "./today-air";
+import { getAirForZip, getDustOutlook } from "./today-air";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
 
@@ -35,6 +35,12 @@ const T = {
     locale: "en-US",
     unavailable: "Today's air reading isn't available right now.",
     dust: "On windy days, dust from the dry Great Salt Lake bed adds coarse particles (PM10) to the air along the Wasatch Front. A higher lake leaves less lakebed to blow.",
+    outlook: (weekday: string, n: number) => (
+      <>
+        Dustiest day ahead: {weekday}, coarse dust up to <span className="num">{n}</span> µg/m³.
+      </>
+    ),
+    outlookNote: (place: string, at: string) => `Open-Meteo forecast for ${place}, the next 3 days. Fetched ${at}.`,
   },
   es: {
     title: "Aire",
@@ -53,6 +59,13 @@ const T = {
     locale: "es-US",
     unavailable: "La lectura del aire de hoy no está disponible ahora.",
     dust: "Los días de viento, el polvo del lecho seco del Gran Lago Salado agrega partículas gruesas (PM10) al aire del Wasatch Front. Un lago más alto deja menos lecho expuesto al viento.",
+    outlook: (weekday: string, n: number) => (
+      <>
+        Día con más polvo en los próximos días: {weekday}, polvo grueso de hasta <span className="num">{n}</span> µg/m³.
+      </>
+    ),
+    outlookNote: (place: string, at: string) =>
+      `Pronóstico de Open-Meteo para ${place}, los próximos 3 días. Consultado ${at}.`,
   },
 };
 
@@ -75,6 +88,7 @@ export default async function Card({ result, lang = "en" }: { result: AreaResult
       <p className="mt-3 text-sm">
         {t.dust} <SourceLink href={programs.lakeDust.url}>{programs.lakeDust.name}</SourceLink>
       </p>
+      <Outlook zip={zip} t={t} />
     </AreaCard>
   );
 }
@@ -88,6 +102,23 @@ function when(utc: string, locale: string): string {
     minute: "2-digit",
     timeZoneName: "short",
   });
+}
+
+async function Outlook({ zip, t }: { zip?: string; t: (typeof T)["en"] | (typeof T)["es"] }) {
+  const o = await getDustOutlook(zip);
+  if (!o) return null;
+  // Noon on that local date, so the weekday never slips across midnight.
+  const weekday = new Date(`${o.day}T12:00:00-07:00`).toLocaleDateString(t.locale, {
+    weekday: "long",
+    timeZone: "America/Denver",
+  });
+  return (
+    <div className="mt-3 text-sm">
+      <p className="font-semibold">{t.outlook(weekday, o.pm10Max)}</p>
+      <p className="text-muted">{t.outlookNote(o.place, when(o.fetchedAtUtc, t.locale))}</p>
+      <SourceLink href={todaySources.air.url}>Open-Meteo air quality model</SourceLink>
+    </div>
+  );
 }
 
 async function TodayAir({ zip, t }: { zip?: string; t: (typeof T)["en"] | (typeof T)["es"] }) {
