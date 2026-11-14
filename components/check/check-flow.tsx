@@ -214,11 +214,11 @@ export function CheckFlow() {
       </div>
 
       {step === 1 && (
-        <section aria-labelledby="need-title" className="mt-6 border-l-4 border-line pl-3 text-sm">
+        <section aria-labelledby="need-title" className="mt-4 border-l-4 border-line pl-3 text-sm">
           <h2 id="need-title" className="font-semibold">
             {c.need[0]}
           </h2>
-          <ol className="mt-1 list-decimal space-y-0.5 pl-5 text-muted">
+          <ol className="mt-1 list-decimal pl-5 text-muted">
             {c.need.slice(1).map((item) => (
               <li key={item}>{item}</li>
             ))}
@@ -226,7 +226,8 @@ export function CheckFlow() {
         </section>
       )}
 
-      <div className="mt-8 min-h-80">
+      {/* Question 1 carries the "What you'll need" list, so it gets less reserved space to keep Next on a phone screen. */}
+      <div className={step === 1 ? "mt-6 min-h-40" : "mt-8 min-h-80"}>
         {step === 1 && (
           <Question ref={heading} title={c.q1[0]} help={c.q1[1]}>
             <label htmlFor="zip" className="sr-only">
