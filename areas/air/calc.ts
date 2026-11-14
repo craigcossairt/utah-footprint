@@ -1,4 +1,4 @@
-import type { Answers, AreaResult, Lang } from "@/lib/contract";
+import type { Answers, AreaResult, Lang, Vehicle } from "@/lib/contract";
 import { fact, programs } from "./facts";
 
 // Assumptions, not sourced facts. Each one is listed on the card under "What we assumed".
@@ -7,6 +7,33 @@ const GRAMS_PER_POUND = 453.592; // unit conversion
 
 function lbsCo2(miles: number): number {
   return (miles * fact("air.carGramsCo2PerMile").value) / GRAMS_PER_POUND;
+}
+
+// Well-to-wheels pounds of CO2 per mile by fuel, using DOE's method and Utah's power plants.
+// Diesel, natural gas and hydrogen have no sourced figure here, so they fall back to gasoline.
+function wtwLbsPerMile(v: Vehicle): number | null {
+  const gal = fact("air.gasolineLbsCo2ePerGal").value;
+  const grid = fact("air.utahGridLbsCo2PerMwh").value / 1000; // lbs per kWh
+  const ev = fact("air.pluginElectricPct").value / 100;
+  switch (v) {
+    case "gas":
+      return gal / fact("air.gasCarMpg").value;
+    case "hybrid":
+      return gal / fact("air.hybridMpg").value;
+    case "plugin":
+      return (ev * grid) / fact("air.pluginMiPerKwh").value + ((1 - ev) * gal) / fact("air.pluginMpg").value;
+    case "electric":
+      return grid / fact("air.evMiPerKwh").value;
+    default:
+      return null;
+  }
+}
+
+// How this car compares with a gasoline car, as a multiplier on the EPA figure.
+export function vehicleFactor(v: Vehicle = "gas"): number {
+  const mine = wtwLbsPerMile(v);
+  const gas = wtwLbsPerMile("gas");
+  return mine === null || gas === null ? 1 : mine / gas;
 }
 
 function round(n: number, to = 10): number {
@@ -29,6 +56,13 @@ const T = {
     carpoolCost: "Free to find a match; split the gas.",
     remote: "Work from home 1 day a week, if your job allows",
     remoteCost: "Free.",
+    car: {
+      sourced: (name: string, pct: number) =>
+        `Your ${name} is counted at ${pct}% of a gasoline car's CO2 per mile, from US DOE figures (fuel production included) and Utah's 2024 power plants (EIA).`,
+      unsourced: (name: string) =>
+        `We have no sourced Utah figure for a ${name} car yet, so it is counted like a gasoline car.`,
+      names: { gas: "gasoline", hybrid: "hybrid", plugin: "plug-in hybrid", electric: "electric car", diesel: "diesel", "natural-gas": "natural gas", hydrogen: "hydrogen fuel cell" },
+    },
     assumptions: (days: number, grams: number) => [
       `One person drives the commute, there and back, ${days} workdays a year.`,
       `The car is a typical gasoline passenger car (EPA: about ${grams} grams of CO2 a mile).`,
@@ -50,6 +84,13 @@ const T = {
     carpoolCost: "Buscar compañero es gratis; dividan la gasolina.",
     remote: "Trabaje desde casa 1 día a la semana, si su trabajo lo permite",
     remoteCost: "Gratis.",
+    car: {
+      sourced: (name: string, pct: number) =>
+        `Su ${name} cuenta como el ${pct}% del CO2 por milla de un carro de gasolina, según cifras del Departamento de Energía de EE. UU. (incluye producir el combustible) y las plantas eléctricas de Utah en 2024 (EIA).`,
+      unsourced: (name: string) =>
+        `Aún no tenemos una cifra con fuente para un carro de ${name} en Utah, así que lo contamos como uno de gasolina.`,
+      names: { gas: "gasolina", hybrid: "híbrido", plugin: "híbrido enchufable", electric: "carro eléctrico", diesel: "diésel", "natural-gas": "gas natural", hydrogen: "celda de hidrógeno" },
+    },
     assumptions: (days: number, grams: number) => [
       `Una persona maneja al trabajo, ida y vuelta, ${days} días laborales al año.`,
       `El carro es un auto de gasolina típico (EPA: unos ${grams} gramos de CO2 por milla).`,
@@ -71,9 +112,15 @@ export function calculate(a: Answers, lang: Lang = "en"): AreaResult {
 function calculateCore(a: Answers, lang: Lang): AreaResult {
   const t = T[lang] ?? T.en;
   const commuteMilesPerYear = Math.max(0, a.commuteMiles) * 2 * WORKDAYS_PER_YEAR;
-  const commute = lbsCo2(commuteMilesPerYear);
+  const vehicle = a.vehicle ?? "gas";
+  const factor = vehicleFactor(vehicle);
+  const commute = lbsCo2(commuteMilesPerYear) * factor;
   const typical = lbsCo2(fact("air.utahMilesPerPerson").value);
   const assumptions = t.assumptions(WORKDAYS_PER_YEAR, fact("air.carGramsCo2PerMile").value);
+  if (vehicle !== "gas" && commuteMilesPerYear > 0) {
+    const name = t.car.names[vehicle];
+    assumptions.splice(1, 0, wtwLbsPerMile(vehicle) === null ? t.car.unsourced(name) : t.car.sourced(name, Math.round(factor * 100)));
+  }
 
   if (commuteMilesPerYear === 0) {
     return { headline: 0, unit: t.unit, typical: round(typical, 100), summary: t.noCommute, actions: [], assumptions };

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Public_Sans } from "next/font/google";
+import { Mountain } from "lucide-react";
 import Link from "next/link";
 import "./globals.css";
 
@@ -19,7 +20,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-full flex-col">
         <header className="border-b border-line">
           <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-3 lg:px-8">
-            <Link href="/" className="font-display text-lg font-extrabold tracking-tight">
+            <Link href="/" className="flex items-center gap-2 font-display text-lg font-extrabold tracking-tight">
+              <Mountain size={22} strokeWidth={2} className="text-sage" aria-hidden />
               My Utah Footprint
             </Link>
             <Link href="/sources" className="text-sm text-muted underline underline-offset-4">

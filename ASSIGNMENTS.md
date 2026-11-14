@@ -30,7 +30,7 @@ If the app isn't running on your laptop by 11:00, don't keep fighting it. Use an
 your area's numbers and sources, post them in Slack `#facts`, and Craig's agents will build your card.
 
 ## Rules for everyone (your agent reads these in `AGENTS.md` too)
-- Edit only your own folder. If you need a change anywhere else, post it in `#ship`.
+- Work in your own folder and the files of the backlog item you've claimed. Need a change somewhere else? Make it and post a heads-up in `#ship`. Nobody needs permission.
 - Every number needs an official source link that **you opened and read**. No link, no number.
   Agents sometimes make up figures and links that look real. Click every one.
 - Use open data only: USGS, EPA, EIA, Open-Meteo, Utah state agencies, utility and program sites.
@@ -214,6 +214,22 @@ Utah's water, air or power, and one about building with a coding agent. The demo
 ### Craig
 Spanish on `/` and `/check`; saved Gemini answers for the three demo questions; warm the Gemini cache
 before the demo; remove the "cards are in English" note once all three cards translate.
+
+## From now on: pull from the backlog
+
+Round 1 and 2 are the last fixed assignments. New work lives in `docs/hack/BACKLOG.md`: an open list your agent pulls
+from whenever it finishes something. Claim an item, build it, mark it done, pull the next. You can also add your own
+feature ideas there; the file says what's in scope.
+
+**Paste this into your agent whenever it runs out of work:**
+> Read AGENTS.md and docs/hack/BACKLOG.md. I am <your name>. Pull main, then follow "How to pull an item": pick the
+> first open item that fits me, claim it and push the claim before writing any code, then build it to its "Done when".
+> Don't ask anyone for permission. When it's live, move it to Done with the commit SHA, push, tell me the URL to
+> check, and pull the next item.
+
+**Got an idea?**
+> Read AGENTS.md and docs/hack/BACKLOG.md. I want to add: <your idea>. Check it against "Add your own idea". If it
+> fits, add it as a new item with the template, claim it, push, and build it. If it doesn't fit, say why and build the closest version that does.
 
 ## Checkpoints
 | Time | Must be true |

@@ -1,6 +1,6 @@
 # Lanes
 
-People own folders (see `ASSIGNMENTS.md`). Craig's own work is split into agent lanes below.
+People own folders (see `ASSIGNMENTS.md`) and pull new work from `docs/hack/BACKLOG.md`. Craig's own work is split into agent lanes below.
 
 | Lane | Owner | Owns (only these paths) | Starts |
 |---|---|---|---|
@@ -13,6 +13,8 @@ People own folders (see `ASSIGNMENTS.md`). Craig's own work is split into agent 
 | energy | Jennifer | `areas/energy/**` | Gate A |
 | air | Britney | `areas/air/**` | Gate A |
 | demo | Craig + Britney | `README.md`, `docs/hack/01-demo.md`, `docs/hack/SUBMISSION.md` | 11:40 |
+
+Anything not listed here, including the map features, is in `docs/hack/BACKLOG.md` for whoever claims it first.
 
 ## Preamble (paste at the top of every lane prompt)
 > You are one of several agents building My Utah Footprint in parallel at a hackathon. Deadline
