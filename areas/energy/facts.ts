@@ -20,6 +20,22 @@ export const facts: Fact[] = [
     year: 2024,
   },
   {
+    key: "energy.utahCentsPerKwh",
+    value: 12.22,
+    unit: "cents per kWh, average Utah home price",
+    source: "EIA, average monthly residential bill by state (Table 5a)",
+    url: "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_5a.pdf",
+    year: 2024,
+  },
+  {
+    key: "energy.utahGasDollarsPerMcf",
+    value: 13.15,
+    unit: "dollars per thousand cubic feet, average Utah home gas price",
+    source: "EIA, Natural Gas Annual (Table 23)",
+    url: "https://www.eia.gov/naturalgas/Annual/pdf/table_023.pdf",
+    year: 2024,
+  },
+  {
     key: "energy.utahResidentialGasMMcf",
     value: 74108,
     unit: "million cubic feet of gas used by Utah homes",

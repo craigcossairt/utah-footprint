@@ -51,6 +51,9 @@ const T = {
     national: "Savings use ENERGY STAR national averages, not Utah-specific studies.",
     upperBound:
       "The thermostat savings treat your whole power bill as heating and cooling, so they are an upper bound.",
+    dollars: (d: number) => `About $${n(d)} a year.`,
+    prices: (cents: number, gas: number) =>
+      `Dollar savings use EIA's 2024 Utah home prices: ${cents} cents per kWh and $${gas} per thousand cubic feet of gas. Your rate and tier may differ.`,
   },
   es: {
     unit: "libras de CO2 al año",
@@ -78,6 +81,9 @@ const T = {
     national: "El ahorro usa promedios nacionales de ENERGY STAR, no estudios de Utah.",
     upperBound:
       "El ahorro del termostato trata toda su factura de luz como calefacción y aire acondicionado, así que es un máximo.",
+    dollars: (d: number) => `Unos $${n(d)} al año.`,
+    prices: (cents: number, gas: number) =>
+      `El ahorro en dólares usa los precios de 2024 de la EIA para hogares de Utah: ${cents} centavos por kWh y $${gas} por mil pies cúbicos de gas. Su tarifa puede ser distinta.`,
   },
 };
 
@@ -94,13 +100,21 @@ export function calculate(a: Answers, lang: Lang = "en"): AreaResult {
   const thermostatPct = fact("energy.smartThermostatSavingsPct") / 100;
   const sealPct = fact("energy.sealInsulateSavingsPct") / 100;
 
+  // Yearly bills at Utah average prices; savings apply the same percentages as the CO2 savings.
+  const electricDollars = (b.kwhYear * fact("energy.utahCentsPerKwh")) / 100;
+  const gasDollars = b.gasMcfYear * fact("energy.utahGasDollarsPerMcf");
+  const sealDollars = round((electricDollars + gasDollars) * sealPct, 10);
+  const thermoDollars = round((gasHeat ? gasDollars : electricDollars) * thermostatPct, 10);
+
   const actions: Action[] = [
     {
       id: "seal-insulate",
       title: t.sealTitle,
       saves: round(total * sealPct),
       unit: t.actionUnit,
-      costNote: gasHeat ? t.sealGasCost(fact("energy.thermwiseAtticRebatePerSqFt").toFixed(2)) : t.sealElecCost,
+      costNote: `${t.dollars(sealDollars)} ${
+        gasHeat ? t.sealGasCost(fact("energy.thermwiseAtticRebatePerSqFt").toFixed(2)) : t.sealElecCost
+      }`,
       program: gasHeat
         ? {
             name: t.sealProgram,
@@ -113,7 +127,9 @@ export function calculate(a: Answers, lang: Lang = "en"): AreaResult {
       title: t.thermoTitle,
       saves: round(heatingLbs * thermostatPct),
       unit: t.actionUnit,
-      costNote: gasHeat ? t.thermoGasCost(fact("energy.thermwiseThermostatRebate")) : t.thermoElecCost,
+      costNote: `${t.dollars(thermoDollars)} ${
+        gasHeat ? t.thermoGasCost(fact("energy.thermwiseThermostatRebate")) : t.thermoElecCost
+      }`,
       program: gasHeat
         ? {
             name: t.thermoGasProgram,
@@ -135,6 +151,7 @@ export function calculate(a: Answers, lang: Lang = "en"): AreaResult {
     gasHeat ? t.gas(Math.round(b.gasMcfYear)) : t.noGas,
     t.people,
     t.national,
+    t.prices(fact("energy.utahCentsPerKwh"), fact("energy.utahGasDollarsPerMcf")),
   ];
   if (!gasHeat) assumptions.push(t.upperBound);
 
