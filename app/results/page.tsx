@@ -3,6 +3,7 @@ import { AreaCard } from "@/components/ui/area-card";
 import { ButtonLink } from "@/components/ui/button";
 import { TopChanges } from "@/components/results/top-changes";
 import { Assistant } from "@/components/results/assistant";
+import { Scoreboard } from "@/components/results/scoreboard";
 import { fromQuery } from "@/lib/answers";
 import { areas } from "@/lib/areas";
 import { computeAll, rankActions } from "@/lib/results";
@@ -42,9 +43,6 @@ export default async function Results({
         {d.heat[answers.heating]}. {d.estimates} {d.cardsNote}
       </p>
       <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2">
-        <a href="#top-heading" className="text-sm underline underline-offset-4">
-          {d.jump}
-        </a>
         <a href="/sources" className="text-sm underline underline-offset-4">
           {d.sources}
         </a>
@@ -53,24 +51,33 @@ export default async function Results({
         </a>
       </div>
 
-      <div className="mt-8 grid gap-12 lg:grid-cols-3 lg:gap-10">
-        {areas.map(({ area, Card }, i) => {
-          const c = computed[i];
-          return c.ready ? (
-            <Card key={area.id} result={c.result} lang={lang} />
-          ) : (
-            <AreaCard key={area.id} title={area.label} result={c.result} lang={lang} />
-          );
-        })}
+      <div className="mt-8">
+        <Scoreboard computed={computed} lang={lang} />
       </div>
 
-      <div className="mt-16">
+      <div className="mt-12">
         <TopChanges actions={ranked} lang={lang} />
       </div>
 
       <div className="mt-16">
         <Assistant answers={answers} lang={lang} />
       </div>
+
+      <section aria-labelledby="details-heading" className="mt-16">
+        <h2 id="details-heading" className="text-sm font-semibold uppercase tracking-wide text-muted">
+          {d.detailsTitle}
+        </h2>
+        <div className="mt-3 grid gap-12 lg:grid-cols-3 lg:gap-10">
+          {areas.map(({ area, Card }, i) => {
+            const c = computed[i];
+            return (
+              <div key={area.id} id={`area-${area.id}`} className="scroll-mt-4">
+                {c.ready ? <Card result={c.result} lang={lang} /> : <AreaCard title={area.label} result={c.result} lang={lang} />}
+              </div>
+            );
+          })}
+        </div>
+      </section>
 
       <div className="mt-12 flex flex-wrap gap-4">
         <ButtonLink href={lang === "es" ? "/check?lang=es" : "/check"} variant={isSample ? "primary" : "secondary"}>

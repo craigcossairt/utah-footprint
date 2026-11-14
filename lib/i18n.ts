@@ -20,6 +20,7 @@ export const t = {
     topNote:
       "Ranked by how much of this home's own number in that area each change would cut, since gallons and pounds of CO2 can't be compared directly.",
     topEmpty: "No changes to suggest from these answers. Try a different lawn size or commute.",
+    moreChanges: (n: number) => `Show ${n} smaller ${n === 1 ? "change" : "changes"}`,
     saves: "Saves about",
     ofYour: (area: string) => `of your ${area.toLowerCase()} number`,
     planTitle: "Your plan, in plain words",
@@ -47,6 +48,7 @@ export const t = {
       template: "Gemini isn't available, so this comes straight from our formulas.",
     },
     cardsNote: "",
+    detailsTitle: "The details: how each number was worked out",
   },
   es: {
     sample: "Hogar de ejemplo",
@@ -66,6 +68,7 @@ export const t = {
     topNote:
       "Ordenados por cuánto reduciría cada cambio el número de este hogar en esa área, porque los galones y las libras de CO2 no se pueden comparar directamente.",
     topEmpty: "No hay cambios que sugerir con estas respuestas.",
+    moreChanges: (n: number) => `Ver ${n} ${n === 1 ? "cambio más pequeño" : "cambios más pequeños"}`,
     saves: "Ahorra unos",
     ofYour: (area: string) => `de su número de ${({ Water: "agua", Energy: "energía", Air: "aire" } as Record<string, string>)[area] ?? area}`,
     planTitle: "Su plan, en palabras sencillas",
@@ -92,8 +95,12 @@ export const t = {
       saved: "Una respuesta guardada de Gemini, porque la llamada en vivo no respondió.",
       template: "Gemini no está disponible, así que esto viene directo de nuestras fórmulas.",
     },
-    cardsNote: "Las tarjetas de agua, energía y aire están en inglés por ahora.",
+    cardsNote: "La tarjeta de energía está en inglés por ahora.",
+    detailsTitle: "Los detalles: cómo se calculó cada número",
   },
 } satisfies Record<Lang, unknown>;
 
 export type Dict = (typeof t)["en"];
+
+const AREA_ES: Record<string, string> = { water: "Agua", energy: "Energía", air: "Aire" };
+export const areaName = (lang: Lang, id: string, label: string) => (lang === "es" ? (AREA_ES[id] ?? label) : label);
