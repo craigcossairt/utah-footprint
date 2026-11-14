@@ -45,8 +45,8 @@ type Area = { id: 'water' | 'energy' | 'air'; label: string; facts: Fact[];
 ## P1 (only after gate B)
 1. Spanish toggle (Gemini translates the plan; UI labels from a small dictionary). Move to P0 if B is early.
 2. Data center context card: how a household's use compares with one data center's.
-3. Yard on a map: the person outlines their lawn on a Google satellite view and we compute the square feet (replaces the Gemini yard-photo idea; same answer, and it's a measurement, not a guess). Lane `map-yard`.
-4. Commute from addresses: home and work addresses → driving miles one way from the Google Routes API. Lane `map-distance`.
+3. Yard on a map: the person outlines their lawn on a Google satellite view and we compute the square feet (replaces the Gemini yard-photo idea; same answer, and it's a measurement, not a guess). Backlog B1.
+4. Commute from addresses: home and work addresses → driving miles one way from the Google Routes API. Backlog B2.
 
 Both map features are optional inputs on `/check`. The manual answers stay, and fixtures mode hides both.
 Keys (Craig): `NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_KEY` (Maps JavaScript API and Geocoding API only, restricted by referrer to

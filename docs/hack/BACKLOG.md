@@ -1,0 +1,123 @@
+# Backlog
+
+The open list of work. Round 1 and 2 assignments are done; from here, everyone's agent pulls the
+next item when it finishes one. Nobody waits for Craig to hand out work.
+
+## How to pull an item (your agent does this)
+1. `git pull --rebase origin main`, then read this file fresh. Someone may have just claimed what you wanted.
+2. Pick the first unclaimed item in **Open** that you want. "Good fit" is a hint, not a rule: anyone can take anything.
+3. **Claim it before you start:** change its `Claimed:` line to your name and the time, commit only that
+   change ("Claim B3"), and push to `main` right away. If the push conflicts because someone else claimed it, pick another.
+4. While it's claimed, the files in its `Touches:` line are yours, even outside your folder. Nobody else edits them.
+   Your own `areas/<you>/` folder is still yours as before.
+5. Build, push small and often, as in `AGENTS.md`.
+6. When it's live: move the item to **Done** with the commit SHA and the URL to check, push, post one line in `#ship`.
+7. Stuck for 15 minutes? Write what you learned under the item, set `Claimed: (open)`, push, post in `#ship`, and pull the next one.
+
+One item at a time per person. Don't claim ahead.
+
+## Add your own idea
+Got an idea for a feature? Add it under **Open** with the template below, claim it, post one line in `#ship`, and start.
+Craig answers in `#ship` within 5 minutes only if it's a no. It's in scope when:
+- a judge sees it during the 3-minute demo, or it makes a screen in the demo clearer or more trustworthy;
+- every number in it has an official source you opened, added to `facts.ts` (or `FACTS.md`);
+- it fits in about 30 minutes and works in fixtures mode with no network;
+- it isn't a test, a new dependency or a new screen. Those need Craig.
+
+If it's a new demo moment, add one line for it to `docs/hack/01-demo.md` too, so Britney can work it into the script.
+
+```
+### B<next number>. <What the person sees, in plain words>
+Good fit: <name or anyone> · Size: S (≤15 min) / M (≤30) / L (≤60) · Claimed: (open)
+Touches: <exact paths>
+Do: <2 to 4 sentences>
+Done when: <what you can see on the live URL>
+```
+
+## Freeze
+At **12:52** this list closes except items marked **Fix**. After that, only fixes to what's already live.
+Map items (B1, B2) come out at 12:30 if they aren't working on the live site.
+
+---
+
+## Open
+
+### B1. Measure my lawn on a satellite map
+Good fit: Jenn · Size: L · Claimed: (open)
+Needs first: Craig has set `NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_KEY` (ask in `#ship`).
+Touches: `components/check/yard-map.tsx`, `lib/maps-browser.ts`, the yard step of `components/check/check-flow.tsx`
+Do: on the lawn question, add "Measure it on a map" under "I know the size". It opens a satellite view (Google Maps
+JavaScript API, `mapTypeId: "satellite"`, tilt 0) centred on an address the person types, geocoded with the Maps JS
+`Geocoder`. They tap the corners of their lawn; draw an editable `google.maps.Polygon` from the taps (Google retired the
+Drawing library, so don't use it), allow more than one patch, and add up the area with
+`google.maps.geometry.spherical.computeArea` (square metres × 10.7639 = square feet). "Use 1,240 sq ft" fills `yardCustom`
+and selects "custom". Load the script with a plain `<script>` tag from `lib/maps-browser.ts`: no new dependency, no
+`@types/google.maps`, type the few calls you use locally. Hide the link when the key is missing or `DEMO_MODE=fixtures`.
+States: loading (Skeleton over the map), address not found (ErrorNote), no shape yet (button disabled with the reason),
+map failed (ErrorNote: "Enter the size instead"). Taps of at least 44 px, "Undo last corner" and "Clear". Spanish copy in `COPY`.
+Add the assumption "Lawn size measured by you on a satellite map." to the water card.
+Done when: Marisol's lawn can be measured on the live URL, on a phone, in under 30 seconds.
+
+### B2. Work out my commute miles from two addresses
+Good fit: Britney · Size: L · Claimed: (open)
+Needs first: Craig has set `GOOGLE_MAPS_SERVER_KEY` (ask in `#ship`).
+Touches: `app/api/distance/**`, `lib/maps-server.ts`, `components/check/commute-route.tsx`, `data/fixtures/routes.json`, the commute step of `components/check/check-flow.tsx`
+Do: on the commute question, add "Work it out from my addresses": home, and work or school. `POST /api/distance`
+with `{ from, to }` calls the Routes API `computeRoutes` on the server (`travelMode: DRIVE`, field mask
+`routes.distanceMeters,routes.duration`) and returns one-way miles, rounded to a whole mile, which fill the stepper.
+Cache by address pair in memory. In fixtures mode, or when the call fails or takes over 5 seconds, return Marisol's saved
+route from `routes.json` if the pair matches, otherwise an ErrorNote ("We couldn't measure that route. Set the miles yourself.").
+Show a line the person can still adjust ("Rose Park to the University of Utah: 7 miles one way by road"). Never save the
+addresses: not in `localStorage`, the URL or logs. Under the inputs: "Your addresses go to Google Maps to measure the
+route. We don't keep them." Spanish copy in `COPY`.
+Done when: the stepper fills from two real Salt Lake addresses on the live URL.
+
+### B3. Data center line on the energy card
+Good fit: Jennifer · Size: M · Claimed: (open)
+Touches: `areas/energy/**`
+Do: "One large data center uses as much power as about N homes like yours", only from a public figure for a named Utah
+facility and year (utility filing, state report or the operator's own disclosure). Add the figure to `facts.ts`, EN and ES.
+No figure you can open and read? Write that under this item and close it.
+Done when: the line shows on `/results?sample=marisol` with its source on `/sources`.
+
+### B4. Submission form and project story
+Good fit: Jennifer · Size: M · Claimed: (open)
+Touches: `docs/hack/SUBMISSION.md`
+Do: open "Submit Project" at https://www.mlh.com/events/hack-for-humanity-salt-lake-city, copy every field and its
+length limit into `SUBMISSION.md`, and draft each answer: goal, unique value, after-event plan, what we learned (from `LEARNED.md`).
+Done when: every field has paste-ready text, by 12:30.
+
+### B5. Click every source link
+Good fit: anyone · Size: M · Claimed: (open)
+Touches: the `facts.ts` of whichever area has a broken link (tell its owner in `#ship` first)
+Do: on the live `/sources`, open every link. Each must open and show the number it's cited for. Post broken or
+unclear ones in `#facts` with the fact key. Fix the ones in your own folder.
+Done when: a line under this item says "All N links checked at <time>", with any fixes listed.
+
+### B6. Phone pass of the demo path, both languages
+Good fit: Jenn · Size: S · Repeat every 20 minutes · Claimed: (open)
+Touches: nothing (report only)
+Do: on your phone, go `/` → `/check` → `/results` → ask a question → `/sources`, in English and then with `?lang=es`.
+Screenshot anything broken, cut off or confusing into `#bugs` with the page.
+Done when: posted. Leave this item open for the next pass.
+
+### B7. Home page in Spanish
+Good fit: anyone · Size: M · Claimed: (open)
+Touches: `app/page.tsx`, `components/home/**`, `lib/i18n.ts`
+Do: `/?lang=es` shows the home page labels in Spanish, the way `/check` and `/results` already do. Numbers and sources stay the same.
+Done when: `/?lang=es` reads fully in Spanish on a phone.
+
+### B8. Timed run of the demo script
+Good fit: Britney · Size: S · Repeat 3 times from 12:10 · Claimed: (open)
+Touches: `docs/hack/01-demo.md`
+Do: read the script aloud on the live site with a timer. Rewrite any line that doesn't sound like you. Log each run in the rehearsal table.
+Done when: three runs logged, each under 3 minutes.
+
+### B9. Two lines each in LEARNED.md
+Good fit: everyone (no claim needed, just edit your own section) · Size: S
+Touches: your section of `docs/hack/LEARNED.md`
+Do: one thing you learned about Utah's water, air or power; one about building with a coding agent. Before 12:40.
+Done when: all four sections are filled.
+
+## Done
+(Move items here: `B<n>. <title>`, done by, commit SHA, URL to check.)

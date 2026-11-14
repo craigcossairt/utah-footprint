@@ -10,7 +10,8 @@ goals. Every agent reads this file first, then the files under "Read first".
 1. `docs/hack/01-demo.md`: the demo script. If a feature isn't in it, don't build it.
 2. `docs/hack/02-plan.md`: scope, screens, data contract, cut ladder, gates.
 3. `DESIGN.md`: tokens, components and the spec for your screen. Read it before touching UI.
-4. Your lane brief in `docs/hack/03-lanes.md`.
+4. `docs/hack/BACKLOG.md`: the open list of work. Claim an item before starting it (the file says how).
+   Craig's agent lanes still have briefs in `docs/hack/03-lanes.md`.
 
 ## Speed rules
 - **No tests.** No unit, integration or e2e tests, no test files, no test runners. Don't add
@@ -22,7 +23,7 @@ goals. Every agent reads this file first, then the files under "Read first".
   of work. If the build breaks on main, fixing it beats everything else, whoever broke it.
 - **PR mode** (only if `02-plan.md` says the sponsor requires PRs):
   `gh pr create --fill && gh pr merge --auto --squash`. Never wait for a human review.
-- **Stay in your lane's folders.** Shared files (UI components, tokens, contract types,
+- **Stay in your lane's folders,** plus the files listed under the backlog item you've claimed. Shared files (UI components, tokens, contract types,
   dependencies, root config) belong to their owner in `03-lanes.md`. If you need a change there,
   say so in your final report or ask the orchestrator. Never fork a shared component.
 - **Don't add dependencies** unless your brief allows it. Use what's installed.
