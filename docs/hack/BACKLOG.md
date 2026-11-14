@@ -57,6 +57,11 @@ States: loading (Skeleton over the map), address not found (ErrorNote), no shape
 map failed (ErrorNote: "Enter the size instead"). Taps of at least 44 px, "Undo last corner" and "Clear". Spanish copy in `COPY`.
 Add the assumption "Lawn size measured by you on a satellite map." to the water card.
 Done when: Marisol's lawn can be measured on the live URL, on a phone, in under 30 seconds.
+Status (Jenn, 12:12): built and pushed in caeed18. The "Measure it on a map" link shows under "I know the size" only when
+`NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_KEY` is set at build time (and `NEXT_PUBLIC_DEMO_MODE` isn't `fixtures`). Tested with a fake
+key: link shows, and a rejected key or no answer in 8 s shows "The map didn't load. Enter the size instead." Not yet tested
+with a real key (none in this session), so drawing and the area are unverified. Needs: the key in Vercel, then a redeploy,
+then one phone test. Not done: the "measured on a satellite map" assumption on the water card (needs a flag in Answers).
 
 ### B3. Data center line on the energy card
 Good fit: Jennifer · Size: M · Claimed: (open)
