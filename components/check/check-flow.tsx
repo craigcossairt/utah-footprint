@@ -53,6 +53,15 @@ const COPY = {
     show: "Show my footprint",
     progress: (n: number, t: number) => `Question ${n} of ${t}`,
     other: "En español",
+    need: [
+      "What you'll need (about 2 minutes)",
+      "Your ZIP code",
+      "How many people live in your home",
+      "About how much lawn you water (a rough guess is fine)",
+      "How far you drive to work or school, one way",
+      "How your home is heated: gas, electric or heat pump",
+      "Optional: your monthly kWh from your power bill",
+    ],
   },
   es: {
     yards: ["Sin césped", "Apartamento, condominio o un patio sin pasto", "Pequeño", "Unos 500 pies cuadrados, como una entrada para dos carros", "Mediano", "Unos 1,500 pies cuadrados", "Grande", "Unos 3,000 pies cuadrados o más"],
@@ -75,6 +84,15 @@ const COPY = {
     show: "Ver mi huella",
     progress: (n: number, t: number) => `Pregunta ${n} de ${t}`,
     other: "In English",
+    need: [
+      "Lo que necesitará (unos 2 minutos)",
+      "Su código postal",
+      "Cuántas personas viven en su hogar",
+      "Más o menos cuánto césped riega (un cálculo aproximado está bien)",
+      "Qué tan lejos maneja al trabajo o a la escuela, solo ida",
+      "Cómo se calienta su hogar: gas, eléctrica o bomba de calor",
+      "Opcional: sus kWh al mes, de su factura de luz",
+    ],
   },
 };
 
@@ -194,6 +212,19 @@ export function CheckFlow() {
           {c.other}
         </button>
       </div>
+
+      {step === 1 && (
+        <section aria-labelledby="need-title" className="mt-6 border-l-4 border-line pl-3 text-sm">
+          <h2 id="need-title" className="font-semibold">
+            {c.need[0]}
+          </h2>
+          <ol className="mt-1 list-decimal space-y-0.5 pl-5 text-muted">
+            {c.need.slice(1).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ol>
+        </section>
+      )}
 
       <div className="mt-8 min-h-80">
         {step === 1 && (
