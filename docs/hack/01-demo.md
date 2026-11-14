@@ -17,21 +17,20 @@ Assumes live, 3 minutes. Presenters: Jenn and Jennifer (Britney and Craig are no
 3. **Proof it can be trusted:** she asks a question; Gemini answers from our sources and shows which ones. `/sources` lists every number and assumption.
 
 ## Script (2:00, then questions). Presenters: Jenn and Jennifer
-Assumes 2 minutes plus questions (format still to confirm with a host). Deck: 8 slides shown (slide 8 "Why you can trust it" is hidden; un-hide it if there are 3 minutes). Slide notes hold each line.
+Assumes 2 minutes plus questions (format still to confirm with a host). Deck: 9 slides shown (slide 9 "Why you can trust it" is hidden; un-hide it if there are 3 minutes). QR code on the first and last slides. Slide notes hold each line.
 Goal line, at the open and the close: **"Most Utahns can't see their environmental impact, so they can't reduce it. We make it visible, then show you how you can actually make a difference."**
 
-| Time | Slide / route | Who | Say |
+| Time | Slide / app screen | Who | Do · Say |
 |---|---|---|---|
-| 0:00–0:12 | 1 Cover | Jenn | The goal line. "We're team Ctrl + Alt + Conserve. I'm Jenn, this is Jennifer, and with Craig and Britney we built EcoSwitch today." |
-| 0:12–0:24 | 2 Problem | Jenn | "The Great Salt Lake is below its healthy range today. The facts are spread across a dozen agency sites, so a family can't tell which habits matter." |
-| 0:24–0:38 | 3 How it works | Jennifer | "Marisol in Rose Park answers six questions on her phone, in English or Spanish, no account: lawn, commute, car, heat." |
-| 0:38–0:58 | 4 Water | Jenn | "I built water. Her lawn costs about $160 a year to water; a smart controller saves $89, with a $100 rebate. 91% of yard water never flows back to the rivers, so yards are the part households control." |
-| 0:58–1:14 | 5 Energy | Jennifer | "I built energy. About 60% of her 20,400 lbs of CO2 is her power bill: Utah's grid put out 1,322 lbs of CO2 per MWh in 2024. Insulation saves about $220 a year." |
-| 1:14–1:30 | 6 Air | Jenn | "Britney built driving. Her commute costs about $530 a year in gas; sharing it saves $270. An electric car counts at about a third of a gas car." |
-| 1:30–1:46 | 7 Ask | Jennifer | "She can ask. Gemini answers only from our 41 sourced facts and names them; no source, it says so. Our formulas do the math, not the model." |
-| 1:46–2:00 | 9 Close · QR | Jenn | "We're Ctrl + Alt + Conserve: Jenn, Jennifer, Craig and Britney." The goal line. "Scan it and try your own home." |
-
-**CHECK before saying "41 sourced facts" (1:30, slide 7):** on `main` at 12:47 the three `facts.ts` files hold 38 fact keys (water 14, energy 11, air 13). Say "38", or say "our sourced facts" with no number.
+| 0:00–0:12 | 1 Cover (QR code top right) | Jenn | Goal line. "We're team Ctrl + Alt + Conserve. I'm Jenn, this is Jennifer, and with Craig and Britney we built EcoSwitch today." |
+| 0:12–0:22 | 2 Problem · home page | Jenn | Point at "The Great Salt Lake is … feet below healthy." "The facts are spread across a dozen agency sites, so a family can't tell which habits matter." |
+| 0:22–0:34 | 3 How it works · `/check` | Jennifer | "Six questions on your phone, English or Spanish, no account: lawn, commute and car, heat." |
+| 0:34–0:52 | 4 Water · `/results` | Jenn | Under WATER in the top strip, click "Details and sources". "$160 a year to water an 1,800 sq ft lawn; a smart controller saves $89 with a $100 rebate; 91% of yard water never flows back to the rivers." |
+| 0:52–1:06 | 5 Energy · Energy card | Jennifer | Scroll to Energy. "About 60% of 20,400 lbs of CO2 is the power bill: Utah's plants are 8th highest per MWh. Insulation saves about $220 a year." |
+| 1:06–1:20 | 6 Air · Air card | Jenn | Scroll to Air. "A 6-mile commute costs about $530 a year in gas; sharing it saves $270. An electric car counts at about a third of a gas car." |
+| 1:20–1:34 | 7 Ask · "Ask about your numbers" | Jennifer | Scroll UP (it sits above the cards); tap "Does my lawn really affect the lake?" "Gemini answers only from our 41 sourced facts and names them. Our formulas do the math." |
+| 1:34–1:46 | 8 Track my progress · `/progress` | Jennifer | Bottom of results, "Track my progress"; tap "I started this" on carpool. "Mark a change you've started and it tracks the dollars, CO2 and gallons saved since. It stays in your browser." |
+| 1:46–2:00 | 10 Close (QR code) | Jenn | "We're Ctrl + Alt + Conserve: Jenn, Jennifer, Craig and Britney." Goal line. "Scan the code and try your own home." Then questions. |
 
 Numbers are the sample home (Marisol: 4 people, 1,800 sq ft lawn, 6-mile commute, gas heat) as shown on `/results` at 12:35.
 
