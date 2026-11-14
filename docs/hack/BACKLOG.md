@@ -75,7 +75,7 @@ renewable matching, but no kWh or MW. The NSA Utah Data Center's 65 MW comes onl
 filing or the operator. Rocky Mountain Power or Utah PSC filings would be the place to look after the event.
 
 ### B4. Submission form and project story
-Good fit: Jennifer · Size: M · Claimed: (open)
+Good fit: Jennifer · Size: M · Claimed: Craig's agent 12:43
 Touches: `docs/hack/SUBMISSION.md`
 Do: open "Submit Project" at https://www.mlh.com/events/hack-for-humanity-salt-lake-city, copy every field and its
 length limit into `SUBMISSION.md`, and draft each answer: goal, unique value, after-event plan, what we learned (from `LEARNED.md`).
