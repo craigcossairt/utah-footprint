@@ -59,7 +59,7 @@ Add the assumption "Lawn size measured by you on a satellite map." to the water 
 Done when: Marisol's lawn can be measured on the live URL, on a phone, in under 30 seconds.
 
 ### B2. Work out my commute miles from two addresses
-Good fit: Britney · Size: L · Claimed: (open)
+Good fit: Britney · Size: L · Claimed: Craig's agent 12:08
 Key: `GOOGLE_MAPS_SERVER_KEY`. Don't wait for it: build the fixtures path first; it goes live once the key is in Vercel.
 Touches: `app/api/distance/**`, `lib/maps-server.ts`, `components/check/commute-route.tsx`, `data/fixtures/routes.json`, the commute step of `components/check/check-flow.tsx`
 Do: on the commute question, add "Work it out from my addresses": home, and work or school. `POST /api/distance`
