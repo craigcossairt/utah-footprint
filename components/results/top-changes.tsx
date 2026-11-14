@@ -1,7 +1,9 @@
 import { SourceLink } from "@/components/ui/area-card";
 import type { RankedAction } from "@/lib/results";
 import type { Lang } from "@/lib/gemini";
-import { t } from "@/lib/i18n";
+import { areaName, t, type Dict } from "@/lib/i18n";
+
+const SHOWN = 5;
 
 // Every area's actions in one list, biggest share of the home's own number first.
 export function TopChanges({ actions, lang = "en" }: { actions: RankedAction[]; lang?: Lang }) {
@@ -15,14 +17,37 @@ export function TopChanges({ actions, lang = "en" }: { actions: RankedAction[]; 
       {actions.length === 0 ? (
         <p className="mt-4">{d.topEmpty}</p>
       ) : (
-        <ol className="mt-4 divide-y divide-line border-y border-line">
-          {actions.map((a, i) => (
-            <li key={a.id} className="grid grid-cols-[2.5rem_1fr] gap-x-4 py-4 lg:grid-cols-[3rem_1fr_16rem] lg:gap-x-8">
+        <>
+          <ol className="mt-4 divide-y divide-line border-y border-line">
+            {actions.slice(0, SHOWN).map((a, i) => (
+              <Row key={a.id} a={a} i={i} d={d} lang={lang} />
+            ))}
+          </ol>
+          {actions.length > SHOWN ? (
+            <details className="mt-3">
+              <summary className="cursor-pointer font-semibold">{d.moreChanges(actions.length - SHOWN)}</summary>
+              <ol start={SHOWN + 1} className="mt-2 divide-y divide-line border-y border-line">
+                {actions.slice(SHOWN).map((a, i) => (
+                  <Row key={a.id} a={a} i={i + SHOWN} d={d} lang={lang} />
+                ))}
+              </ol>
+            </details>
+          ) : null}
+        </>
+      )}
+    </section>
+  );
+}
+
+function Row({ a, i, d, lang }: { a: RankedAction; i: number; d: Dict; lang: Lang }) {
+  return (
+
+            <li className="grid grid-cols-[2.5rem_1fr] gap-x-4 py-4 lg:grid-cols-[3rem_1fr_16rem] lg:gap-x-8">
               <span className="num text-3xl font-extrabold text-muted" aria-hidden>
                 {i + 1}
               </span>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-wide text-muted">{a.areaLabel}</p>
+                <p className="text-sm font-semibold uppercase tracking-wide text-muted">{areaName(lang, a.areaId, a.areaLabel)}</p>
                 <p className="text-lg font-semibold">{a.title}</p>
                 <p className="text-sm">
                   {d.saves} <span className="num font-semibold">{a.saves.toLocaleString("en-US")}</span> {a.unit}.{" "}
@@ -40,9 +65,5 @@ export function TopChanges({ actions, lang = "en" }: { actions: RankedAction[]; 
                 </div>
               </div>
             </li>
-          ))}
-        </ol>
-      )}
-    </section>
   );
 }
