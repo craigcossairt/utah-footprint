@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ErrorNote, StepProgress } from "@/components/ui/feedback";
 import { STORAGE_KEY, toQuery } from "@/lib/answers";
-import type { Answers, Lang } from "@/lib/contract";
+import { VEHICLES, type Answers, type Lang, type Vehicle } from "@/lib/contract";
 
 type Draft = {
   zip: string;
@@ -15,6 +15,7 @@ type Draft = {
   yardCustom: string;
   drives: boolean;
   commuteMiles: number;
+  vehicle: Vehicle;
   heating: Answers["heating"] | "";
   kwh: string;
 };
@@ -26,6 +27,7 @@ const START: Draft = {
   yardCustom: "",
   drives: true,
   commuteMiles: 10,
+  vehicle: "gas",
   heating: "",
   kwh: "",
 };
@@ -45,6 +47,8 @@ const COPY = {
     q2: ["How many people live in your home?", "Count everyone, including children.", "One fewer person", "One more person"],
     q3: ["How much lawn do you water?", "Only the grass. A rough guess is fine.", "Lawn size in square feet"],
     q4: ["How far do you drive to work or school?", "One way, on a normal weekday.", "miles one way", "Miles one way", "I don't drive to work or school"],
+    car: "What does the car run on?",
+    cars: { gas: "Gasoline", hybrid: "Hybrid (no plug)", plugin: "Plug-in hybrid", electric: "Electric", diesel: "Diesel", "natural-gas": "Natural gas", hydrogen: "Hydrogen fuel cell" },
     q5: ["How is your home heated?", "If you have a furnace and a gas bill, pick natural gas."],
     q6: ["How much electricity do you use in a month?", "It is on your power bill, in kWh. If you don't know, leave it empty and we will use the Utah average and say so.", "Kilowatt-hours per month", "kWh per month"],
     back: "Back",
@@ -53,6 +57,15 @@ const COPY = {
     show: "Show my footprint",
     progress: (n: number, t: number) => `Question ${n} of ${t}`,
     other: "En español",
+    need: [
+      "What you'll need (about 2 minutes)",
+      "Your ZIP code",
+      "How many people live in your home",
+      "About how much lawn you water (a rough guess is fine)",
+      "How far you drive to work or school, one way",
+      "How your home is heated: gas, electric or heat pump",
+      "Optional: your monthly kWh from your power bill",
+    ],
   },
   es: {
     yards: ["Sin césped", "Apartamento, condominio o un patio sin pasto", "Pequeño", "Unos 500 pies cuadrados, como una entrada para dos carros", "Mediano", "Unos 1,500 pies cuadrados", "Grande", "Unos 3,000 pies cuadrados o más"],
@@ -67,6 +80,8 @@ const COPY = {
     q2: ["¿Cuántas personas viven en su hogar?", "Cuente a todos, también a los niños.", "Una persona menos", "Una persona más"],
     q3: ["¿Cuánto césped riega?", "Solo el pasto. Un cálculo aproximado está bien.", "Tamaño del césped en pies cuadrados"],
     q4: ["¿Qué tan lejos maneja al trabajo o a la escuela?", "Solo ida, en un día normal entre semana.", "millas de ida", "Millas de ida", "No manejo al trabajo ni a la escuela"],
+    car: "¿Con qué funciona el carro?",
+    cars: { gas: "Gasolina", hybrid: "Híbrido (sin enchufe)", plugin: "Híbrido enchufable", electric: "Eléctrico", diesel: "Diésel", "natural-gas": "Gas natural", hydrogen: "Celda de hidrógeno" },
     q5: ["¿Cómo se calienta su hogar?", "Si tiene calentador y factura de gas, elija gas natural."],
     q6: ["¿Cuánta electricidad usa al mes?", "Está en su factura de luz, en kWh. Si no lo sabe, déjelo vacío y usaremos el promedio de Utah, y lo diremos.", "Kilovatios-hora al mes", "kWh al mes"],
     back: "Atrás",
@@ -75,6 +90,15 @@ const COPY = {
     show: "Ver mi huella",
     progress: (n: number, t: number) => `Pregunta ${n} de ${t}`,
     other: "In English",
+    need: [
+      "Lo que necesitará (unos 2 minutos)",
+      "Su código postal",
+      "Cuántas personas viven en su hogar",
+      "Más o menos cuánto césped riega (un cálculo aproximado está bien)",
+      "Qué tan lejos maneja al trabajo o a la escuela, solo ida",
+      "Cómo se calienta su hogar: gas, eléctrica o bomba de calor",
+      "Opcional: sus kWh al mes, de su factura de luz",
+    ],
   },
 };
 
@@ -159,6 +183,7 @@ export function CheckFlow() {
       household: d.household,
       yardSqFt,
       commuteMiles: d.drives ? d.commuteMiles : 0,
+      ...(d.drives && d.vehicle !== "gas" ? { vehicle: d.vehicle } : {}),
       heating: d.heating || "gas",
       ...(d.kwh ? { monthlyKwh: Math.round(Number(d.kwh)) } : {}),
     };
@@ -195,7 +220,21 @@ export function CheckFlow() {
         </button>
       </div>
 
-      <div className="mt-8 min-h-80">
+      {step === 1 && (
+        <section aria-labelledby="need-title" className="mt-4 border-l-4 border-line pl-3 text-sm">
+          <h2 id="need-title" className="font-semibold">
+            {c.need[0]}
+          </h2>
+          <ol className="mt-1 list-decimal pl-5 text-muted">
+            {c.need.slice(1).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ol>
+        </section>
+      )}
+
+      {/* Question 1 carries the "What you'll need" list, so it gets less reserved space to keep Next on a phone screen. */}
+      <div className={step === 1 ? "mt-6 min-h-40" : "mt-8 min-h-80"}>
         {step === 1 && (
           <Question ref={heading} title={c.q1[0]} help={c.q1[1]}>
             <label htmlFor="zip" className="sr-only">
@@ -278,6 +317,22 @@ export function CheckFlow() {
                 onChange={(e) => set({ commuteMiles: Number(e.target.value) })}
                 className="mt-4 h-10 w-full accent-accent"
               />
+              <label htmlFor="car" className="mt-4 block font-semibold">
+                {c.car}
+              </label>
+              <select
+                id="car"
+                value={d.vehicle}
+                disabled={!d.drives}
+                onChange={(e) => set({ vehicle: e.target.value as Vehicle })}
+                className="mt-1 block min-h-12 w-full rounded-control border-2 border-ink bg-surface px-3 py-2 text-base"
+              >
+                {VEHICLES.map((v) => (
+                  <option key={v} value={v}>
+                    {c.cars[v]}
+                  </option>
+                ))}
+              </select>
             </div>
             <label className="mt-4 flex min-h-12 items-center gap-3">
               <input

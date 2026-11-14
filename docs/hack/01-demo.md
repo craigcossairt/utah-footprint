@@ -26,6 +26,11 @@ Assumes live, 3 minutes. Presenter: Britney. Each teammate says one line about t
 | 2:20–2:45 | `/sources` | Scroll | "Every number, its source, and what is an estimate." |
 | 2:45–3:00 | `/` | Show the QR code | "Four of us built this today, three of us with a coding agent for the first time. Scan it and try your own." |
 
+**If the map lanes ship (optional, cut first):** at 0:20–0:50, on the lawn question tap "Measure it on a map", trace Marisol's
+lawn, and use the number; on the commute question, type her two addresses. Say: "She doesn't have to guess her lawn or her
+miles. She traces the grass on the satellite map, and Google Maps measures her drive. The addresses aren't kept." Keep it
+under 30 seconds or skip it; use a pre-picked address so the map loads on her block.
+
 ## Judge taps
 - `https://utah-footprint.vercel.app/`, `https://utah-footprint.vercel.app/results?sample=marisol`, `https://utah-footprint.vercel.app/sources`
 
