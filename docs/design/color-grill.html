@@ -1,122 +1,265 @@
-<title>Footprint Color Grill</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Footprint Look Grill, round 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800;900&family=Overpass+Mono:wght@400;600&family=Atkinson+Hyperlegible+Next:wght@400;600&family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&display=swap" rel="stylesheet">
 <style>
-/* Prototype only. Base tokens from app/globals.css, plus candidate area colors. Single light look by choice, like the product. */
-:root{color-scheme:light;--bg:#f4eedf;--surface:#fbf7ec;--ink:#2b2118;--muted:#65574a;--line:#d6cab2;--accent:#a8432a;--accent-ink:#fffaf0;--lake:#3f6679;--sage:#55693f;--amber:#9a6a12;--lake-deep:#24485a;--lake-pale:#dbe5e6;--sage-pale:#e1e5d3;--amber-pale:#efe0bf;--brown:#4a3424}
+/* Prototype only: round 3 of the look grill. Screen: "/" Today in Utah. Every class is prefixed by its variant (a-, b-, c-, d-). */
 *{box-sizing:border-box}
-body{margin:0;background:#ddd5c3;color:var(--ink);font-family:"Public Sans",system-ui,sans-serif;line-height:1.5}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
-.ctl{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ink);color:var(--bg);padding:8px max(12px,env(safe-area-inset-left,0px));display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:14px}
-.ctl b{font-family:Archivo}
-.ctl button{font:inherit;background:transparent;color:var(--bg);border:1px solid #6b5d4f;border-radius:4px;padding:4px 8px;cursor:pointer}
-.ctl button[aria-pressed=true]{background:var(--bg);color:var(--ink)}
-.belief{background:var(--surface);border-bottom:1px solid var(--line);padding:8px 12px;font-size:14px}
-.stage{padding:16px;overflow:hidden}
-.frame{background:var(--bg);box-shadow:0 0 0 1px var(--line);transform-origin:top left}
-.w390{width:390px;font-size:17px}.w1440{width:1440px;font-size:20px}
-.hdr{display:flex;justify-content:space-between;align-items:center;padding:.6em 1em;border-bottom:1px solid var(--line);font-family:Archivo;font-weight:800}
-.hdr small{font-family:"Public Sans";font-weight:400;font-size:.8em;text-decoration:underline}
-.main{padding:1.4em 1em;max-width:64em;margin:0 auto}
-.w1440 .main{padding:2.2em 2em}
-.eb{font-size:.8em;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0}
-.h1{font-family:Archivo;font-weight:800;font-size:1.9em;line-height:1.1;margin:.2em 0 .4em}
-.w1440 .h1{font-size:2.8em}
-.num{font-family:Archivo;font-weight:800;font-variant-numeric:tabular-nums}
-.big{font-size:2.7em;line-height:1}
-.w1440 .big{font-size:3.3em}
-.sm{font-size:.82em}.mu{color:var(--muted)}
-.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);border-radius:6px;padding:.6em 1em;font-family:Archivo;font-weight:600}
-.hero{display:grid;gap:1.5em}
-.w1440 .hero{grid-template-columns:1.2fr 1fr;gap:3em}
-.gauge{display:flex;gap:1em;align-items:stretch;margin-top:1em}
-.gcol{width:4em;height:12em;border:2px solid var(--ink);border-radius:6px;position:relative;overflow:hidden;background:var(--surface)}
-.gcol .ok{position:absolute;left:0;right:0;top:12%;height:30%;background:var(--sage-pale);border-top:2px dashed var(--sage);border-bottom:2px dashed var(--sage)}
-.gcol .lv{position:absolute;left:0;right:0;bottom:0;height:20%;background:var(--lake)}
-.board{display:grid;border-top:4px solid var(--ink);margin-top:1.4em}
-.w1440 .board{grid-template-columns:repeat(3,1fr)}
-.cell{padding:1em 0;border-bottom:1px solid var(--line)}
-.w1440 .cell{border-bottom:0;padding:1.2em 1.6em 1.2em 0}
-.w1440 .cell+.cell{border-left:1px solid var(--line);padding-left:1.6em}
-.bars{display:grid;grid-template-columns:5em 1fr;gap:.3em .6em;align-items:center;font-size:.8em;margin-top:.8em}
-.bars i{display:block;height:.6em;border-radius:2px}
-.lbl{font-size:.8em;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
-/* --- V1 area colors --- */
-.v1 .cell .lbl::before{content:"";display:inline-block;width:.7em;height:.7em;border-radius:2px;margin-right:.4em;background:var(--c)}
-.v1 .cell .yo{background:var(--c)}
-.v1 .cell{border-top:4px solid var(--c);margin-top:-4px}
-/* --- V2 wayside sign --- */
-.v2 .hdr{background:var(--brown);color:var(--bg);border:0}
-.v2 .hero-panel{background:var(--brown);color:var(--bg);border-radius:10px;padding:1.2em}
-.v2 .hero-panel .mu{color:#d9cbb2}
-.v2 .hero-panel .h1 span{color:#f0b49e}
-.v2 .board{border-top:0;gap:1em}
-.v2 .cell{background:var(--surface);border:2px solid var(--brown);border-radius:10px;padding:1em 1.2em;border-left:10px solid var(--c)}
-.v2 .w1440 .cell+.cell,.w1440.v2 .cell+.cell{border-left:10px solid var(--c);padding-left:1.2em}
-.v2 .cell .yo{background:var(--brown)}
-/* --- V3 lake band --- */
-.v3 .band{background:var(--lake-deep);color:var(--bg);margin:-1.4em -1em 1.4em;padding:1.6em 1em;background-image:repeating-linear-gradient(180deg,transparent 0 1.2em,rgba(255,255,255,.06) 1.2em 1.3em)}
-.w1440.v3 .band{margin:-2.2em -2em 2em;padding:2.4em 2em}
-.v3 .band .mu,.v3 .band .eb{color:#bcd0d6}
-.v3 .band .h1 span{color:#ffd9a8}
-.v3 .gcol{border-color:var(--bg)}
-.v3 .cell .num.big{color:var(--c)}
-.v3 .cell .yo{background:var(--c)}
-/* --- V4 topo --- */
-.v4 .frame-bg{background-color:var(--bg);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='240' viewBox='0 0 360 240'%3E%3Cg fill='none' stroke='%23c9bb9d' stroke-width='1.2' opacity='.7'%3E%3Cpath d='M-20 60 C 60 20, 140 100, 220 60 S 340 20, 380 70'/%3E%3Cpath d='M-20 90 C 60 50, 140 130, 220 90 S 340 50, 380 100'/%3E%3Cpath d='M-20 120 C 70 85, 150 160, 230 120 S 340 85, 380 130'/%3E%3Cpath d='M-20 155 C 70 120, 150 195, 230 155 S 340 120, 380 165'/%3E%3Cpath d='M-20 190 C 80 160, 160 230, 240 190 S 340 160, 380 200'/%3E%3Cellipse cx='300' cy='40' rx='30' ry='14'/%3E%3Cellipse cx='300' cy='40' rx='50' ry='26'/%3E%3C/g%3E%3C/svg%3E")}
-.v4 .cell .num.big{color:var(--c)}
-.v4 .cell .yo{background:var(--c)}
-.v4 .cell{background:rgba(244,238,223,.85)}
-/* --- V5 candy blocks --- */
-.v5 .cell{background:var(--c);color:#fffaf0;border-radius:10px;padding:1em 1.2em;border:0}
-.v5 .board{border-top:0;gap:1em}
-.w1440.v5 .cell+.cell{border-left:0;padding-left:1.2em}
-.v5 .cell .mu,.v5 .cell .lbl{color:#f3ead8}
-.v5 .cell .yo{background:#fffaf0}
-.v5 .cell .ty{background:rgba(255,255,255,.35)!important}
-.v5 .hero-panel{background:var(--accent);color:var(--accent-ink);border-radius:10px;padding:1.2em}
-.v5 .hero-panel .mu{color:#f6dccf}
+html{font-size:17px}
+body{margin:0;background:#2a2d2c;color:#eee;font-family:system-ui,sans-serif;line-height:1.5}
+.ctl{position:sticky;top:0;z-index:9;background:#111;padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font-size:13px}
+.ctl span{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.ctl button{font:inherit;background:transparent;color:#eee;border:1px solid #666;border-radius:4px;padding:4px 9px;cursor:pointer}
+.ctl button[aria-pressed=true]{background:#eee;color:#111}
+.belief{background:#1b1d1c;border-bottom:1px solid #444;padding:8px 12px;font-size:13px;margin:0}
+.stage{padding:16px}
+.frame{container-type:inline-size;margin:0 auto;overflow:hidden;transform-origin:top left}
+.frame a{color:inherit}
+.sk{display:inline-block;height:.8em;border-radius:3px;background:currentColor;opacity:.16;vertical-align:baseline}
+@media (prefers-reduced-motion:no-preference){.sk{animation:skp 1.2s ease-in-out infinite alternate}}
+@keyframes skp{to{opacity:.07}}
+
+/* ---------- A: Instrument ---------- */
+.va{--bg:#0e1413;--ink:#eef1ec;--muted:#9aa6a0;--line:#2b3532;--accent:#ff5c93;--lake:#58b6c9;--sage:#9cc27a;
+  background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible Next",system-ui,sans-serif;min-height:var(--h);display:flex;flex-direction:column}
+.a-top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.8rem 1rem;border-bottom:1px solid var(--line);font-family:"Overpass Mono",monospace;font-size:.75rem;color:var(--muted)}
+.a-top b{font-family:Overpass;font-weight:800;font-size:1rem;color:var(--ink)}
+.a-meta{display:none}
+.a-main{padding:1.5rem 1rem 2rem;display:flex;flex-direction:column;gap:2rem;flex:1}
+.a-lab{font-family:"Overpass Mono",monospace;font-size:.75rem;color:var(--muted);margin:0}
+.a-big{font-family:Overpass;font-weight:900;font-size:clamp(5rem,27cqw,15rem);line-height:.85;letter-spacing:-.04em;margin:.4rem 0 0;color:var(--accent);font-variant-numeric:tabular-nums}
+.a-big small{font-size:.28em;letter-spacing:0;margin-left:.15em;color:var(--ink)}
+.a-sent{font-family:Overpass;font-weight:600;font-size:1.25rem;line-height:1.2;margin:1rem 0 0;max-width:24em}
+.a-warn{color:#ffc061;font-size:.875rem;margin:.6rem 0 0}
+.a-ruler{position:relative;height:5.2rem;margin-top:.5rem}
+.a-bar{position:absolute;inset:1.6rem 0 1.6rem;border-block:1px solid var(--muted);background:repeating-linear-gradient(90deg,var(--muted) 0 1px,transparent 1px 5%)}
+.a-band{position:absolute;top:1.6rem;bottom:1.6rem;background:color-mix(in srgb,var(--sage) 35%,transparent);border-inline:2px solid var(--sage)}
+.a-gap{position:absolute;top:calc(50% - 1px);height:2px;background:var(--accent)}
+.a-mark{position:absolute;top:1rem;bottom:1rem;width:3px;background:var(--lake)}
+.a-rl{position:absolute;font-family:"Overpass Mono",monospace;font-size:.7rem;white-space:nowrap}
+.a-row{display:grid;gap:2rem}
+.a-cell{border-top:1px solid var(--line);padding-top:1rem}
+.a-mid{font-family:Overpass;font-weight:800;font-size:3rem;line-height:1;margin:.3rem 0;font-variant-numeric:tabular-nums}
+.a-mid span{font-size:1.1rem;font-weight:600;margin-left:.4rem}
+.a-fine{font-size:.8rem;color:var(--muted);margin:.3rem 0 0}
+.a-cell h2{font-family:Overpass;font-weight:800;font-size:1.4rem;line-height:1.15;margin:0}
+.a-cell p.a-body{margin:.5rem 0 0;color:var(--muted)}
+.a-btn{display:inline-block;margin-top:1rem;background:var(--accent);color:#16090f!important;font-family:Overpass;font-weight:800;padding:.7rem 1.1rem;border-radius:3px;text-decoration:none}
+.a-link{display:inline-block;margin:1rem 0 0 1rem;font-size:.85rem}
+@container (min-width:1000px){
+  .a-top{padding:1rem 3rem}.a-meta{display:inline}
+  .a-main{padding:2.5rem 3rem;gap:2rem}
+  .a-head{display:grid;grid-template-columns:auto 1fr;gap:3rem;align-items:end}
+  .a-big{font-size:13rem}
+  .a-row{grid-template-columns:1fr 2fr;gap:3rem}
+  .a-cta{display:grid;grid-template-columns:1fr auto;gap:0 2rem;align-items:center}
+  .a-cta h2,.a-cta .a-body{grid-column:1}.a-cta .a-acts{grid-column:2;grid-row:1/3}
+}
+
+/* ---------- B: Waterline ---------- */
+.vb{--bg:#f5f6f3;--ink:#1c2422;--muted:#55615d;--accent:#b0305f;--lake:#1d5a6a;--sage:#4a6636;
+  background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible Next",system-ui,sans-serif;min-height:var(--h);display:flex;flex-direction:column}
+.b-top{display:flex;justify-content:space-between;align-items:baseline;padding:.8rem 1rem .8rem 4.2rem;font-size:.85rem}
+.b-top b{font-family:Overpass;font-weight:800;font-size:1.05rem}
+.b-air{position:relative;display:flex;flex-direction:column;flex:1}
+.b-scale{position:absolute;left:3.6rem;top:0;bottom:0;width:2px;background:var(--ink)}
+.b-tick{position:absolute;z-index:2;left:0;width:3.3rem;text-align:right;font-family:Overpass;font-weight:600;font-size:.72rem;font-variant-numeric:tabular-nums;transform:translateY(-50%);line-height:1.1}
+.b-band{flex:7 0 0;min-height:6rem;background:color-mix(in srgb,var(--sage) 16%,transparent);border-block:2px dashed var(--sage);padding:.6rem 1rem .6rem 4.2rem;color:var(--sage);font-size:.85rem;display:flex;flex-direction:column;justify-content:center}
+.b-band b{font-family:Overpass;font-weight:800;font-size:1rem}
+.b-gap{flex:7.6 0 auto;min-height:11rem;position:relative;padding:1rem 1rem 1rem 6.4rem;display:flex;flex-direction:column;justify-content:center}
+.b-dim{position:absolute;left:4.6rem;top:6px;bottom:6px;width:2px;background:var(--accent)}
+.b-dim::before,.b-dim::after{content:"";position:absolute;left:-5px;border:6px solid transparent}
+.b-dim::before{top:-6px;border-bottom-color:var(--accent);border-top-width:0}
+.b-dim::after{bottom:-6px;border-top-color:var(--accent);border-bottom-width:0}
+.b-h1{font-family:Overpass;font-weight:800;font-size:clamp(1.9rem,8.6cqw,4.2rem);line-height:1.02;letter-spacing:-.02em;margin:0;max-width:13em}
+.b-h1 em{font-style:normal;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+.b-fine{font-size:.8rem;color:var(--muted);margin:.6rem 0 0}
+.b-warn{font-size:.85rem;color:#8a4a00;margin:.6rem 0 0;font-weight:600}
+.b-water{background:var(--lake);color:#f5f6f3;padding:1rem 1rem 2rem 4.2rem;position:relative;display:grid;gap:1.5rem}
+.b-water::before{content:"";position:absolute;left:3.6rem;top:0;bottom:0;width:2px;background:#f5f6f3;opacity:.5}
+.b-today{font-family:Overpass;font-weight:800;font-size:.95rem;margin:0}
+.b-aq{font-family:Overpass;font-weight:800;font-size:2.6rem;line-height:1;margin:.2rem 0;font-variant-numeric:tabular-nums}
+.b-aq span{font-size:1.05rem;font-weight:600;margin-left:.4rem}
+.b-wfine{font-size:.8rem;opacity:.85;margin:.2rem 0 0}
+.b-water h2{font-family:Overpass;font-weight:800;font-size:1.35rem;line-height:1.15;margin:0}
+.b-water p.b-body{margin:.4rem 0 0}
+.b-btn{display:inline-block;margin-top:.9rem;background:#f5f6f3;color:var(--ink)!important;font-family:Overpass;font-weight:800;padding:.7rem 1.1rem;border-radius:3px;text-decoration:none;border-bottom:4px solid var(--accent)}
+.b-link{display:inline-block;margin:.9rem 0 0 1rem;font-size:.85rem}
+@container (min-width:1000px){
+  .b-top{padding:1rem 3rem 1rem 9rem}
+  .b-scale{left:8rem}.b-tick{width:7.5rem;font-size:.8rem}
+  .b-band{padding-left:9rem;min-height:7rem}
+  .b-gap{padding-left:12rem;min-height:15rem}.b-dim{left:9.6rem}
+  .b-water{padding:1.5rem 3rem 2.5rem 9rem;grid-template-columns:1fr 2fr;gap:3rem}
+  .b-water::before{left:8rem}
+  .b-today{grid-column:1/-1;margin-bottom:-1.5rem}
+}
+
+/* ---------- C: Front page ---------- */
+.vc{--bg:#fbfbf8;--ink:#141414;--muted:#5a5a55;--line:#141414;--accent:#b0305f;
+  background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible Next",system-ui,sans-serif;min-height:var(--h);padding:0 1rem 2rem}
+.c-top{display:flex;justify-content:space-between;align-items:baseline;padding:.8rem 0;border-bottom:3px double var(--line);font-size:.85rem}
+.c-top b{font-family:Newsreader,Georgia,serif;font-weight:700;font-size:1.4rem;letter-spacing:-.01em}
+.c-date{font-size:.8rem;color:var(--muted);margin:.7rem 0 0}
+.c-h1{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:clamp(2.5rem,12cqw,6.2rem);line-height:.98;letter-spacing:-.025em;margin:.6rem 0 0;max-width:11em;text-wrap:balance}
+.c-h1 em{font-style:italic;color:var(--accent);white-space:nowrap}
+.c-stand{font-family:Newsreader,Georgia,serif;font-size:1.2rem;line-height:1.35;margin:1rem 0 0;max-width:34em}
+.c-warn{font-size:.85rem;font-weight:600;margin:.8rem 0 0;border-left:3px solid var(--ink);padding-left:.6rem}
+.c-cols{display:grid;gap:1.5rem;margin-top:1.75rem}
+.c-col{border-top:1px solid var(--line);padding-top:.8rem}
+.c-kick{font-weight:600;font-size:.85rem;margin:0}
+.c-fig{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:3rem;line-height:1;margin:.2rem 0;font-variant-numeric:lining-nums tabular-nums}
+.c-fig span{font-size:1.15rem;font-style:italic;font-weight:400;margin-left:.4rem}
+.c-fine{font-size:.8rem;color:var(--muted);margin:.3rem 0 0}
+.c-col h2{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:1.6rem;line-height:1.1;margin:0}
+.c-col p.c-body{margin:.5rem 0 0}
+.c-btn{display:inline-block;margin-top:1rem;background:var(--ink);color:var(--bg)!important;font-weight:600;padding:.7rem 1.1rem;text-decoration:none}
+.c-link{display:inline-block;margin:1rem 0 0 1rem;font-size:.85rem}
+.c-spark{position:relative;height:.7rem;margin:.7rem 0 .2rem;border:1px solid var(--ink)}
+.c-spark i{position:absolute;top:0;bottom:0}
+@container (min-width:1000px){
+  .vc{padding:0 3rem 2.5rem}
+  .c-cols{grid-template-columns:1fr 1fr 1.6fr;gap:2.5rem;margin-top:2.5rem}
+  .c-h1{font-size:6.4rem}
+}
+
+/* ---------- D: Road sign ---------- */
+.vd{--bg:#22262a;--sign:#0f5c4c;--ink:#ffffff;--plate:#f6c21c;--plate-ink:#161616;
+  background:var(--bg);color:var(--ink);font-family:Overpass,system-ui,sans-serif;min-height:var(--h);padding:.75rem;display:flex;flex-direction:column;gap:.75rem}
+.d-sign{background:var(--sign);border-radius:1.4rem;padding:.4rem;flex:1;display:flex}
+.d-in{border:.28rem solid var(--ink);border-radius:1.1rem;padding:1.1rem 1.1rem 1.4rem;flex:1;display:flex;flex-direction:column;gap:1.2rem}
+.d-top{display:flex;justify-content:space-between;align-items:baseline;font-weight:800;text-transform:uppercase;font-size:.85rem}
+.d-h1{font-weight:800;text-transform:uppercase;font-size:clamp(1.6rem,7.4cqw,3.4rem);line-height:1;margin:0}
+.d-num{font-weight:900;font-size:clamp(5.5rem,30cqw,15rem);line-height:.8;letter-spacing:-.03em;margin:.1em 0 0;font-variant-numeric:tabular-nums}
+.d-num small{font-size:.26em;letter-spacing:0;margin-left:.1em}
+.d-sub{font-weight:800;text-transform:uppercase;font-size:clamp(1.4rem,6.4cqw,3rem);line-height:1;margin:.4rem 0 0}
+.d-rule{height:.28rem;background:var(--ink);border-radius:9px}
+.d-row{display:grid;gap:1.2rem}
+.d-aq{font-weight:800;text-transform:uppercase;font-size:1.05rem;line-height:1.2;margin:0}
+.d-aq b{font-weight:900;font-size:2.6rem;line-height:1;display:inline-block;background:var(--ink);color:#161616;border-radius:.5rem;padding:.1em .3em;margin-right:.5rem;vertical-align:middle;font-variant-numeric:tabular-nums}
+.d-plate{background:var(--plate);color:var(--plate-ink)!important;border-radius:.8rem;padding:.3rem;display:block;text-decoration:none}
+.d-plate span{display:flex;justify-content:space-between;align-items:center;gap:1rem;border:.2rem solid var(--plate-ink);border-radius:.55rem;padding:.8rem 1rem;font-weight:900;text-transform:uppercase;font-size:1.5rem;line-height:1}
+.d-note{font-family:"Atkinson Hyperlegible Next",system-ui,sans-serif;font-size:.95rem;margin:.6rem 0 0}
+.d-foot{font-family:"Atkinson Hyperlegible Next",system-ui,sans-serif;font-size:.8rem;color:#c9ced1;padding:0 .4rem;margin:0}
+.d-warn{background:#f08a1c;color:#161616;font-weight:800;text-transform:uppercase;border-radius:.5rem;padding:.4rem .7rem;font-size:.9rem;margin:0}
+@container (min-width:1000px){
+  .vd{padding:1.5rem 2.5rem}
+  .d-in{padding:1.75rem 2.5rem 2rem;gap:1.5rem}
+  .d-head{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:end}
+  .d-num{font-size:14rem;grid-column:2;grid-row:1/3;align-self:center}
+  .d-h1{font-size:4rem}.d-sub{font-size:4rem}
+  .d-row{grid-template-columns:1fr 1.2fr;gap:3rem;align-items:center}
+}
 </style>
-<div class="ctl" role="toolbar" aria-label="Prototype controls">
-  <span><b>Treatment</b> <span id="vb"></span></span>
-  <span><b>Width</b> <span id="wb"></span></span>
+
+<div class="ctl">
+  <span id="vp"></span><span id="sp"></span><span id="wp"></span>
 </div>
-<div class="belief" id="belief"></div>
-<div class="stage"><div id="frame" class="frame"></div></div>
+<p class="belief" id="belief"></p>
+<div class="stage"><div class="frame" id="frame"></div></div>
+
 <script>
-// Fixture: live readings and the sample home's numbers at 12:10 on 14 Nov 2026.
-const AREAS=[{l:"Water",n:"106,000",u:"gallons a year",w:90,t:100,cmp:"10% less than a typical Utah home (118,000)",c:"var(--lake)"},
- {l:"Energy",n:"20,400",u:"lbs CO2 a year",w:100,t:100,cmp:"About the same as a typical Utah home (20,400)",c:"var(--amber)"},
- {l:"Air",n:"3,970",u:"lbs of CO2 a year from the commute",w:43,t:100,cmp:"57% less than one Utah resident's driving (9,300)",c:"var(--sage)"}];
-const V={
- v1:["1. Area colors","Believes: color should mean something. Each area gets one muted color (water lake blue, energy amber, air sage) used for its stripe, swatch and bar. Page stays cream."],
- v2:["2. Wayside sign","Believes: the personality is the National Park Service sign. Dark brown header and hero panel, cream lettering, framed panels with an area-colored edge."],
- v3:["3. Lake band","Believes: the lake is the main character. A deep blue band carries today's level; the numbers below take their area color."],
- v4:["4. Topo","Believes: texture from a Utah topo map. Faint contour lines behind everything, area colors on the big numbers only."],
- v5:["5. Candy blocks","Pushes back: every area is a fully saturated block, hero in red rock. Here to find where color turns into noise."]};
-const W={"390":"Phone 390","1440":"Laptop 1440"};
-let cur={v:"v1",w:"1440"};
-try{Object.assign(cur,JSON.parse(localStorage.getItem("cgrill")||"{}"))}catch{}
-function page(){
- const hero=`<div class="hero"><div class="hero-panel"><p class="eb">Utah, today</p><h1 class="h1">The Great Salt Lake is <span class="num" style="color:var(--accent)">7.6 feet</span> below healthy.</h1>
-  <div class="gauge"><div class="gcol"><div class="ok"></div><div class="lv"></div></div><div class="sm"><p style="margin:.6em 0 0"><b>Healthy range</b><br>4,198 to 4,205 ft</p><p style="margin:3.2em 0 0"><b>Today</b><br>4,190.4 ft</p></div></div>
-  <p class="sm mu">Measured Nov 14, 9:45 AM MST. <u>USGS gauge</u></p></div>
-  <div><p class="eb" style="border-top:4px solid var(--ink);padding-top:.8em">Air in Salt Lake City</p><p style="margin:.2em 0"><span class="num big">57</span> <b>Moderate</b></p>
-  <h2 class="h1" style="font-size:1.3em;margin-top:1em;border-top:4px solid var(--ink);padding-top:.8em">What does your home have to do with it?</h2><p>Answer six questions. See your water, power and driving next to a typical Utah home.</p><span class="btn">Check my home →</span></div></div>`;
- const band = cur.v==="v3" ? `<div class="band">${hero}</div>` : hero;
- const board=`<p class="eb" style="margin-top:2.4em">Sample home</p><h2 class="h1">Marisol Vega, Rose Park</h2><div class="board">${AREAS.map(a=>`<div class="cell" style="--c:${a.c}"><p class="lbl" style="margin:0">${a.l}</p><p class="num big" style="margin:.1em 0 0">${a.n}</p><p class="mu sm" style="margin:0">${a.u}</p><div class="bars"><span>This home</span><i class="yo" style="width:${a.w}%;background:var(--ink)"></i><span class="mu">Typical</span><i class="ty" style="width:${a.t}%;background:var(--line)"></i></div><p class="sm" style="margin:.5em 0 0">${a.cmp}</p></div>`).join("")}</div>`;
- return `<div class="frame-bg"><div class="hdr">My Utah Footprint <small>Sources</small></div><div class="main">${band}${board}</div></div>`;
+// Inline fixture: the values in data/fixtures/today.json, with the copy from lib/i18n.ts.
+const FX = {
+  lake: { level: 4190.4, min: 4198, max: 4205 }, aqi: 57,
+  en: { h: ["The Great Salt Lake is ", " below healthy."], feet: g => g + " feet", ft: "ft", below: "Below healthy range",
+    measured: "Measured 9:45 AM.", gauge: "USGS gauge", healthy: "Healthy range", range: "4,198 to 4,205 ft", today: "Today",
+    airT: "Air in Salt Lake City", aqiW: "Moderate", airN: "Air quality index, estimated 10:00 AM.", aqiS: "What the index means",
+    sT: "What does your home have to do with it?",
+    sB: "Answer six questions. See your water, power and driving numbers next to a typical Utah home, and the changes that would matter most.",
+    sN: "Two minutes. No account. Your answers stay on this device.", check: "Check my home", sample: "See a sample home first",
+    src: "Sources", date: "Salt Lake City, Saturday, November 14, 2026",
+    none: "No lake reading yet today.", noneB: "The USGS gauge has not reported. The air reading and the home check still work.",
+    stale: "Could not reach the USGS gauge. Showing the reading from 9:45 AM." },
+  es: { h: ["El Gran Lago Salado está ", " por debajo de su nivel saludable."], feet: g => g + " pies", ft: "pies", below: "Por debajo del nivel saludable",
+    measured: "Medido el 14 de noviembre a las 9:45 a. m.", gauge: "Medidor del USGS", healthy: "Nivel saludable", range: "4,198 a 4,205 pies", today: "Hoy",
+    airT: "Aire en Salt Lake City", aqiW: "Dañina para grupos sensibles", airN: "Índice de calidad del aire, estimado el 14 de noviembre a las 10:00 a. m.", aqiS: "Qué significa el índice",
+    sT: "¿Qué tiene que ver su hogar con esto?",
+    sB: "Responda seis preguntas. Vea sus números de agua, energía y manejo junto a los de un hogar típico de Utah, y los cambios que más importarían.",
+    sN: "Dos minutos. Sin cuenta. Sus respuestas se quedan en este dispositivo.", check: "Revisar mi hogar", sample: "Ver primero un hogar de ejemplo",
+    src: "Fuentes", date: "Salt Lake City, sábado 14 de noviembre de 2026" }
+};
+const sk = w => `<span class="sk" style="width:${w}"></span>`;
+function ctx(state) {
+  const long = state === "long", t = { ...FX.en, ...(long ? FX.es : {}) };
+  const { level, min, max } = FX.lake, gap = (min - level).toFixed(1);
+  const lo = 4186, hi = 4206, pct = ft => ((ft - lo) / (hi - lo)) * 100;
+  return { t, gap, level: level.toLocaleString("en-US"), aqi: long ? 154 : FX.aqi, pct, lake: FX.lake,
+    loading: state === "loading", empty: state === "empty", stale: state === "error" };
 }
-function btn(id,o,k,f){document.getElementById(id).innerHTML=Object.keys(o).map(x=>`<button data-k="${k}" data-v="${x}" aria-pressed="${cur[k]===x}">${f?f(o[x]):o[x]}</button>`).join(" ")}
-function draw(){
- btn("vb",V,"v",x=>x[0].split(". ")[0]);btn("wb",W,"w");
- document.getElementById("belief").textContent=V[cur.v][0]+": "+V[cur.v][1];
- const f=document.getElementById("frame");f.className=`frame w${cur.w} ${cur.v}`;f.innerHTML=page();
- // inline style vars on .yo override per-variant, so clear them where the variant colors bars
- if(cur.v!=="v2") f.querySelectorAll(".yo").forEach(e=>e.style.background="");
- const k=Math.min(1,(document.querySelector(".stage").clientWidth-32)/+cur.w);
- f.style.transform=`scale(${k})`;f.parentElement.style.height=(f.offsetHeight*k+32)+"px";
- try{localStorage.setItem("cgrill",JSON.stringify(cur))}catch{}
+
+const V = {
+  a: { name: "A Instrument", belief: "A believes the reading is the product: a dark gauge readout where the number is first and the sentence is second, and the ruler is drawn to scale.",
+    render(c) { const t = c.t, p = c.pct, L = c.lake;
+      const head = c.loading ? `<p class="a-lab">${sk("11em")}</p><p class="a-big">${sk("2.2em")}</p>`
+        : c.empty ? `<p class="a-lab">${t.gauge}</p><p class="a-big" style="color:var(--muted)">--.-<small>${t.ft}</small></p>`
+        : `<p class="a-lab">${t.below}</p><p class="a-big">−${c.gap}<small>${t.ft}</small></p>`;
+      const sent = c.loading ? `<h1 class="a-sent">${sk("16em")}</h1>` : c.empty ? `<h1 class="a-sent">${t.none}</h1><p class="a-fine">${t.noneB}</p>`
+        : `<h1 class="a-sent">${t.h[0]}${t.feet(c.gap)}${t.h[1]}</h1>${c.stale ? `<p class="a-warn">▲ ${t.stale}</p>` : `<p class="a-fine">${t.measured} <a href="#">${t.gauge}</a> · <a href="#">${t.healthy}</a></p>`}`;
+      const mark = c.loading || c.empty ? "" : `<div class="a-gap" style="left:${p(L.level)}%;width:${p(L.min) - p(L.level)}%"></div><div class="a-mark" style="left:${p(L.level)}%"></div><span class="a-rl" style="left:${p(L.level)}%;bottom:0;color:var(--lake);transform:translateX(-30%)">${t.today} ${c.level}</span>`;
+      return `<div class="va"><header class="a-top"><b>EcoSwitch</b><span class="a-meta">${t.date}</span><a href="#">${t.src}</a></header><main class="a-main">
+        <div class="a-head"><div>${head}</div><div>${sent}</div></div>
+        <div class="a-ruler" role="img" aria-label="${t.today} ${c.level}, ${t.healthy} ${t.range}"><div class="a-bar"></div><div class="a-band" style="left:${p(L.min)}%;width:${p(L.max) - p(L.min)}%"></div>${mark}<span class="a-rl" style="right:${100 - p(L.max)}%;top:0;color:var(--sage)">${t.healthy} ${t.range}</span></div>
+        <div class="a-row"><section class="a-cell"><p class="a-lab">${t.airT}</p><p class="a-mid">${c.loading ? sk("1.4em") : c.aqi}<span>${c.loading ? sk("5em") : t.aqiW}</span></p><p class="a-fine">${t.airN} <a href="#">Open-Meteo</a></p></section>
+        <section class="a-cell a-cta"><h2>${t.sT}</h2><p class="a-body">${t.sB}</p><div class="a-acts"><a class="a-btn" href="#">${t.check} →</a><a class="a-link" href="#">${t.sample}</a></div></section></div></main></div>`; } },
+
+  b: { name: "B Waterline", belief: "B believes the gap is the picture: the screen is the gauge, the healthy band and the gap are drawn to scale, and the page ends under water. Keeps today's palette and type.",
+    render(c) { const t = c.t;
+      const h1 = c.loading ? `<h1 class="b-h1">${sk("9em")}<br>${sk("6em")}</h1>` : c.empty ? `<h1 class="b-h1">${t.none}</h1><p class="b-fine">${t.noneB}</p>`
+        : `<h1 class="b-h1">${t.h[0]}<em>${t.feet(c.gap)}</em>${t.h[1]}</h1>${c.stale ? `<p class="b-warn">▲ ${t.stale}</p>` : `<p class="b-fine">${t.measured} <a href="#">${t.gauge}</a></p>`}`;
+      const known = !c.loading && !c.empty;
+      return `<div class="vb"><header class="b-top"><b>EcoSwitch</b><a href="#">${t.src}</a></header><div class="b-air"><div class="b-scale"></div>
+        <span class="b-tick" style="top:0">4,205</span>
+        <div class="b-band"><b>${t.healthy}</b><span>${t.range} · <a href="#">${t.src}</a></span></div>
+        <div class="b-gap"><span class="b-tick" style="top:0">4,198</span>${known ? `<div class="b-dim"></div>` : ""}${h1}</div>
+        <span class="b-tick" style="top:100%;transform:translateY(-110%);color:var(--lake)">${known ? c.level : "?"}</span></div>
+        <div class="b-water"><p class="b-today">${known ? `${t.today}: ${c.level} ${t.ft}` : c.loading ? sk("9em") : t.gauge}</p>
+        <section><p class="b-wfine" style="font-weight:600">${t.airT}</p><p class="b-aq">${c.loading ? sk("1.4em") : c.aqi}<span>${c.loading ? sk("5em") : t.aqiW}</span></p><p class="b-wfine">${t.airN} <a href="#">Open-Meteo</a></p></section>
+        <section><h2>${t.sT}</h2><p class="b-body">${t.sB}</p><a class="b-btn" href="#">${t.check} →</a><a class="b-link" href="#">${t.sample}</a></section></div></div>`; } },
+
+  c: { name: "C Front page", belief: "C believes it is news: a serif headline and a standfirst carry everything, with black ink, one pink figure and almost no graphics.",
+    render(c) { const t = c.t, p = c.pct, L = c.lake;
+      const h1 = c.loading ? `<h1 class="c-h1">${sk("8em")}<br>${sk("5em")}</h1>` : c.empty ? `<h1 class="c-h1">${t.none}</h1><p class="c-stand">${t.noneB}</p>`
+        : `<h1 class="c-h1">${t.h[0]}<em>${t.feet(c.gap)}</em>${t.h[1]}</h1>${c.stale ? `<p class="c-warn">▲ ${t.stale}</p>` : ""}`;
+      const known = !c.loading && !c.empty;
+      return `<div class="vc"><header class="c-top"><b>EcoSwitch</b><a href="#">${t.src}</a></header><p class="c-date">${t.date}</p>${h1}
+        <div class="c-cols"><section class="c-col"><p class="c-kick">${t.today}</p><p class="c-fig">${known ? c.level : c.loading ? sk("3em") : "?"}<span>${t.ft}</span></p>
+        <div class="c-spark" role="img" aria-label="${t.healthy} ${t.range}"><i style="left:${p(L.min)}%;width:${p(L.max) - p(L.min)}%;background:repeating-linear-gradient(135deg,var(--ink) 0 1px,transparent 1px 5px)"></i>${known ? `<i style="left:${p(L.level)}%;width:3px;background:var(--accent);top:-5px;bottom:-5px"></i>` : ""}</div>
+        <p class="c-fine">${t.healthy}: ${t.range}. ${t.measured} <a href="#">${t.gauge}</a></p></section>
+        <section class="c-col"><p class="c-kick">${t.airT}</p><p class="c-fig">${c.loading ? sk("1.4em") : c.aqi}<span>${c.loading ? sk("5em") : t.aqiW}</span></p><p class="c-fine">${t.airN} <a href="#">Open-Meteo</a></p></section>
+        <section class="c-col"><h2>${t.sT}</h2><p class="c-body">${t.sB}</p><a class="c-btn" href="#">${t.check} →</a><a class="c-link" href="#">${t.sample}</a><p class="c-fine">${t.sN}</p></section></div></div>`; } },
+
+  d: { name: "D Road sign", belief: "D believes the borrowed road sign should be taken literally: one green panel, white capitals, a yellow plate for the action. Readable from the back of the room, and the one to argue with.",
+    render(c) { const t = c.t;
+      const head = c.loading ? `<h1 class="d-h1">${sk("9em")}</h1><p class="d-num">${sk("1.8em")}</p><p class="d-sub">${sk("7em")}</p>`
+        : c.empty ? `<h1 class="d-h1">${t.none}</h1><p class="d-note">${t.noneB}</p>`
+        : `<h1 class="d-h1">${t.h[0]}</h1><p class="d-num">${c.gap}<small>${t.ft}</small></p><p class="d-sub">${t.h[1].replace(".", "")}</p>`;
+      return `<div class="vd"><div class="d-sign"><div class="d-in"><header class="d-top"><b>EcoSwitch</b><a href="#">${t.src}</a></header>
+        <div class="d-head">${head}</div>${c.stale ? `<p class="d-warn">▲ ${t.stale}</p>` : ""}<div class="d-rule"></div>
+        <div class="d-row"><p class="d-aq"><b>${c.loading ? sk("1.2em") : c.aqi}</b>${t.airT}: ${c.loading ? sk("5em") : t.aqiW}</p>
+        <div><a class="d-plate" href="#"><span>${t.check}<i style="font-style:normal">→</i></span></a><p class="d-note">${t.sB} <a href="#">${t.sample}</a></p></div></div></div></div>
+        <p class="d-foot">${t.measured} ${t.gauge}. ${t.healthy}: ${t.range}. ${t.airN} Open-Meteo.</p></div>`; } }
+};
+
+const STATES = { ok: "Normal", loading: "Loading", empty: "Empty", error: "Error", long: "Too much (Spanish, long AQI word)" };
+const WIDTHS = { 390: "Phone 390×844", 1440: "Laptop 1440×900" };
+const s = { v: "a", st: "ok", w: innerWidth < 900 ? "390" : "1440" };
+function group(el, key, opts) {
+  el.innerHTML = Object.entries(opts).map(([k, n]) => `<button data-k="${k}" aria-pressed="${s[key] == k}">${n}</button>`).join("");
+  el.onclick = e => { const k = e.target.dataset.k; if (k) { s[key] = k; draw(); } };
 }
-document.addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b)return;cur[b.dataset.k]=b.dataset.v;draw()});
-addEventListener("resize",draw);draw();
+function draw() {
+  group(vp, "v", Object.fromEntries(Object.entries(V).map(([k, v]) => [k, v.name])));
+  group(sp, "st", STATES); group(wp, "w", WIDTHS);
+  const w = +s.w, f = document.getElementById("frame");
+  document.documentElement.style.fontSize = w > 1000 ? "20px" : "17px";
+  f.style.width = w + "px"; f.style.setProperty("--h", (w > 1000 ? 900 : 844) + "px");
+  f.style.zoom = Math.min(1, (innerWidth - 32) / w);
+  belief.textContent = V[s.v].belief;
+  f.innerHTML = V[s.v].render(ctx(s.st));
+}
+addEventListener("resize", draw); draw();
 </script>
+</html>
