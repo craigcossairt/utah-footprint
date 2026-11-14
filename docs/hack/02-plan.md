@@ -45,10 +45,17 @@ type Area = { id: 'water' | 'energy' | 'air'; label: string; facts: Fact[];
 ## P1 (only after gate B)
 1. Spanish toggle (Gemini translates the plan; UI labels from a small dictionary). Move to P0 if B is early.
 2. Data center context card: how a household's use compares with one data center's.
-3. Yard photo: Gemini estimates lawn area.
+3. Yard on a map: the person outlines their lawn on a Google satellite view and we compute the square feet (replaces the Gemini yard-photo idea; same answer, and it's a measurement, not a guess). Lane `map-yard`.
+4. Commute from addresses: home and work addresses → driving miles one way from the Google Routes API. Lane `map-distance`.
+
+Both map features are optional inputs on `/check`. The manual answers stay, and fixtures mode hides both.
+Keys (Craig): `NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_KEY` (Maps JavaScript API and Geocoding API only, restricted by referrer to
+`utah-footprint.vercel.app/*` and `localhost:3000/*`; a browser key is public by design, the restrictions are what protect it) and
+`GOOGLE_MAPS_SERVER_KEY` (Routes API only, server side). Google needs a billing account on the project; the monthly free usage
+covers a hackathon, but set a quota cap so a room of phones can't run up a bill.
 
 ## Cut ladder (cut from the top first)
-1. Yard photo. 2. Data center card. 3. Spanish. 4. The question box (keep the written plan).
+1. Yard on a map. 2. Commute from addresses. 3. Data center card. 4. Spanish. 5. The question box (keep the written plan).
 **Never cut:** the three area cards, `/sources`, fixtures mode, the deployed URL.
 
 ## Gates (clock started 10:15; plan landed 10:35)

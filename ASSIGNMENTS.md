@@ -215,6 +215,19 @@ Utah's water, air or power, and one about building with a coding agent. The demo
 Spanish on `/` and `/check`; saved Gemini answers for the three demo questions; warm the Gemini cache
 before the demo; remove the "cards are in English" note once all three cards translate.
 
+## Round 3: maps (Craig's agents, after the 11:40 checkpoint)
+
+Two optional helpers on the six questions, so nobody has to guess. Briefs: `docs/hack/03-lanes.md` (`map-yard`, `map-distance`).
+
+| Feature | Question it helps | How |
+|---|---|---|
+| Measure my lawn | "How much lawn do you water?" | Outline the grass on a Google satellite map; we add up the square feet |
+| My commute miles | "How far do you drive to work or school?" | Type home and work addresses; Google Maps gives the driving miles one way |
+
+**Area owners:** nothing changes in your folder. Your `calculate` still gets `yardSqFt` and `commuteMiles`, just measured
+instead of guessed. **Jenn:** if Craig asks in `#ship`, add one assumption line: "Lawn size measured by you on a satellite map."
+Both are first on the cut ladder: if they aren't working on the live site by 12:30, they come out.
+
 ## Checkpoints
 | Time | Must be true |
 |---|---|
