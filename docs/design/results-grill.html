@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Results grill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Tokens copied from app/globals.css. Prototype only. */
+:root{--bg:#f4eedf;--surface:#fbf7ec;--ink:#2b2118;--muted:#65574a;--line:#d6cab2;--accent:#a8432a;--accent-ink:#fffaf0;--lake:#3f6679;--bad:#9b2c1f;--r:6px}
+*{box-sizing:border-box}
+body{margin:0;background:#ddd5c3;color:var(--ink);font-family:"Public Sans",system-ui,sans-serif;line-height:1.5}
+.ctl{position:sticky;top:0;z-index:5;background:var(--ink);color:var(--bg);padding:8px 12px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:14px}
+.ctl b{font-family:Archivo}
+.ctl button{font:inherit;background:transparent;color:var(--bg);border:1px solid #6b5d4f;border-radius:4px;padding:4px 8px;cursor:pointer}
+.ctl button[aria-pressed=true]{background:var(--bg);color:var(--ink)}
+.ctl .grp{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.belief{background:var(--surface);border-bottom:1px solid var(--line);padding:8px 12px;font-size:14px}
+.stage{padding:16px;overflow:auto}
+.frame{margin:0 auto;background:var(--bg);box-shadow:0 0 0 1px var(--line);transform-origin:top left}
+.frame.w390{width:390px;font-size:17px}
+.frame.w1440{width:1440px;font-size:20px}
+/* shared page atoms (s-) */
+.s-hdr{border-bottom:1px solid var(--line);display:flex;justify-content:space-between;padding:.6em 1em;font-family:Archivo;font-weight:800}
+.s-hdr span{font-family:"Public Sans";font-weight:400;font-size:.8em;text-decoration:underline;color:var(--muted)}
+.s-main{padding:1.5em 1em;max-width:64em;margin:0 auto}
+.w1440 .s-main{padding:2.4em 2em}
+.s-eyebrow{font-size:.8em;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0}
+.s-h1{font-family:Archivo;font-weight:800;font-size:1.9em;line-height:1.1;margin:.2em 0}
+.w1440 .s-h1{font-size:2.6em}
+.s-h2{font-family:Archivo;font-weight:800;font-size:1.4em;line-height:1.1;margin:0}
+.s-sec{border-top:4px solid var(--ink);padding-top:.8em;margin-top:2em}
+.s-muted{color:var(--muted)}
+.s-sm{font-size:.82em}
+.s-num{font-family:Archivo;font-variant-numeric:tabular-nums;font-weight:800}
+.s-big{font-size:2.6em;line-height:1}
+.w1440 .s-big{font-size:3.2em}
+.s-link{color:var(--lake);text-decoration:underline;text-underline-offset:3px;font-size:.82em}
+.s-btn{display:inline-block;background:var(--accent);color:var(--accent-ink);border-radius:var(--r);padding:.6em 1em;font-family:Archivo;font-weight:600}
+.s-btn2{display:inline-block;border:2px solid var(--ink);border-radius:var(--r);padding:.5em 1em;font-family:Archivo;font-weight:600}
+.s-bar{height:.55em;background:var(--line);border-radius:2px}
+.s-bar>i{display:block;height:100%;background:var(--ink);border-radius:2px}
+.s-skel{background:var(--line);border-radius:var(--r);height:1em;margin:.5em 0;animation:p 1.2s infinite}
+@keyframes p{50%{opacity:.5}}
+@media (prefers-reduced-motion:reduce){.s-skel{animation:none}}
+.s-err{color:var(--bad);font-size:.85em}
+.s-note{border-left:4px solid var(--lake);padding-left:.7em;font-size:.82em}
+.s-input{border:2px solid var(--ink);border-radius:var(--r);background:var(--surface);padding:.5em .7em;flex:1;min-width:0;color:var(--muted)}
+.s-row{display:flex;gap:.6em;flex-wrap:wrap}
+ol,ul{padding:0;margin:0;list-style:none}
+/* variant A */
+.va-grid{display:grid;gap:2em;margin-top:1.5em}
+.w1440 .va-grid{grid-template-columns:repeat(3,1fr)}
+.va-act li{border-top:1px solid var(--line);padding:.6em 0}
+/* variant B */
+.vb-list li{display:grid;grid-template-columns:2em 1fr;gap:.6em;border-top:1px solid var(--line);padding:.8em 0}
+.w1440 .vb-list li{grid-template-columns:2.5em 1fr 12em;gap:1.5em}
+.vb-strip{display:grid;gap:1em;margin-top:1em}
+.w1440 .vb-strip{grid-template-columns:repeat(3,1fr);gap:2em}
+/* variant C */
+.vc-top{display:grid;gap:1.5em;margin-top:1em}
+.w1440 .vc-top{grid-template-columns:1.1fr 1fr;gap:2.5em}
+.vc-ans{border-left:4px solid var(--ink);padding-left:.7em;margin-top:.8em}
+/* variant D */
+.vd-board{display:grid;margin-top:1.2em;border-top:4px solid var(--ink)}
+.w1440 .vd-board{grid-template-columns:repeat(3,1fr)}
+.vd-cell{padding:.8em 0;border-bottom:1px solid var(--line)}
+.w1440 .vd-cell{padding:1em 1.5em 1em 0;border-bottom:0}
+.w1440 .vd-cell+.vd-cell{border-left:1px solid var(--line);padding-left:1.5em}
+.vd-cell details{margin-top:.4em;font-size:.82em}
+/* variant E */
+.ve-score{display:flex;align-items:baseline;gap:.4em;margin-top:.6em}
+.ve-score .s-num{font-size:5em;line-height:1;color:var(--accent)}
+.ve-why{background:var(--surface);border:1px dashed var(--bad);padding:.6em .8em;margin-top:1em;font-size:.82em}
+</style>
+</head>
+<body>
+<div class="ctl" role="toolbar" aria-label="Prototype controls">
+  <div class="grp"><b>Variant</b><span id="vbtn"></span></div>
+  <div class="grp"><b>State</b><span id="sbtn"></span></div>
+  <div class="grp"><b>Width</b><span id="wbtn"></span></div>
+</div>
+<div class="belief" id="belief"></div>
+<div class="stage"><div id="frame" class="frame w390"></div></div>
+
+<script>
+// Fixture: the sample home, numbers from the live formulas at 11:45 on 14 Nov 2026. Energy is not built yet.
+const BASE = {
+  who: "Marisol Vega, Rose Park, Salt Lake City",
+  answers: "4 people, 1,800 square feet of lawn, 9 miles to work one way, heated with natural gas.",
+  areas: [
+    { id:"water", label:"Water", headline:106000, unit:"gallons a year", typical:118000, typicalNote:"a typical Utah home",
+      summary:"About 26% of it goes on the yard. The yard is the part of Utah's water use that households control most.",
+      extra:"Great Salt Lake today: 4190.4 feet, 7.6 feet below the healthy range." },
+    { id:"energy", label:"Energy", pending:true },
+    { id:"air", label:"Air", headline:3970, unit:"lbs of CO2 a year from the commute", typical:9300, typicalNote:"one Utah resident's driving",
+      summary:"Driving 9 miles each way adds up to about 4,500 miles a year.",
+      extra:"Air in Salt Lake City now: Moderate, AQI 57." }
+  ],
+  changes: [
+    { area:"Air", title:"Share the commute with one other person", saves:"1,980 lbs CO2 per year", share:50, cost:"Free to find a match.", program:"UTA Rideshare" },
+    { area:"Air", title:"Take the bus or TRAX to work 2 days a week", saves:"1,590 lbs CO2 per year", share:40, cost:"Many employers offer passes.", program:"UTA trip planner and passes" },
+    { area:"Air", title:"Work from home 1 day a week, if your job allows", saves:"790 lbs CO2 per year", share:20, cost:"Free.", program:"TravelWise, UDOT" },
+    { area:"Water", title:"Put the sprinklers on a WaterSense smart controller", saves:"15,000 gallons per year, at most", share:14, cost:"Rebate up to $100.", program:"Utah Water Savers rebates" },
+    { area:"Water", title:"Find and fix leaks: put food coloring in each toilet tank", saves:"9,300 gallons per year", share:9, cost:"Free to check.", program:"EPA WaterSense" },
+    { area:"Water", title:"Replace 500 square feet of lawn with water-wise plants on drip", saves:"7,500 gallons per year, at most", share:7, cost:"Rebate up to $3 a square foot.", program:"Jordan Valley Water" }
+  ],
+  plan: { intro:"Your biggest lever is the commute. Sharing it with one person cuts about 1,980 lbs of CO2 a year, half of your commute total.",
+    steps:["Share the commute with one other person. UTA Rideshare helps you find a match.","Take the bus or TRAX two days a week to save about 1,590 lbs of CO2.","Put the sprinklers on a WaterSense smart controller. Utah Water Savers gives up to $100 back."],
+    facts:["change.air.carpool","change.air.transit2","change.water.smartController"] },
+  answer: { q:"Does my lawn really affect the lake?", a:"About 26% of this home's water goes on the yard, and the yard is the part of Utah's water use households control most. The lake is 7.6 feet below its healthy range today.", facts:["result.water","today.lakeFeetBelowHealthy"] }
+};
+function state(s){
+  const d = JSON.parse(JSON.stringify(BASE));
+  if (s==="empty"){ d.answers="1 person, no lawn, no commute by car, electric heat."; d.changes=[];
+    d.areas[0].headline=19700; d.areas[0].typical=29600; d.areas[0].summary="With no watered lawn, all of this is indoor use.";
+    d.areas[2].headline=0; d.areas[2].summary="No commute by car, so no commute emissions."; }
+  if (s==="much"){ d.who="Marisol Vega-Etsitty and family, Rose Park, Salt Lake City";
+    d.changes = d.changes.concat(d.changes.map(c=>({...c,title:c.title+", and keep a note of the date so you can compare next summer's water bill with this one",share:Math.max(1,c.share-5)})));
+    d.areas[0].summary += " Most of that is used from May to September, when the lake loses the most water to evaporation and diversion."; }
+  d.state = s; return d;
+}
+const fmt = n => n.toLocaleString("en-US");
+const esc = s => String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+
+function bar(v,t){ const m=Math.max(v,t)||1; return `<div class="s-sm" style="margin-top:.5em">Your home</div><div class="s-bar"><i style="width:${Math.max(2,v/m*100)}%"></i></div><div class="s-sm">${t?"Typical":""}</div><div class="s-bar"><i style="width:${t/m*100}%;background:var(--muted)"></i></div>`; }
+function head(d){ return `<p class="s-eyebrow">Sample home</p><h1 class="s-h1">${esc(d.who)}</h1><p class="s-muted s-sm">${esc(d.answers)} These are estimates from those answers, not meter readings. <u>Ver en español</u></p>`; }
+function pending(a){ return `<p class="s-muted">The ${a.label.toLowerCase()} numbers aren't ready yet.</p>`; }
+function areaFull(a){
+  if (a.pending) return `<section class="s-sec" style="margin-top:0"><h2 class="s-h2">${a.label}</h2>${pending(a)}</section>`;
+  const diff=Math.round((a.headline-a.typical)/a.typical*100);
+  return `<section class="s-sec" style="margin-top:0"><h2 class="s-h2">${a.label}</h2>
+  <div class="s-num s-big">${fmt(a.headline)}</div><div class="s-muted s-sm">${a.unit}</div>${bar(a.headline,a.typical)}
+  <p class="s-sm s-muted">${Math.abs(diff)}% ${diff<0?"less":"more"} than ${a.typicalNote} (${fmt(a.typical)}).</p>
+  <p>${esc(a.summary)}</p><p class="s-sm">${a.extra} <span class="s-link">Source</span></p>
+  <p class="s-sm"><b>▸ What we assumed</b><br><b>▸ Where these numbers come from</b></p></section>`;
+}
+function changes(d, cls){
+  if (!d.changes.length) return `<p>No changes to suggest from these answers.</p>`;
+  return `<ol class="${cls}">${d.changes.map((c,i)=>`<li><span class="s-num s-muted" style="font-size:1.6em">${i+1}</span><div><p class="s-eyebrow">${c.area}</p><p style="margin:0;font-weight:600">${esc(c.title)}</p><p class="s-sm" style="margin:0">Saves about <b class="s-num">${c.saves}</b>. <span class="s-muted">${c.cost}</span></p><span class="s-link">${c.program}</span></div><div><span class="s-num" style="font-size:1.4em">${c.share}%</span> <span class="s-sm s-muted">of your ${c.area.toLowerCase()} number</span><div class="s-bar"><i style="width:${c.share}%"></i></div></div></li>`).join("")}</ol>`;
+}
+function plan(d){
+  if (d.state==="loading") return `<p class="s-sm"><b>Gemini is reading your numbers…</b></p><div class="s-skel" style="width:92%"></div><div class="s-skel" style="width:75%"></div><div class="s-skel" style="width:84%"></div>`;
+  if (d.state==="error") return `<p class="s-err">⚠ Gemini isn't available, so here are the three biggest changes straight from our formulas.</p><ol>${d.changes.slice(0,3).map((c,i)=>`<li>${i+1}. ${esc(c.title)}. Saves about ${c.saves}.</li>`).join("")}</ol>`;
+  if (!d.changes.length) return `<p>Nothing big to change from these answers. Gemini can still answer questions about your numbers.</p>`;
+  return `<p>${esc(d.plan.intro)}</p><ol>${d.plan.steps.map((s,i)=>`<li style="margin:.4em 0"><b class="s-num s-muted">${i+1}</b> ${esc(s)}</li>`).join("")}</ol><p class="s-sm s-muted">Written by Gemini from the facts listed. Facts used: ${d.plan.facts.map(f=>`<span class="s-link">${f}</span>`).join(" ")}</p>`;
+}
+function ask(d){
+  const ans = d.state==="loading" ? `<p class="s-sm"><b>Gemini is checking our facts…</b></p><div class="s-skel"></div>`
+    : d.state==="error" ? `<p class="s-err">⚠ Gemini isn't answering right now. The numbers on this page still stand.</p>`
+    : `<div class="vc-ans"><p class="s-sm s-muted" style="margin:0">You asked: ${d.answer.q}</p><p style="margin:.3em 0">${d.answer.a}</p><p class="s-sm">Facts used: ${d.answer.facts.map(f=>`<span class="s-link">${f}</span>`).join(" ")}</p></div>`;
+  return `<h3 class="s-h2" style="font-size:1.15em">Ask about your numbers</h3><div class="s-row" style="margin-top:.5em"><span class="s-input">Does my lawn really affect the lake?</span><span class="s-btn2">Ask Gemini</span></div><p class="s-sm" style="margin:.4em 0"><u>Which change should I make first?</u> · <u>Why is my air number so high?</u></p>${ans}`;
+}
+const trust = `<p class="s-note"><b>Our formulas do the math. Gemini only explains it.</b> It sees these results and our sourced facts, never your ZIP code or name, and must name the facts it used.</p>`;
+
+const V = {
+  A:{ name:"A. Cards first", belief:"Believes: the three numbers are the product. Changes and Gemini are follow-ups below. (Current build.)",
+    render:d=>`${head(d)}<div class="va-grid">${d.areas.map(areaFull).join("")}</div>
+      <section class="s-sec"><h2 class="s-h2">Top changes for this home</h2>${changes(d,"vb-list")}</section>
+      <section class="s-sec"><h2 class="s-h2">Your plan, in plain words</h2>${trust}<div class="vc-top">${'<div>'+plan(d)+'</div><div>'+ask(d)+'</div>'}</div></section>`},
+  B:{ name:"B. Changes first", belief:"Believes: people came to learn what to do. The ranked changes lead; the three numbers sit below as evidence.",
+    render:d=>`${head(d)}<section class="s-sec"><h2 class="s-h2">Your ${d.changes.length?"biggest changes":"results"}</h2>${changes(d,"vb-list")}</section>
+      <section class="s-sec"><h2 class="s-h2">Why these: your numbers</h2><div class="vb-strip">${d.areas.map(a=>a.pending?`<div><b>${a.label}</b> ${pending(a)}</div>`:`<div><b>${a.label}</b><div class="s-num s-big">${fmt(a.headline)}</div><div class="s-sm s-muted">${a.unit}</div>${bar(a.headline,a.typical)}</div>`).join("")}</div></section>
+      <section class="s-sec"><h2 class="s-h2">Ask Gemini</h2>${trust}<div class="vc-top"><div>${plan(d)}</div><div>${ask(d)}</div></div></section>`},
+  C:{ name:"C. Ask first", belief:"Believes: trust is the hook. The Gemini plan and question box come first, with the 'formulas do the math' note; the numbers follow.",
+    render:d=>`${head(d)}${trust}<div class="vc-top"><section class="s-sec" style="margin-top:1em"><h2 class="s-h2">Your plan</h2>${plan(d)}</section><section class="s-sec" style="margin-top:1em">${ask(d)}</section></div>
+      <div class="va-grid" style="margin-top:2em">${d.areas.map(areaFull).join("")}</div>
+      <section class="s-sec"><h2 class="s-h2">All changes, ranked</h2>${changes(d,"vb-list")}</section>`},
+  D:{ name:"D. Scoreboard strip", belief:"Believes: one glance at all three against a typical home, then drill in. Detail is folded away; the first screen fits the projector without scrolling.",
+    render:d=>`${head(d)}<div class="vd-board">${d.areas.map(a=>`<div class="vd-cell"><h2 class="s-h2" style="font-size:1.1em">${a.label}</h2>${a.pending?pending(a):`<div class="s-num s-big">${fmt(a.headline)}</div><div class="s-sm s-muted">${a.unit}</div>${bar(a.headline,a.typical)}<details><summary>Details, assumptions and sources</summary><p>${esc(a.summary)}</p></details>`}</div>`).join("")}</div>
+      <section class="s-sec"><h2 class="s-h2">Top changes</h2>${changes(d,"vb-list")}</section>
+      <section class="s-sec"><h2 class="s-h2">Your plan, in plain words</h2>${trust}<div class="vc-top"><div>${plan(d)}</div><div>${ask(d)}</div></div></section>`},
+  E:{ name:"E. One footprint score", belief:"Pushes back on purpose: one combined grade up top. It needs a weighting of gallons against lbs of CO2 that has no source, so it breaks our first rule. Here to find the line.",
+    render:d=>`${head(d)}<section class="s-sec"><p class="s-eyebrow">Utah footprint score</p><div class="ve-score"><span class="s-num">72</span><span class="s-muted">out of 100</span></div><p>Better than most homes your size. Your commute is the weak spot.</p><div class="ve-why"><b>Problem:</b> there is no source for "72". Water and CO2 have no agreed exchange rate, so this number would be ours, not a fact.</div></section>
+      <section class="s-sec"><h2 class="s-h2">What moves your score</h2>${changes(d,"vb-list")}</section>
+      <div class="va-grid">${d.areas.map(areaFull).join("")}</div>`}
+};
+const S = {default:"Full",loading:"Loading",empty:"Empty",error:"Error",much:"Too much"};
+const W = {"390":"Phone 390","1440":"Laptop 1440"};
+let cur = {v:"A", s:"default", w:"390"};
+try { Object.assign(cur, JSON.parse(localStorage.getItem("grill")||"{}")); } catch {}
+function btns(id, obj, key, label){
+  document.getElementById(id).innerHTML = Object.keys(obj).map(k=>`<button aria-pressed="${cur[key]===k}" data-k="${key}" data-v="${k}">${label?label(obj[k]):obj[k]}</button>`).join(" ");
+}
+function draw(){
+  btns("vbtn", V, "v", x=>x.name.split(". ")[0]); btns("sbtn", S, "s"); btns("wbtn", W, "w");
+  document.getElementById("belief").textContent = V[cur.v].name + ": " + V[cur.v].belief;
+  const f = document.getElementById("frame");
+  f.className = "frame w"+cur.w;
+  f.innerHTML = `<div class="s-hdr">My Utah Footprint <span>Sources</span></div><main class="s-main">${V[cur.v].render(state(cur.s))}<p style="margin-top:2em"><span class="${cur.v==="C"?"s-btn2":"s-btn"}">Check my own home</span></p></main>`;
+  const avail = document.querySelector(".stage").clientWidth - 32, w = +cur.w;
+  const k = Math.min(1, avail / w);
+  f.style.transform = `scale(${k})`; f.style.marginLeft = k<1 ? "0" : "auto";
+  f.parentElement.style.height = (f.offsetHeight*k + 32) + "px";
+  try { localStorage.setItem("grill", JSON.stringify(cur)); } catch {}
+}
+document.addEventListener("click", e=>{ const b=e.target.closest("button[data-k]"); if(!b) return; cur[b.dataset.k]=b.dataset.v; draw(); });
+addEventListener("resize", draw);
+draw();
+</script>
+</body>
+</html>
