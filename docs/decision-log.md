@@ -33,3 +33,26 @@ so every screen changed at once.
 had the typical AI tells, because all five sat on the same warm-cream and terracotta base with Archivo, one of the
 most common generated looks. Changing the stripe or band on top of that base could not fix it; the base had to go.
 The Impeccable design skill was not available in this session and there was no time to install it before the freeze.
+
+## 14 Nov 2026, 12:50: Home screen look ("Waterline"), grill round 3
+
+**Chosen: B, Waterline.** The home screen is the gauge. The healthy band, the gap and the water are stacked
+full width and drawn to one scale (`--ft` per foot of lake level), the headline sits inside the gap next to a
+dimension arrow, and the page ends under water with the air reading and "Check my home". On load the water
+stands at the bottom of the healthy range and falls to today's level; the surface is a looping SVG wave. Both
+stop under `prefers-reduced-motion`. It keeps the Salt and brine palette and type, so only `/` changed.
+
+**Rejected** (`docs/design/color-grill.html`, round 3):
+- **A, Instrument** (dark readout, huge "−7.6 ft"): a dark screen with a neon figure and mono labels is itself
+  a common generated look, and dark washes out on a projector.
+- **C, Front page** (serif headline, black ink): the strongest alternative, but a font and palette swap touches
+  every screen and there was no time to re-check them after the freeze. Worth a look after the event.
+- **D, Road sign** (green panel, white capitals, yellow plate): all capitals break with the long Spanish
+  strings. Its yellow action plate was the most legible button of the four.
+
+**What the round showed:** all four made the number or the gap the layout itself. The small boxed gauge beside
+a headline, more than the palette, was what read as generated.
+
+**Built differently from the prototype:** the kicker lost its uppercase tracking; the scale is real (min-height
+per foot), so long Spanish copy stretches the gap rather than clipping. `LakeGauge` is no longer used on `/`.
+Shared changes: `ButtonLink` gained an `inverse` variant and `SourceLink` an `onDark` prop, both for the lake ground.

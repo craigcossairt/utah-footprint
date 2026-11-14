@@ -74,13 +74,6 @@ Done when: the line shows on `/results?sample=marisol` with its source on `/sour
 renewable matching, but no kWh or MW. The NSA Utah Data Center's 65 MW comes only from 2013 press (NPR, WSJ), not a
 filing or the operator. Rocky Mountain Power or Utah PSC filings would be the place to look after the event.
 
-### B4. Submission form and project story
-Good fit: Jennifer · Size: M · Claimed: (open)
-Touches: `docs/hack/SUBMISSION.md`
-Do: open "Submit Project" at https://www.mlh.com/events/hack-for-humanity-salt-lake-city, copy every field and its
-length limit into `SUBMISSION.md`, and draft each answer: goal, unique value, after-event plan, what we learned (from `LEARNED.md`).
-Done when: every field has paste-ready text, by 12:30.
-
 ### B6. Phone pass of the demo path, both languages
 Good fit: Jenn · Size: S · Repeat every 20 minutes · Claimed: (open)
 Touches: nothing (report only)
@@ -108,3 +101,4 @@ Done when: all four sections are filled.
 - B2. Commute miles from two addresses, Craig's agent, 78b17f1, /check question 4, "Work it out from my addresses". Works now with the saved route (type "Rose Park" and "University of Utah"); any other pair shows the error note until `GOOGLE_MAPS_SERVER_KEY` is in Vercel (Routes API enabled, then redeploy). Saved route is 6 miles one way: Google Routes API returned 10,344 metres (6.4 miles) for this pair on 14 Nov. The sample home (`data/fixtures/households.json`) uses the same 6 miles.
 - B7. Home page in Spanish, Craig's agent, 7e749eb, /?lang=es (all home labels, gauge and air word in Spanish; "Ver en español" on / switches; links carry lang to /check and /results; `LakeGauge` got an optional `lang` prop)
 - B5. Click every source link, Craig's agent, no code change, /sources. All 40 links checked at 12:10 MST (36 fact links and 4 "Today's readings" links, 26 different pages): every one opens and shows the number it is cited for. No fixes needed, none blocked. Links were listed from `main` because this agent's network could not open the live site, and pages were read through a fetch service, not a browser. Not confirmed: the page numbers in four water citations ("PDF page 21" on `water.residentialGpcd`, "page 24" on the three Great Salt Lake facts); the figures themselves are in those PDFs.
+- B4. Submission form and project story, Craig's agent, b30b4ba, `docs/hack/SUBMISSION.md` (every standard field, short and long; README matches the judges checklist). The real MLH form needs a login, so its fields and limits are not confirmed. Craig still adds: video link, screenshot, his LEARNED lines, team details.

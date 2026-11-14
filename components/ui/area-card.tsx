@@ -97,13 +97,21 @@ export function ActionRow({ action, lang = "en" }: { action: Action; lang?: Lang
   );
 }
 
-export function SourceLink({ href, children }: { href: string; children: React.ReactNode }) {
+export function SourceLink({
+  href,
+  children,
+  onDark = false,
+}: {
+  href: string;
+  children: React.ReactNode;
+  onDark?: boolean;
+}) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex items-center gap-1 text-sm text-lake underline underline-offset-4"
+      className={`inline-flex items-center gap-1 text-sm underline underline-offset-4 ${onDark ? "text-bg" : "text-lake"}`}
     >
       {children}
       <ExternalLink size={14} strokeWidth={2} aria-hidden />

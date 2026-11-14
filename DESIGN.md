@@ -45,12 +45,12 @@ around sections, no cards inside cards, no shadows, no gradients, no emoji.
 | `AreaCard` | `@/components/ui/area-card` | The standard result card: `<AreaCard title="Water" result={result} facts={facts}>extra lines</AreaCard>`. Shows the big number, the comparison with a typical Utah home, actions, assumptions and sources. Use it for your card. |
 | `ActionRow`, `SourceLink` | `@/components/ui/area-card` | One action; an external link to a source |
 | `BigNumber` | `@/components/ui/big-number` | A large figure with its unit |
-| `Button`, `ButtonLink` | `@/components/ui/button` | `primary`, `secondary`, `ghost`. One primary per view. Labels say what happens. |
+| `Button`, `ButtonLink` | `@/components/ui/button` | `primary`, `secondary`, `ghost`, and `inverse` on the lake ground. One primary per view. Labels say what happens. |
 | `Skeleton`, `ErrorNote`, `StepProgress` | `@/components/ui/feedback` | Loading placeholder, error message with icon, question progress |
 | `LakeGauge` | `@/components/ui/lake-gauge` | Lake level against the healthy range |
 
 ## 4. Screens
-- **`/` Today in Utah:** the eye lands on how far the lake is below healthy, with the gauge. Then today's air, then "Check my home".
+- **`/` Today in Utah ("Waterline"):** the screen is the gauge. Healthy band, then the gap with the headline, then the water, to scale and full width. Today's air and "Check my home" sit in the water. This is the one screen with full-bleed colour and motion.
 - **`/check` Six questions:** one question per screen, large controls, Back and Next. Ends with "Show my footprint".
 - **`/results` My footprint:** three area cards (water, energy, air) side by side on laptop, stacked on phone. Then the plan and the question box.
 - **`/sources`:** every fact with its source link.
