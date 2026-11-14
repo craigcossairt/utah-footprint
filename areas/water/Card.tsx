@@ -1,4 +1,5 @@
 import type { AreaResult, Lang } from "@/lib/contract";
+import type { WaterResult } from "./calc";
 import { AreaCard, SourceLink } from "@/components/ui/area-card";
 import { getToday, todaySources } from "@/lib/today";
 import { fact, facts, links } from "./facts";
@@ -6,6 +7,10 @@ import { fact, facts, links } from "./facts";
 const T = {
   en: {
     title: "Water",
+    spend: (d: string) => `Watering your lawn costs about $${d} a year on a Salt Lake City water bill. Here is how to keep more of it:`,
+    change: "What would change it most",
+    keep: (d: string) => `Save $${d} a year`,
+    alsoSaves: "Also saves",
     lake: "Great Salt Lake today:",
     feet: "feet",
     below: "feet below the healthy range.",
@@ -26,6 +31,10 @@ const T = {
   },
   es: {
     title: "Agua",
+    spend: (d: string) => `Regar su césped le cuesta unos $${d} al año en una factura de agua de Salt Lake City. Así puede ahorrar más:`,
+    change: "Lo que más lo cambiaría",
+    keep: (d: string) => `Ahorre $${d} al año`,
+    alsoSaves: "También ahorra",
     lake: "El Gran Lago Salado hoy:",
     feet: "pies",
     below: "pies por debajo del nivel sano.",
@@ -52,7 +61,8 @@ export default async function Card({ result, lang = "en" }: { result: AreaResult
   const { elevationFt, healthyMinFt } = today.lake;
   const gap = healthyMinFt - elevationFt;
   return (
-    <AreaCard title={t.title} result={result} facts={facts} lang={lang}>
+    <AreaCard title={t.title} result={{ ...result, actions: [] }} facts={facts} lang={lang}>
+      {result.actions.length > 0 ? <MoneyActions result={result as WaterResult} t={t} /> : null}
       <p className="mt-3 text-sm">
         {t.lake} <span className="num font-semibold">{elevationFt.toFixed(1)}</span> {t.feet}
         {gap > 0 ? (
@@ -85,5 +95,34 @@ export default async function Card({ result, lang = "en" }: { result: AreaResult
         </p>
       </div>
     </AreaCard>
+  );
+}
+
+const fmt = (n: number) => n.toLocaleString("en-US");
+
+// Actions lead with the money each one keeps in your pocket; gallons follow, as on the Air card.
+function MoneyActions({ result, t }: { result: WaterResult; t: (typeof T)["en"] | (typeof T)["es"] }) {
+  const money = result.money;
+  return (
+    <div className="mt-5">
+      {money && money.yardPerYear > 0 ? <p className="text-lg font-semibold">{t.spend(fmt(money.yardPerYear))}</p> : null}
+      <h3 className="mt-3 text-sm font-semibold uppercase tracking-wide text-muted">{t.change}</h3>
+      <ul className="mt-2 divide-y divide-line border-y border-line">
+        {result.actions.map((a) => {
+          const m = money?.byAction[a.id];
+          return (
+            <li key={a.id} className="py-3">
+              {m && m.dollars > 0 ? <p className="num text-3xl font-extrabold">{t.keep(fmt(m.dollars))}</p> : null}
+              <p className="font-semibold">{a.title}</p>
+              <p className="text-sm">
+                {t.alsoSaves} <span className="num font-semibold">{fmt(a.saves)}</span> {a.unit}.{" "}
+                <span className="text-muted">{m ? m.note : a.costNote}</span>
+              </p>
+              {a.program ? <SourceLink href={a.program.url}>{a.program.name}</SourceLink> : null}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }

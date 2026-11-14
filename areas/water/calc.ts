@@ -80,6 +80,12 @@ const T = {
   },
 };
 
+export type WaterMoney = {
+  yardPerYear: number; // dollars a year the lawn's water adds to a Salt Lake City bill
+  byAction: Record<string, { dollars: number; note: string }>;
+};
+export type WaterResult = AreaResult & { money?: WaterMoney };
+
 export function calculate(a: Answers, lang: Lang = "en"): AreaResult {
   const t = T[lang] ?? T.en;
   const people = Math.max(1, a.household);
@@ -122,15 +128,23 @@ export function calculate(a: Answers, lang: Lang = "en"): AreaResult {
     costNote: t.leakCost,
     program: { name: t.leakProgram, url: links.epaLeaks },
   });
-  for (const act of actions) act.costNote += t.money(dollars(act.saves));
+  // Money first, as on the Air card: the card leads with dollars; gallons follow.
+  const money: WaterMoney = { yardPerYear: yard > 0 ? dollars(outdoor) : 0, byAction: {} };
+  for (const act of actions) {
+    const d = dollars(act.saves);
+    money.byAction[act.id] = { dollars: d, note: act.costNote };
+    act.costNote += t.money(d); // the ranked list and Gemini still read dollars in the note
+  }
   actions.sort((x, y) => y.saves - x.saves);
 
-  return {
+  const result: WaterResult = {
     headline: round(total, 1000),
     unit: t.unit,
     typical: round(typical, 1000),
     summary: yard > 0 ? t.summaryYard(yardShare) : t.summaryNoYard,
     actions,
     assumptions: [...t.assumptions(), t.rate((dollarsPerGallon() * GALLONS_PER_CCF).toFixed(2))],
+    money,
   };
+  return result;
 }
