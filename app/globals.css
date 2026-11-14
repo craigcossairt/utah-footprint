@@ -1,26 +1,27 @@
 @import "tailwindcss";
 
-/* Design tokens. Direction: "Trailhead sign" (see DESIGN.md). Light only.
+/* Design tokens. Direction: "Salt and brine" (see DESIGN.md). Light only.
    A component never uses a raw colour or size: use these names. */
 @theme {
-  --color-bg: #f4eedf; /* salt-flat cream: page */
-  --color-surface: #fbf7ec; /* raised panels, use sparingly */
-  --color-ink: #2b2118; /* body text */
-  --color-muted: #65574a; /* secondary text */
-  --color-line: #d6cab2; /* hairlines */
-  --color-accent: #a8432a; /* red rock: the one primary action, focus ring */
-  --color-accent-ink: #fffaf0; /* text on accent */
-  --color-lake: #3f6679; /* water */
-  --color-sage: #55693f; /* land, "good" */
-  --color-ok: #46602f;
+  --color-bg: #f5f6f3; /* salt flat: cool off-white */
+  --color-surface: #ffffff; /* raised panels, use sparingly */
+  --color-ink: #1c2422; /* basalt */
+  --color-muted: #55615d; /* weathered basalt, AA on bg */
+  --color-line: #d5dad5; /* hairlines */
+  --color-accent: #b0305f; /* brine pink: the lake's north arm. The one primary action, focus ring */
+  --color-accent-ink: #ffffff; /* text on accent */
+  --color-lake: #1d5a6a; /* deep lake teal: water, and source links */
+  --color-sage: #4a6636; /* sagebrush: land, "good", and the air area */
+  --color-sun: #9b5f00; /* desert sun: the energy area */
+  --color-ok: #3f5f2a;
   --color-warn: #8a5a00;
-  --color-bad: #9b2c1f;
+  --color-bad: #a3262a;
 
   --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
 
-  --radius-control: 6px;
-  --radius-panel: 10px;
+  --radius-control: 3px;
+  --radius-panel: 4px;
 
   --shadow-raise: 0 1px 0 var(--color-line);
 }

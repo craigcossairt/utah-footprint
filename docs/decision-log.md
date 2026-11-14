@@ -21,3 +21,15 @@ ranked changes start right under them.
 They belong to their owners and carry extra lines (lake level, dust outlook, inversion), so they
 stay whole in a "details" section below, linked from each cell. Top changes shows five and folds
 the rest.
+
+## 14 Nov 2026, 12:15: Palette and type ("Salt and brine")
+
+**Chosen:** salt-white background, basalt ink, brine pink accent (the Great Salt Lake's north arm), deep lake
+teal, sagebrush and desert sun as area colors. Overpass (from Highway Gothic, the US road-sign face) for
+headings and numbers; Atkinson Hyperlegible Next for body text. Corners 3 to 4px. Applied through the tokens,
+so every screen changed at once.
+
+**Rejected:** all five treatments in grill round 2 (`docs/design/color-grill.html`). Craig's verdict: each still
+had the typical AI tells, because all five sat on the same warm-cream and terracotta base with Archivo, one of the
+most common generated looks. Changing the stripe or band on top of that base could not fix it; the base had to go.
+The Impeccable design skill was not available in this session and there was no time to install it before the freeze.

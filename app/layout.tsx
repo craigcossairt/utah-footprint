@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Public_Sans } from "next/font/google";
+import { Atkinson_Hyperlegible_Next, Overpass } from "next/font/google";
 import { Mountain } from "lucide-react";
 import Link from "next/link";
 import "./globals.css";
 
-const archivo = Archivo({ variable: "--font-archivo", subsets: ["latin"], weight: ["600", "800"] });
-const publicSans = Public_Sans({ variable: "--font-public-sans", subsets: ["latin"] });
+// Overpass is based on Highway Gothic, the US road-sign face. Atkinson Hyperlegible was designed for low-vision readers.
+const archivo = Overpass({ variable: "--font-archivo", subsets: ["latin"], weight: ["600", "800", "900"] });
+const publicSans = Atkinson_Hyperlegible_Next({ variable: "--font-public-sans", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "My Utah Footprint",

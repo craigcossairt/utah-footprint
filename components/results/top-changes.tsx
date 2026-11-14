@@ -47,7 +47,7 @@ function Row({ a, i, d, lang }: { a: RankedAction; i: number; d: Dict; lang: Lan
                 {i + 1}
               </span>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-wide text-muted">{areaName(lang, a.areaId, a.areaLabel)}</p>
+                <p className={`text-sm font-semibold uppercase tracking-wide ${a.areaId === "water" ? "text-lake" : a.areaId === "energy" ? "text-sun" : "text-sage"}`}>{areaName(lang, a.areaId, a.areaLabel)}</p>
                 <p className="text-lg font-semibold">{a.title}</p>
                 <p className="text-sm">
                   {d.saves} <span className="num font-semibold">{a.saves.toLocaleString("en-US")}</span> {a.unit}.{" "}

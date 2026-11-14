@@ -27,6 +27,8 @@ const L = {
   },
 };
 
+const AREA_TONE = { water: { text: "text-lake", bar: "bg-lake" }, energy: { text: "text-sun", bar: "bg-sun" }, air: { text: "text-sage", bar: "bg-sage" } } as const;
+
 // The first screen: all three numbers in one row, each against its typical figure.
 export function Scoreboard({ computed, lang = "en" }: { computed: Computed[]; lang?: Lang }) {
   const l = L[lang];
@@ -42,7 +44,7 @@ export function Scoreboard({ computed, lang = "en" }: { computed: Computed[]; la
             key={area.id}
             className={`flex flex-col border-b border-line py-5 lg:border-b-0 lg:py-6 ${i > 0 ? "lg:border-l lg:pl-8" : ""} ${i < 2 ? "lg:pr-8" : ""}`}
           >
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">{areaName(lang, area.id, area.label)}</h2>
+            <h2 className={`text-sm font-semibold uppercase tracking-wide ${AREA_TONE[area.id].text}`}>{areaName(lang, area.id, area.label)}</h2>
             {!ready ? (
               <p className="mt-3 text-muted">{l.pending}</p>
             ) : (
@@ -55,7 +57,7 @@ export function Scoreboard({ computed, lang = "en" }: { computed: Computed[]; la
                   <div className="mt-4" role="img" aria-label={`${word} ${l.vs[area.id]}`}>
                     <div className="grid grid-cols-[5.5rem_1fr] items-center gap-x-3 gap-y-1.5 text-sm">
                       <span>{l.you}</span>
-                      <span className="block h-3 rounded-sm bg-ink" style={{ width: `${Math.max(2, (headline / max) * 100)}%` }} />
+                      <span className={`block h-3 rounded-sm ${AREA_TONE[area.id].bar}`} style={{ width: `${Math.max(2, (headline / max) * 100)}%` }} />
                       <span className="text-muted">{l.typical}</span>
                       <span className="block h-3 rounded-sm bg-line" style={{ width: `${(typical / max) * 100}%` }} />
                     </div>

@@ -4,29 +4,32 @@ The design system for My Utah Footprint. Every UI agent reads it before building
 and a brief disagree, this file wins.
 
 ## 1. Direction
-**Name:** Trailhead sign.
-**Feel:** the interpretive sign at a Utah trailhead: plain, sturdy, trustworthy, read by a homeowner on a phone.
-**Borrowed from:** National Park Service wayside signs (cream panel, heavy sans headings, one measured
-fact per panel) and a USGS gauge readout (big tabular numbers, a unit, a timestamp).
-**Not:** a green-leaf eco startup page, a climate-doom dashboard, or a default grey template.
+**Name:** Salt and brine (replaced "Trailhead sign" at 12:15; the cream and red-rock palette read as generic).
+**Feel:** a Utah road and trailhead sign standing on the salt flat: plain, sturdy, trustworthy, read by a homeowner on a phone.
+**Borrowed from:** Highway Gothic road signs (Overpass for headings and numbers), the Great Salt Lake itself
+(salt-white ground, basalt ink, the north arm's brine pink as the one accent, deep lake teal), and a USGS gauge
+readout (big tabular numbers, a unit, a timestamp). Body text is Atkinson Hyperlegible, made for low-vision readers.
+**Area colors:** water `lake`, energy `sun`, air `sage`. Only on an area's label and its "This home" bar.
+**Not:** a green-leaf eco startup page, a climate-doom dashboard, a cream-and-terracotta template, or a default grey one.
 **Target screens:** phone 390×844 and laptop 1440×900 (mirrored to the projector). Nothing else.
 
 ## 2. Tokens (defined in `app/globals.css`; use the Tailwind names, never a raw hex or pixel value)
 
 | Tailwind name | Use |
 |---|---|
-| `bg-bg` | page background (cream) |
+| `bg-bg` | page background (salt white) |
 | `bg-surface` | inputs and raised areas, sparingly |
 | `text-ink` / `bg-ink` / `border-ink` | body text, strong rules, bars |
 | `text-muted` | secondary text |
 | `border-line` / `bg-line` | hairlines, quiet bars |
 | `bg-accent` / `text-accent` | the one primary action, and one emphasised figure per screen. Only that. |
 | `text-lake` / `bg-lake` | water, and source links |
-| `text-sage` / `bg-sage` | land, healthy range |
+| `text-sage` / `bg-sage` | land, healthy range, the air area |
+| `text-sun` / `bg-sun` | the energy area |
 | `text-ok` / `text-warn` / `text-bad` | status, always with a word or icon |
 
-**Type:** headings use `font-display` (Archivo, weight 800: `font-extrabold`). Text uses the default
-(Public Sans). Every number uses the class `num` (tabular figures). Sizes: Tailwind `text-sm` to
+**Type:** headings use `font-display` (Overpass, weight 800: `font-extrabold`). Text uses the default
+(Atkinson Hyperlegible Next). Every number uses the class `num` (tabular figures). Sizes: Tailwind `text-sm` to
 `text-6xl` only. The base size grows on laptop so projector text is readable; don't set pixel sizes.
 **Space:** Tailwind steps 1, 2, 3, 4, 6, 8, 12, 16. **Radius:** `rounded-control` for controls,
 `rounded-panel` for panels. **Icons:** lucide-react only, `strokeWidth={2}`.
