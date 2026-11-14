@@ -91,7 +91,7 @@ length limit into `SUBMISSION.md`, and draft each answer: goal, unique value, af
 Done when: every field has paste-ready text, by 12:30.
 
 ### B5. Click every source link
-Good fit: anyone · Size: M · Claimed: (open)
+Good fit: anyone · Size: M · Claimed: Craig's agent 12:08
 Touches: the `facts.ts` of whichever area has a broken link (fix it, then tell its owner in `#ship`)
 Do: on the live `/sources`, open every link. Each must open and show the number it's cited for. Post broken or
 unclear ones in `#facts` with the fact key. Fix them wherever they are.
