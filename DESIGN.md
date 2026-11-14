@@ -22,6 +22,7 @@ readout (big tabular numbers, a unit, a timestamp). Body text is Atkinson Hyperl
 | `text-ink` / `bg-ink` / `border-ink` | body text, strong rules, bars |
 | `text-muted` | secondary text |
 | `border-line` / `bg-line` | hairlines, quiet bars |
+| `bg-line-strong` | the "typical Utah home" comparison bar |
 | `bg-accent` / `text-accent` | the one primary action, and one emphasised figure per screen. Only that. |
 | `text-lake` / `bg-lake` | water, and source links |
 | `text-sage` / `bg-sage` | land, healthy range, the air area |

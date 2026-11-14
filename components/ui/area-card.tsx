@@ -65,7 +65,7 @@ function Compare({ value, typical, unit, lang = "en" }: { value: number; typical
   return (
     <div className="mt-4" role="img" aria-label={`${word} ${l.aHome}`}>
       <Bar label={l.you} width={(value / max) * 100} tone="bg-ink" />
-      <Bar label={l.typical} width={(typical / max) * 100} tone="bg-line" />
+      <Bar label={l.typical} width={(typical / max) * 100} tone="bg-line-strong" />
       <p className="mt-1 text-sm text-muted">
         {word} {l.aHome} ({typical.toLocaleString("en-US")} {unit}).
       </p>

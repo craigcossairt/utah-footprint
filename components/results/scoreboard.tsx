@@ -59,7 +59,7 @@ export function Scoreboard({ computed, lang = "en" }: { computed: Computed[]; la
                       <span>{l.you}</span>
                       <span className={`block h-3 rounded-sm ${AREA_TONE[area.id].bar}`} style={{ width: `${Math.max(2, (headline / max) * 100)}%` }} />
                       <span className="text-muted">{l.typical}</span>
-                      <span className="block h-3 rounded-sm bg-line" style={{ width: `${(typical / max) * 100}%` }} />
+                      <span className="block h-3 rounded-sm bg-line-strong" style={{ width: `${(typical / max) * 100}%` }} />
                     </div>
                     <p className="mt-2 text-sm">
                       <span className="font-semibold">{word}</span> {l.vs[area.id]}{" "}
