@@ -43,7 +43,7 @@ Map items (B1, B2) come out at 12:30 if they aren't working on the live site.
 ## Open
 
 ### B1. Measure my lawn on a satellite map
-Good fit: Jenn · Size: L · Claimed: (open)
+Good fit: Jenn · Size: L · Claimed: Jenn 12:12
 Key: `NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_KEY`. Don't wait for it: build against the key in your own `.env.local`, or with the link hidden; it lights up once the key is in Vercel.
 Touches: `components/check/yard-map.tsx`, `lib/maps-browser.ts`, the yard step of `components/check/check-flow.tsx`
 Do: on the lawn question, add "Measure it on a map" under "I know the size". It opens a satellite view (Google Maps
@@ -122,12 +122,6 @@ Touches: your section of `docs/hack/LEARNED.md`
 Do: one thing you learned about Utah's water, air or power; one about building with a coding agent. Before 12:40.
 Done when: all four sections are filled.
 
-### B10. Dollar savings on the water actions
-Good fit: Jenn · Size: M · Claimed: Jenn 12:05
-Touches: `areas/water/**`
-Do: add "About $N a year" to each water action's cost note, from gallons saved × Salt Lake City Public Utilities' residential water rate (open the rates page; note the billing unit, 1 hundred cubic feet = 748 gallons). Add the rate as a fact in `facts.ts` and a "What we assumed" line saying rates differ by city and tier. EN and ES. Pattern: the Air card's gas savings in `areas/air/calc.ts`.
-Done when: each water action on `/results` shows a dollar figure, with the rate on `/sources`.
-
 ### B11. Dollar savings on the energy actions
 Good fit: Jennifer · Size: M · Claimed: (open)
 Touches: `areas/energy/**`
@@ -135,3 +129,5 @@ Do: add "About $N a year" to each energy action, from kWh saved × Utah's averag
 Done when: each energy action on `/results` shows a dollar figure, with both prices on `/sources`.
 ## Done
 (Move items here: `B<n>. <title>`, done by, commit SHA, URL to check.)
+- B10. Dollar savings on the water actions, Jenn, c2e52e2, /results (water actions: about $89, $55 and $44 a year at SLC 2026 rates; rate on /sources)
+- Car type on the driving question (own idea), Jenn, 930d341, /check question 4 then /results air card
