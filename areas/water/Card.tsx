@@ -10,6 +10,12 @@ const T = {
     feet: "feet",
     below: "feet below the healthy range.",
     inside: ", inside the healthy range.",
+    lakeTitle: "Does a yard affect the lake?",
+    lake1: "Cities, homes and industry cause about",
+    lake2: "% of the water people use up in the Great Salt Lake basin; farms cause",
+    lake3: "%. About",
+    lake4: "% of the water put on city yards and landscapes is used up and does not flow back. Yards are the part of this that households control.",
+    lakeLink: "Great Salt Lake Strike Team, 2026",
     reuseTitle: "Saving and reusing water, legally",
     rain1: "Rain barrels are legal in Utah. Use the water on the same lot, store up to",
     rain2: "gallons, and register for free if you have more than two containers or one over",
@@ -24,6 +30,12 @@ const T = {
     feet: "pies",
     below: "pies por debajo del nivel sano.",
     inside: ", dentro del nivel sano.",
+    lakeTitle: "¿Un jardín afecta al lago?",
+    lake1: "Las ciudades, los hogares y la industria causan cerca del",
+    lake2: "% del agua que la gente consume en la cuenca del Gran Lago Salado; las granjas causan el",
+    lake3: "%. Cerca del",
+    lake4: "% del agua que se pone en jardines y paisajes de la ciudad se consume y no regresa. Los jardines son la parte que los hogares controlan.",
+    lakeLink: "Great Salt Lake Strike Team, 2026 (en inglés)",
     reuseTitle: "Guardar y reusar agua, dentro de la ley",
     rain1: "Los barriles de lluvia son legales en Utah. Use el agua en el mismo terreno, guarde hasta",
     rain2: "galones, y regístrese gratis si tiene más de dos recipientes o uno de más de",
@@ -52,6 +64,15 @@ export default async function Card({ result, lang = "en" }: { result: AreaResult
         )}{" "}
         <SourceLink href={todaySources.lake.url}>USGS</SourceLink>
       </p>
+      <div className="mt-4 text-sm">
+        <h3 className="font-semibold">{t.lakeTitle}</h3>
+        <p className="mt-1">
+          {t.lake1} <span className="num">{fact("water.lakeCityShare")}</span>
+          {t.lake2} <span className="num">{fact("water.lakeFarmShare").toFixed(1)}</span>
+          {t.lake3} <span className="num">{fact("water.outdoorDepletedPct")}</span>
+          {t.lake4} <SourceLink href={links.gsl2026}>{t.lakeLink}</SourceLink>
+        </p>
+      </div>
       <div className="mt-4 text-sm">
         <h3 className="font-semibold">{t.reuseTitle}</h3>
         <p className="mt-1">

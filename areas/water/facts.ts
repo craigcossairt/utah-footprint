@@ -1,6 +1,7 @@
 import type { Fact } from "@/lib/contract";
 
 const SLC_2025 = "https://www.slc.gov/utilities/wp-content/uploads/sites/22/2026/03/SLCDPU_Water_Conservation_Plan_2025.pdf";
+const GSL_2026 = "https://d36oiwf74r1rap.cloudfront.net/wp-content/uploads/2026/01/GSL-Jan2026.pdf";
 const EPA_LEAKS = "https://www.epa.gov/watersense/fix-leak-week";
 const USU_RAIN = "https://extension.usu.edu/sustainability/research/rain-barrels-in-utah";
 const USU_2025 =
@@ -80,10 +81,35 @@ export const facts: Fact[] = [
     url: USU_RAIN,
     year: 2013,
   },
+  {
+    key: "water.lakeCityShare",
+    value: 26.8,
+    unit: "percent of human-caused water depletions in the Great Salt Lake basin from cities, homes and industry (2020-2024)",
+    source: "Great Salt Lake Strike Team, Data and Insights Summary, Jan 2026 (page 24)",
+    url: GSL_2026,
+    year: 2026,
+  },
+  {
+    key: "water.lakeFarmShare",
+    value: 65.0,
+    unit: "percent of human-caused water depletions in the Great Salt Lake basin from agriculture (2020-2024)",
+    source: "Great Salt Lake Strike Team, Data and Insights Summary, Jan 2026 (page 24)",
+    url: GSL_2026,
+    year: 2026,
+  },
+  {
+    key: "water.outdoorDepletedPct",
+    value: 91,
+    unit: "percent of outdoor city water use that is used up and does not flow back (previously assumed 40%)",
+    source: "Great Salt Lake Strike Team, Data and Insights Summary, Jan 2026 (page 24)",
+    url: GSL_2026,
+    year: 2026,
+  },
 ];
 
 export const links = {
   epaLeaks: EPA_LEAKS,
+  gsl2026: GSL_2026,
   rainRegister: "https://waterrights.utah.gov/forms/rainwater.asp",
   usuRain: USU_RAIN,
   usuGraywater: "https://extension.usu.edu/sustainability/research/graywater-systems",
