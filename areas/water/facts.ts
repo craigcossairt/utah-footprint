@@ -1,6 +1,5 @@
 import type { Fact } from "@/lib/contract";
 
-const DWR_2009 = "https://water.utah.gov/wp-content/uploads/2019/08/2009-Residential-Water-Use.pdf";
 const SLC_2025 = "https://www.slc.gov/utilities/wp-content/uploads/sites/22/2026/03/SLCDPU_Water_Conservation_Plan_2025.pdf";
 const EPA_LEAKS = "https://www.epa.gov/watersense/fix-leak-week";
 const USU_RAIN = "https://extension.usu.edu/sustainability/research/rain-barrels-in-utah";
@@ -26,20 +25,12 @@ export const facts: Fact[] = [
     year: 2024,
   },
   {
-    key: "water.indoorGpcd2009",
-    value: 60,
-    unit: "gallons per person per day indoors, statewide estimate",
-    source: "Utah Division of Water Resources, Residential Water Use study",
-    url: DWR_2009,
-    year: 2009,
-  },
-  {
-    key: "water.outdoorGpcd",
-    value: 134,
-    unit: "gallons per person per day outdoors, averaged over the year",
-    source: "Utah Division of Water Resources, Residential Water Use study",
-    url: DWR_2009,
-    year: 2009,
+    key: "water.residentialGpcd",
+    value: 81,
+    unit: "gallons per person per day, all residential use indoors and out, Salt Lake City (about)",
+    source: "Salt Lake City Public Utilities, Water Conservation Plan 2025 (PDF page 21)",
+    url: SLC_2025,
+    year: 2024,
   },
   {
     key: "water.smartControllerSaves",

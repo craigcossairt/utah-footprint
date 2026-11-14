@@ -18,7 +18,7 @@ export function calculate(a: Answers): AreaResult {
   const indoor = people * fact("water.indoorGpcd") * 365;
   const outdoor = lawnGallons(yard);
   const total = indoor + outdoor;
-  const typical = people * (fact("water.indoorGpcd2009") + fact("water.outdoorGpcd")) * 365;
+  const typical = people * fact("water.residentialGpcd") * 365;
   const yardShare = total > 0 ? Math.round((outdoor / total) * 100) : 0;
 
   const actions: Action[] = [];
@@ -66,7 +66,7 @@ export function calculate(a: Answers): AreaResult {
     assumptions: [
       `Indoor use is ${fact("water.indoorGpcd")} gallons per person per day, Salt Lake City's 2024 figure for its residents.`,
       `The lawn gets ${fact("water.lawnInches")} inches of water a year, what Salt Lake City customers applied on average in 2024.`,
-      `The typical Utah home has as many people as yours and uses the state's 2009 averages: ${fact("water.indoorGpcd2009")} gallons per person per day indoors and ${fact("water.outdoorGpcd")} outdoors. That is the newest statewide indoor and outdoor split we found, and it counts bigger yards in other towns.`,
+      `The typical home has as many people as yours and uses about ${fact("water.residentialGpcd")} gallons per person per day, Salt Lake City's 2024 average for residential customers. It covers all residential customers, many with little or no lawn, so homes with bigger yards will often be above it.`,
       "Savings are upper bounds. Drip-watered plants still need some water, and a smart controller saves less on a well-set timer.",
       "Leak savings are the national average from EPA. Your home may have no leaks, or far bigger ones.",
       "Rebate amounts vary by water district. Check before you start; most require approval before you remove any lawn.",
