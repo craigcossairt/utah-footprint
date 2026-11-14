@@ -77,3 +77,37 @@ h3 {
 [tabindex="-1"]:focus-visible {
   outline: none;
 }
+
+/* Home "waterline": the screen is the gauge. One foot of lake level is --ft tall,
+   so the healthy band and the gap below it are drawn to the same scale. */
+.waterline {
+  --ft: 1.4rem;
+}
+@media (min-width: 1024px) {
+  .waterline {
+    --ft: 1.6rem;
+  }
+}
+/* On load the water stands at the bottom of the healthy range, then falls to today's level. */
+.waterline-drain {
+  animation: waterline-drain 2.2s cubic-bezier(0.45, 0, 0.15, 1) 0.4s both;
+}
+@keyframes waterline-drain {
+  to {
+    transform: translateY(100%);
+  }
+}
+.waterline-wave {
+  width: 200%;
+  animation: waterline-wave 9s linear infinite;
+}
+@keyframes waterline-wave {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .waterline-wave {
+    animation: none;
+  }
+}
