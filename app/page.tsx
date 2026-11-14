@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ButtonLink } from "@/components/ui/button";
 import { SourceLink } from "@/components/ui/area-card";
 import { LakeGauge } from "@/components/ui/lake-gauge";
+import { ResetOnQuery } from "@/components/home/reset";
 import { aqiWord, formatMountain, getToday, todaySources } from "@/lib/today";
 
 export default async function Home() {
@@ -12,6 +13,7 @@ export default async function Home() {
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-8 lg:px-8 lg:py-12">
+      <ResetOnQuery />
       <p className="text-sm font-semibold uppercase tracking-wide text-muted">
         Utah, {today.stale ? "earlier reading" : "today"}
       </p>
@@ -68,6 +70,15 @@ export default async function Home() {
               <Link href="/results" className="text-sm underline underline-offset-4">
                 See a sample home first
               </Link>
+            </div>
+            <div className="mt-6 hidden items-center gap-4 lg:flex">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/qr.svg" alt="QR code for utah-footprint.vercel.app" className="size-32 rounded-control" />
+              <p className="text-sm">
+                Scan to check your own home on your phone.
+                <br />
+                <span className="text-muted">utah-footprint.vercel.app</span>
+              </p>
             </div>
           </section>
         </div>
