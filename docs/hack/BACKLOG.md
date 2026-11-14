@@ -18,11 +18,11 @@ One item at a time per person. Don't claim ahead.
 
 ## Add your own idea
 Got an idea for a feature? Add it under **Open** with the template below, claim it, post one line in `#ship`, and start.
-Craig answers in `#ship` within 5 minutes only if it's a no. It's in scope when:
+No approval needed from anyone. A good idea:
 - a judge sees it during the 3-minute demo, or it makes a screen in the demo clearer or more trustworthy;
 - every number in it has an official source you opened, added to `facts.ts` (or `FACTS.md`);
 - it fits in about 30 minutes and works in fixtures mode with no network;
-- it isn't a test, a new dependency or a new screen. Those need Craig.
+- isn't a test (we don't write tests today).
 
 If it's a new demo moment, add one line for it to `docs/hack/01-demo.md` too, so Britney can work it into the script.
 
@@ -44,7 +44,7 @@ Map items (B1, B2) come out at 12:30 if they aren't working on the live site.
 
 ### B1. Measure my lawn on a satellite map
 Good fit: Jenn · Size: L · Claimed: (open)
-Needs first: Craig has set `NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_KEY` (ask in `#ship`).
+Key: `NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_KEY`. Don't wait for it: build against the key in your own `.env.local`, or with the link hidden; it lights up once the key is in Vercel.
 Touches: `components/check/yard-map.tsx`, `lib/maps-browser.ts`, the yard step of `components/check/check-flow.tsx`
 Do: on the lawn question, add "Measure it on a map" under "I know the size". It opens a satellite view (Google Maps
 JavaScript API, `mapTypeId: "satellite"`, tilt 0) centred on an address the person types, geocoded with the Maps JS
@@ -60,7 +60,7 @@ Done when: Marisol's lawn can be measured on the live URL, on a phone, in under 
 
 ### B2. Work out my commute miles from two addresses
 Good fit: Britney · Size: L · Claimed: (open)
-Needs first: Craig has set `GOOGLE_MAPS_SERVER_KEY` (ask in `#ship`).
+Key: `GOOGLE_MAPS_SERVER_KEY`. Don't wait for it: build the fixtures path first; it goes live once the key is in Vercel.
 Touches: `app/api/distance/**`, `lib/maps-server.ts`, `components/check/commute-route.tsx`, `data/fixtures/routes.json`, the commute step of `components/check/check-flow.tsx`
 Do: on the commute question, add "Work it out from my addresses": home, and work or school. `POST /api/distance`
 with `{ from, to }` calls the Routes API `computeRoutes` on the server (`travelMode: DRIVE`, field mask
@@ -89,9 +89,9 @@ Done when: every field has paste-ready text, by 12:30.
 
 ### B5. Click every source link
 Good fit: anyone · Size: M · Claimed: (open)
-Touches: the `facts.ts` of whichever area has a broken link (tell its owner in `#ship` first)
+Touches: the `facts.ts` of whichever area has a broken link (fix it, then tell its owner in `#ship`)
 Do: on the live `/sources`, open every link. Each must open and show the number it's cited for. Post broken or
-unclear ones in `#facts` with the fact key. Fix the ones in your own folder.
+unclear ones in `#facts` with the fact key. Fix them wherever they are.
 Done when: a line under this item says "All N links checked at <time>", with any fixes listed.
 
 ### B6. Phone pass of the demo path, both languages

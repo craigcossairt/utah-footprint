@@ -23,12 +23,12 @@ goals. Every agent reads this file first, then the files under "Read first".
   of work. If the build breaks on main, fixing it beats everything else, whoever broke it.
 - **PR mode** (only if `02-plan.md` says the sponsor requires PRs):
   `gh pr create --fill && gh pr merge --auto --squash`. Never wait for a human review.
-- **Stay in your lane's folders,** plus the files listed under the backlog item you've claimed. Shared files (UI components, tokens, contract types,
-  dependencies, root config) belong to their owner in `03-lanes.md`. If you need a change there,
-  say so in your final report or ask the orchestrator. Never fork a shared component.
-- **Don't add dependencies** unless your brief allows it. Use what's installed.
-- **Don't ask permission for routine work.** Decide, note it in your final report, keep going.
-  Ask only when the answer changes what the judges see.
+- **Nobody needs permission.** Not from Craig, not from a file's owner. Decide, build, push, and post one line
+  in `#ship` so people know. That line is a heads-up, not a request: don't wait for a reply.
+- **Prefer your own folder and your claimed item's files.** When you need a change in a shared file (UI
+  components, tokens, contract types, root config), make the smallest change that works and say so in `#ship`.
+  Extend a shared component rather than forking it.
+- **Prefer what's installed.** Add a dependency only when it clearly saves time, and post it in `#ship`.
 - **When you finish or get blocked,** end with: what shipped (commit SHAs), the URL path to see
   it, what's left, and any decision others need to know.
 
