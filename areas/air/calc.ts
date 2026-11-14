@@ -131,14 +131,18 @@ const T = {
 };
 
 // The shared Card only receives the result, so we carry the zip along for today's air reading.
-export type AirResult = AreaResult & { zip?: string };
+export type AirMoney = {
+  gasPerYear: number; // dollars of gas for the commute, 0 when the car burns no gasoline
+  byAction: Record<string, { dollars: number; note: string }>;
+};
+export type AirResult = AreaResult & { zip?: string; money?: AirMoney };
 
 export function calculate(a: Answers, lang: Lang = "en"): AreaResult {
   const r: AirResult = { ...calculateCore(a, lang), zip: a.zip };
   return r;
 }
 
-function calculateCore(a: Answers, lang: Lang): AreaResult {
+function calculateCore(a: Answers, lang: Lang): AirResult {
   const t = T[lang] ?? T.en;
   const commuteMilesPerYear = Math.max(0, a.commuteMiles) * 2 * WORKDAYS_PER_YEAR;
   const vehicle = a.vehicle ?? "gas";
@@ -161,8 +165,18 @@ function calculateCore(a: Answers, lang: Lang): AreaResult {
   if (mpg) assumptions.push(t.gasAssumption(Math.round(mpg * 10) / 10, fact("air.gasPricePerGallon").value));
   const note = (share: number, plain: string, withGas: string) =>
     gas ? `${t.gas(round(gas * share, 10))} ${withGas}` : plain;
+  // Structured money figures for the card, so it can lead with dollars.
+  const money: AirMoney = {
+    gasPerYear: round(gas, 10),
+    byAction: {
+      "air.transit2": { dollars: round(gas * (2 / 5), 10), note: gas ? t.transitCostGas : t.transitCost },
+      "air.carpool": { dollars: round(gas / 2, 10), note: gas ? t.carpoolCostGas : t.carpoolCost },
+      "air.remote1": { dollars: round(gas / 5, 10), note: t.remoteCost },
+    },
+  };
 
-  return {
+  const result: AirResult = {
+    money,
     headline: round(commute, 10),
     unit: t.unit,
     typical: round(typical, 100),
@@ -197,4 +211,5 @@ function calculateCore(a: Answers, lang: Lang): AreaResult {
     ].sort((x, y) => y.saves - x.saves),
     assumptions,
   };
+  return result;
 }

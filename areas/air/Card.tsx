@@ -1,7 +1,7 @@
 import type { AreaResult, Lang } from "@/lib/contract";
 import { AreaCard, SourceLink } from "@/components/ui/area-card";
 import { aqiWord, todaySources } from "@/lib/today";
-import type { AirResult } from "./calc";
+import type { AirMoney, AirResult } from "./calc";
 import { fact, facts, programs } from "./facts";
 import { getAirForZip, getDustOutlook } from "./today-air";
 
@@ -20,6 +20,10 @@ const AQI_ES: Record<string, string> = {
 const T = {
   en: {
     title: "Air",
+    spend: (d: number) => `Your commute costs about $${fmt(d)} a year in gas. Here is how to keep more of it:`,
+    change: "What would change it most",
+    keep: (d: number) => `Save $${fmt(d)} a year`,
+    alsoCuts: "Also cuts",
     compare: (pct: number, typical: number) => (
       <>
         That is about <span className="num font-semibold text-ink">{pct}%</span> of the CO2 from all the driving one
@@ -51,6 +55,10 @@ const T = {
   },
   es: {
     title: "Aire",
+    spend: (d: number) => `Ir al trabajo le cuesta unos $${fmt(d)} al año en gasolina. Así puede ahorrar más:`,
+    change: "Lo que más lo cambiaría",
+    keep: (d: number) => `Ahorre $${fmt(d)} al año`,
+    alsoCuts: "Además reduce",
     compare: (pct: number, typical: number) => (
       <>
         Es más o menos el <span className="num font-semibold text-ink">{pct}%</span> del CO2 de todo lo que maneja un
@@ -89,7 +97,10 @@ export default async function Card({ result, lang = "en" }: { result: AreaResult
   const ready = result.unit !== "";
   // The shared comparison bar is labelled "Typical Utah home"; ours is one resident's driving,
   // so we hide the bar and say the comparison in words instead.
-  const shown = { ...result, typical: 0 };
+  // We draw our own action list (dollars first), so the shared one is switched off here.
+  // The full actions still go to the results page's ranked list and to Gemini.
+  const shown = { ...result, typical: 0, actions: [] };
+  const money = (result as AirResult).money;
 
   return (
     <AreaCard title={t.title} result={shown} facts={facts} lang={lang}>
@@ -98,6 +109,7 @@ export default async function Card({ result, lang = "en" }: { result: AreaResult
           {t.compare(Math.round((result.headline / result.typical) * 100), result.typical)}
         </p>
       ) : null}
+      {result.actions.length > 0 ? <MoneyActions result={result} money={money} t={t} /> : null}
       <TodayAir zip={zip} t={t} />
       <p className="mt-3 text-sm">
         {t.inversion(fact("air.inversionMobileSharePct").value)}{" "}
@@ -108,6 +120,43 @@ export default async function Card({ result, lang = "en" }: { result: AreaResult
       </p>
       <Outlook zip={zip} t={t} />
     </AreaCard>
+  );
+}
+
+type Words = (typeof T)["en"] | (typeof T)["es"];
+
+// Actions lead with the money each one keeps in your pocket; CO2 follows as the second reason.
+function MoneyActions({ result, money, t }: { result: AreaResult; money?: AirMoney; t: Words }) {
+  const hasMoney = !!money && money.gasPerYear > 0;
+  return (
+    <div className="mt-5">
+      {hasMoney ? (
+        <p className="text-lg font-semibold">
+          {t.spend(money!.gasPerYear)}
+        </p>
+      ) : null}
+      <h3 className="mt-3 text-sm font-semibold uppercase tracking-wide text-muted">{t.change}</h3>
+      <ul className="mt-2 divide-y divide-line border-y border-line">
+        {result.actions.map((a) => {
+          const m = money?.byAction[a.id];
+          return (
+            <li key={a.id} className="py-3">
+              {hasMoney && m && m.dollars > 0 ? (
+                <p className="num text-3xl font-extrabold">
+                  {t.keep(m.dollars)}
+                </p>
+              ) : null}
+              <p className="font-semibold">{a.title}</p>
+              <p className="text-sm">
+                {t.alsoCuts} <span className="num font-semibold">{fmt(a.saves)}</span> {a.unit}.{" "}
+                <span className="text-muted">{m ? m.note : a.costNote}</span>
+              </p>
+              {a.program ? <SourceLink href={a.program.url}>{a.program.name}</SourceLink> : null}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
