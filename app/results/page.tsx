@@ -14,7 +14,7 @@ import { toQuery } from "@/lib/answers";
 // Reads the answers from the URL on each request.
 export const instant = false;
 
-export const metadata: Metadata = { title: "My footprint | My Utah Footprint" };
+export const metadata: Metadata = { title: "My footprint | EcoSwitch" };
 
 export default async function Results({
   searchParams,
@@ -82,6 +82,12 @@ export default async function Results({
       <div className="mt-12 flex flex-wrap gap-4">
         <ButtonLink href={lang === "es" ? "/check?lang=es" : "/check"} variant={isSample ? "primary" : "secondary"}>
           {isSample ? d.checkOwn : d.change}
+        </ButtonLink>
+        <ButtonLink
+          href={`/progress?${isSample ? "" : toQuery(answers) + "&"}${lang === "es" ? "lang=es" : ""}`.replace(/[?&]$/, "")}
+          variant="secondary"
+        >
+          {lang === "es" ? "Seguir mi progreso" : "Track my progress"}
         </ButtonLink>
       </div>
     </main>

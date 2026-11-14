@@ -5,7 +5,7 @@ import { computeAll } from "@/lib/results";
 import { sample } from "@/lib/sample";
 import { todaySources } from "@/lib/today";
 
-export const metadata: Metadata = { title: "Sources | My Utah Footprint" };
+export const metadata: Metadata = { title: "Sources | EcoSwitch" };
 
 export default function Sources() {
   const computed = computeAll(sample.answers);
