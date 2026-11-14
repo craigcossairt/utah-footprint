@@ -76,13 +76,6 @@ Do: open "Submit Project" at https://www.mlh.com/events/hack-for-humanity-salt-l
 length limit into `SUBMISSION.md`, and draft each answer: goal, unique value, after-event plan, what we learned (from `LEARNED.md`).
 Done when: every field has paste-ready text, by 12:30.
 
-### B5. Click every source link
-Good fit: anyone · Size: M · Claimed: Craig's agent 12:08
-Touches: the `facts.ts` of whichever area has a broken link (fix it, then tell its owner in `#ship`)
-Do: on the live `/sources`, open every link. Each must open and show the number it's cited for. Post broken or
-unclear ones in `#facts` with the fact key. Fix them wherever they are.
-Done when: a line under this item says "All N links checked at <time>", with any fixes listed.
-
 ### B6. Phone pass of the demo path, both languages
 Good fit: Jenn · Size: S · Repeat every 20 minutes · Claimed: (open)
 Touches: nothing (report only)
@@ -113,3 +106,4 @@ Done when: each energy action on `/results` shows a dollar figure, with both pri
 - Car type on the driving question (own idea), Jenn, 930d341, /check question 4 then /results air card
 - B2. Commute miles from two addresses, Craig's agent, 78b17f1, /check question 4, "Work it out from my addresses". Works now with the saved route (type "Rose Park" and "University of Utah"); any other pair shows the error note until `GOOGLE_MAPS_SERVER_KEY` is in Vercel (Routes API enabled, then redeploy). Live call not yet run against Google.
 - B7. Home page in Spanish, Craig's agent, 7e749eb, /?lang=es (all home labels, gauge and air word in Spanish; "Ver en español" on / switches; links carry lang to /check and /results; `LakeGauge` got an optional `lang` prop)
+- B5. Click every source link, Craig's agent, no code change, /sources. All 40 links checked at 12:10 MST (36 fact links and 4 "Today's readings" links, 26 different pages): every one opens and shows the number it is cited for. No fixes needed, none blocked. Links were listed from `main` because this agent's network could not open the live site, and pages were read through a fetch service, not a browser. Not confirmed: the page numbers in four water citations ("PDF page 21" on `water.residentialGpcd`, "page 24" on the three Great Salt Lake facts); the figures themselves are in those PDFs.
