@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // /?reset=1 clears saved answers on this device, for a clean demo run.
-export function ResetOnQuery() {
+export function ResetOnQuery({ message }: { message: string }) {
   const [done, setDone] = useState(false);
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -13,12 +13,13 @@ export function ResetOnQuery() {
         .filter((k) => k.startsWith("uf."))
         .forEach((k) => localStorage.removeItem(k));
     } catch {}
-    window.history.replaceState(null, "", "/");
+    url.searchParams.delete("reset");
+    window.history.replaceState(null, "", url.pathname + url.search);
     setDone(true);
   }, []);
   return done ? (
     <p role="status" className="text-sm text-muted">
-      Saved answers on this device were cleared.
+      {message}
     </p>
   ) : null;
 }
