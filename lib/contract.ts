@@ -1,4 +1,8 @@
 // Shared types. Owned by Craig. Ask in #ship before changing.
+// What the commute car runs on. Optional: older links and the sample home mean a gasoline car.
+export type Vehicle = "gas" | "hybrid" | "plugin" | "electric" | "diesel" | "natural-gas" | "hydrogen";
+export const VEHICLES: Vehicle[] = ["gas", "hybrid", "plugin", "electric", "diesel", "natural-gas", "hydrogen"];
+
 export type Answers = {
   zip: string;
   household: number; // people in the home
@@ -6,6 +10,7 @@ export type Answers = {
   commuteMiles: number; // one-way miles driven on a normal weekday
   heating: "gas" | "electric" | "heat-pump";
   monthlyKwh?: number; // from a power bill, if known
+  vehicle?: Vehicle; // the commute car; missing means gasoline
 };
 
 // A sourced number. Every figure on screen must come from one of these.
