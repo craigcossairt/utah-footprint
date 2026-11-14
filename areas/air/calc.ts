@@ -61,6 +61,10 @@ const fmt = (n: number) => n.toLocaleString("en-US");
 const T = {
   en: {
     unit: "lbs of CO2 a year from the commute",
+    unitAll: "lbs of CO2 a year from driving",
+    other: (perDay: number, perYear: number) => ` Other driving adds ${perDay} miles a day, about ${fmt(perYear)} miles a year.`,
+    otherOnly: (perDay: number, perYear: number) => `No commute by car. Other driving is ${perDay} miles a day, about ${fmt(perYear)} miles a year.`,
+    otherAssumption: (perDay: number) => `Other driving is ${perDay} miles a day, every day of the year, as you entered it. The commute actions below apply to the commute only.`,
     savesUnit: "lbs CO2 per year",
     summary: (miles: number, perYear: number) =>
       `Driving ${miles} miles each way adds up to about ${fmt(perYear)} miles a year.`,
@@ -95,6 +99,10 @@ const T = {
   },
   es: {
     unit: "libras de CO2 al año por ir al trabajo",
+    unitAll: "libras de CO2 al año por manejar",
+    other: (perDay: number, perYear: number) => ` Otras salidas suman ${perDay} millas al día, unas ${fmt(perYear)} millas al año.`,
+    otherOnly: (perDay: number, perYear: number) => `No va al trabajo en carro. Otras salidas suman ${perDay} millas al día, unas ${fmt(perYear)} millas al año.`,
+    otherAssumption: (perDay: number) => `Las otras salidas son ${perDay} millas al día, todos los días del año, como usted lo escribió. Las acciones de abajo aplican solo al viaje al trabajo.`,
     savesUnit: "libras de CO2 al año",
     summary: (miles: number, perYear: number) =>
       `Manejar ${miles} millas de ida suma unas ${fmt(perYear)} millas al año.`,
@@ -150,12 +158,18 @@ function calculateCore(a: Answers, lang: Lang): AirResult {
   const commute = lbsCo2(commuteMilesPerYear) * factor;
   const typical = lbsCo2(fact("air.utahMilesPerPerson").value);
   const assumptions = t.assumptions(WORKDAYS_PER_YEAR, fact("air.carGramsCo2PerMile").value);
-  if (vehicle !== "gas" && commuteMilesPerYear > 0) {
+  const otherPerDay = Math.max(0, a.otherMilesPerDay ?? 0);
+  const otherPerYear = otherPerDay * 365;
+  const other = lbsCo2(otherPerYear) * factor;
+  if (otherPerDay > 0) assumptions.push(t.otherAssumption(otherPerDay));
+  if (vehicle !== "gas" && commuteMilesPerYear + otherPerYear > 0) {
     const name = t.car.names[vehicle];
     assumptions.splice(1, 0, wtwLbsPerMile(vehicle) === null ? t.car.unsourced(name) : t.car.sourced(name, Math.round(factor * 100)));
   }
 
   if (commuteMilesPerYear === 0) {
+    if (otherPerDay > 0)
+      return { headline: round(other, 10), unit: t.unitAll, typical: round(typical, 100), summary: t.otherOnly(otherPerDay, round(otherPerYear, 100)), actions: [], assumptions };
     return { headline: 0, unit: t.unit, typical: round(typical, 100), summary: t.noCommute, actions: [], assumptions };
   }
 
@@ -177,11 +191,13 @@ function calculateCore(a: Answers, lang: Lang): AirResult {
 
   const result: AirResult = {
     money,
-    headline: round(commute, 10),
-    unit: t.unit,
+    headline: round(commute + other, 10),
+    unit: otherPerDay > 0 ? t.unitAll : t.unit,
     typical: round(typical, 100),
     // The card states the gas cost in its own line just below, so the summary keeps to miles.
-    summary: t.summary(a.commuteMiles, round(commuteMilesPerYear, 100)),
+    summary:
+      t.summary(a.commuteMiles, round(commuteMilesPerYear, 100)) +
+      (otherPerDay > 0 ? t.other(otherPerDay, round(otherPerYear, 100)) : ""),
     actions: [
       {
         id: "air.transit2",

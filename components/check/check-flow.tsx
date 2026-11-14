@@ -19,6 +19,7 @@ type Draft = {
   drives: boolean;
   commuteMiles: number;
   vehicle: Vehicle;
+  otherMiles: string;
   heating: Answers["heating"] | "";
   kwh: string;
 };
@@ -31,6 +32,7 @@ const START: Draft = {
   drives: true,
   commuteMiles: 10,
   vehicle: "gas",
+  otherMiles: "",
   heating: "",
   kwh: "",
 };
@@ -51,6 +53,8 @@ const COPY = {
     q2: ["How many people live in your home?", "Count everyone, including children.", "One fewer person", "One more person"],
     q3: ["How much lawn do you water?", "Only the grass. A rough guess is fine.", "Lawn size in square feet"],
     q4: ["How far do you drive to work or school?", "One way, on a normal weekday.", "miles one way", "Miles one way", "I don't drive to work or school"],
+    otherDrive: ["Other driving on a typical day (optional)", "Errands, school drop-off, trips. Leave it empty if you're not sure.", "miles a day"],
+    errOther: "Enter a number of miles between 0 and 300, or leave it empty.",
     car: "What does the car run on?",
     cars: { gas: "Gasoline", hybrid: "Hybrid (no plug)", plugin: "Plug-in hybrid", electric: "Electric", diesel: "Diesel", "natural-gas": "Natural gas", hydrogen: "Hydrogen fuel cell" },
     q5: ["How is your home heated?", "If you have a furnace and a gas bill, pick natural gas."],
@@ -85,6 +89,8 @@ const COPY = {
     q2: ["¿Cuántas personas viven en su hogar?", "Cuente a todos, también a los niños.", "Una persona menos", "Una persona más"],
     q3: ["¿Cuánto césped riega?", "Solo el pasto. Un cálculo aproximado está bien.", "Tamaño del césped en pies cuadrados"],
     q4: ["¿Qué tan lejos maneja al trabajo o a la escuela?", "Solo ida, en un día normal entre semana.", "millas de ida", "Millas de ida", "No manejo al trabajo ni a la escuela"],
+    otherDrive: ["Otras millas que maneja en un día normal (opcional)", "Mandados, llevar a los niños, paseos. Déjelo vacío si no está seguro.", "millas al día"],
+    errOther: "Escriba entre 0 y 300 millas, o déjelo vacío.",
     car: "¿Con qué funciona el carro?",
     cars: { gas: "Gasolina", hybrid: "Híbrido (sin enchufe)", plugin: "Híbrido enchufable", electric: "Eléctrico", diesel: "Diésel", "natural-gas": "Gas natural", hydrogen: "Celda de hidrógeno" },
     q5: ["¿Cómo se calienta su hogar?", "Si tiene calentador y factura de gas, elija gas natural."],
@@ -171,6 +177,10 @@ export function CheckFlow() {
           return c.errYardSize;
       }
     }
+    if (step === 4 && d.otherMiles) {
+      const n = Number(d.otherMiles);
+      if (!Number.isFinite(n) || n < 0 || n > 300) return c.errOther;
+    }
     if (step === 5 && !d.heating) return c.errHeat;
     if (step === 6 && d.kwh) {
       const n = Number(d.kwh);
@@ -191,7 +201,8 @@ export function CheckFlow() {
       household: d.household,
       yardSqFt,
       commuteMiles: d.drives ? d.commuteMiles : 0,
-      ...(d.drives && d.vehicle !== "gas" ? { vehicle: d.vehicle } : {}),
+      ...((d.drives || Number(d.otherMiles) > 0) && d.vehicle !== "gas" ? { vehicle: d.vehicle } : {}),
+      ...(Number(d.otherMiles) > 0 ? { otherMilesPerDay: Math.round(Number(d.otherMiles)) } : {}),
       heating: d.heating || "gas",
       ...(d.kwh ? { monthlyKwh: Math.round(Number(d.kwh)) } : {}),
     };
@@ -353,7 +364,7 @@ export function CheckFlow() {
               <select
                 id="car"
                 value={d.vehicle}
-                disabled={!d.drives}
+                disabled={!d.drives && !(Number(d.otherMiles) > 0)}
                 onChange={(e) => set({ vehicle: e.target.value as Vehicle })}
                 className="mt-1 block min-h-12 w-full rounded-control border-2 border-ink bg-surface px-3 py-2 text-base"
               >
@@ -373,6 +384,22 @@ export function CheckFlow() {
               />
               {c.q4[4]}
             </label>
+            <div className="mt-4">
+              <label htmlFor="other-miles" className="block font-semibold">
+                {c.otherDrive[0]}
+              </label>
+              <p className="text-sm text-muted">{c.otherDrive[1]}</p>
+              <p className="mt-1 flex items-baseline gap-2">
+                <input
+                  id="other-miles"
+                  inputMode="numeric"
+                  value={d.otherMiles}
+                  onChange={(e) => set({ otherMiles: e.target.value.replace(/\D/g, "") })}
+                  className="num block w-28 rounded-control border-2 border-ink bg-surface px-3 py-2 text-xl font-extrabold"
+                />
+                <span className="text-muted">{c.otherDrive[2]}</span>
+              </p>
+            </div>
           </Question>
         )}
 

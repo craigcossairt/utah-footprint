@@ -11,6 +11,7 @@ export type Answers = {
   heating: "gas" | "electric" | "heat-pump";
   monthlyKwh?: number; // from a power bill, if known
   vehicle?: Vehicle; // the commute car; missing means gasoline
+  otherMilesPerDay?: number; // optional: errands, school runs and other driving on a typical day
 };
 
 // A sourced number. Every figure on screen must come from one of these.

@@ -13,6 +13,7 @@ export function toQuery(a: Answers): string {
   });
   if (a.monthlyKwh) q.set("kwh", String(a.monthlyKwh));
   if (a.vehicle && a.vehicle !== "gas") q.set("car", a.vehicle);
+  if (a.otherMilesPerDay) q.set("other", String(a.otherMilesPerDay));
   return q.toString();
 }
 
@@ -35,10 +36,11 @@ export function fromQuery(p: Params): { answers: Answers; isSample: boolean } {
   }
   const heating = heat === "electric" || heat === "heat-pump" ? heat : "gas";
   const kwh = num(p.kwh, 50, 10000);
+  const other = num(p.other, 1, 300);
   const carRaw = Array.isArray(p.car) ? p.car[0] : p.car;
   const vehicle = VEHICLES.includes(carRaw as Vehicle) ? (carRaw as Vehicle) : undefined;
   return {
-    answers: { zip, household, yardSqFt: yard, commuteMiles: miles, heating, ...(kwh ? { monthlyKwh: kwh } : {}), ...(vehicle ? { vehicle } : {}) },
+    answers: { zip, household, yardSqFt: yard, commuteMiles: miles, heating, ...(kwh ? { monthlyKwh: kwh } : {}), ...(vehicle ? { vehicle } : {}), ...(other ? { otherMilesPerDay: Math.round(other) } : {}) },
     isSample: false,
   };
 }
