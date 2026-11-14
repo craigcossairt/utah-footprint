@@ -1,101 +1,61 @@
 # DESIGN.md
 
-The design system for My Utah Footprint. The design lead fills this in during the first 10% of the
-clock (`hack-design` skill). Every UI agent reads it before building. If this file and a lane
-brief disagree, this file wins.
+The design system for My Utah Footprint. Every UI agent reads it before building. If this file
+and a brief disagree, this file wins.
 
 ## 1. Direction
-
 **Name:** Trailhead sign.
-**One sentence:** it should feel like the interpretive sign at a Utah trailhead, plain, sturdy and
-trustworthy, to a homeowner standing in their own front yard with a phone.
-**Borrowed from:** National Park Service wayside signs (brown and cream, heavy sans headings, one
-measured fact per panel) and a USGS stream gauge readout (big tabular numbers, a unit, a timestamp).
-**Not:** a green-leaf eco startup landing page, a climate-doom dashboard, or a gardening blog.
-**Brand source:** none. Colours come from the place: salt flat cream, lake blue-grey, sagebrush, red rock for the one accent.
-**Target screens:** phone 390×844 and laptop 1440×900 (the laptop is mirrored to the projector, so
-body text there is at least 20px and every number a judge must read is at least 40px). Nothing else.
+**Feel:** the interpretive sign at a Utah trailhead: plain, sturdy, trustworthy, read by a homeowner on a phone.
+**Borrowed from:** National Park Service wayside signs (cream panel, heavy sans headings, one measured
+fact per panel) and a USGS gauge readout (big tabular numbers, a unit, a timestamp).
+**Not:** a green-leaf eco startup page, a climate-doom dashboard, or a default grey template.
+**Target screens:** phone 390×844 and laptop 1440×900 (mirrored to the projector). Nothing else.
 
-## 2. Tokens
+## 2. Tokens (defined in `app/globals.css`; use the Tailwind names, never a raw hex or pixel value)
 
-Live in `app/globals.css` under Tailwind v4 `@theme`. A component never uses a raw value.
+| Tailwind name | Use |
+|---|---|
+| `bg-bg` | page background (cream) |
+| `bg-surface` | inputs and raised areas, sparingly |
+| `text-ink` / `bg-ink` / `border-ink` | body text, strong rules, bars |
+| `text-muted` | secondary text |
+| `border-line` / `bg-line` | hairlines, quiet bars |
+| `bg-accent` / `text-accent` | the one primary action, and one emphasised figure per screen. Only that. |
+| `text-lake` / `bg-lake` | water, and source links |
+| `text-sage` / `bg-sage` | land, healthy range |
+| `text-ok` / `text-warn` / `text-bad` | status, always with a word or icon |
 
-| Token | Light | Dark | Use |
-|---|---|---|---|
-| `--color-bg` | | | page |
-| `--color-surface` | | | raised areas (use sparingly) |
-| `--color-ink` | | | body text |
-| `--color-muted` | | | secondary text |
-| `--color-line` | | | hairlines and dividers |
-| `--color-accent` | | | the one primary action and focus ring. Only this. |
-| `--color-ok` / `--color-warn` / `--color-bad` | | | status, always paired with a word or icon |
+**Type:** headings use `font-display` (Archivo, weight 800: `font-extrabold`). Text uses the default
+(Public Sans). Every number uses the class `num` (tabular figures). Sizes: Tailwind `text-sm` to
+`text-6xl` only. The base size grows on laptop so projector text is readable; don't set pixel sizes.
+**Space:** Tailwind steps 1, 2, 3, 4, 6, 8, 12, 16. **Radius:** `rounded-control` for controls,
+`rounded-panel` for panels. **Icons:** lucide-react only, `strokeWidth={2}`.
+**Section rule:** a section starts with `border-t-4 border-ink pt-4` and a heading. No boxes
+around sections, no cards inside cards, no shadows, no gradients, no emoji.
 
-**Type:** display __FONT__ / text __FONT__ / numbers __MONO_OR_TABULAR__, loaded with `next/font`
-(no runtime CDN). Scale: 12 / 14 / 16 / 20 / 24 / 32 / 48 / 64. If a projector is a target
-screen, body text there is at least 20px and every number a judge must read is at least 40px.
-**Space:** 4px base. Allowed steps: 4, 8, 12, 16, 24, 32, 48, 64, 96.
-**Radius:** one value for controls, one for panels. **Shadow:** at most one elevation.
-**Motion:** 150ms for UI feedback, 250ms for things entering, ease-out going in and ease-in
-going out. Under reduced motion the end state appears at once.
-**Icons:** one set only (lucide by default), one stroke width.
+## 3. Components (`components/ui/`, owned by Craig; ask in #ship for changes)
 
-## 3. Components (`components/ui/`, owned by the design lead)
-
-List each one with a usage note. Start from shadcn/ui primitives, then restyle them to the
-tokens. The default shadcn look is itself an AI tell.
-
-| Component | Variants | Note |
+| Component | Import | Note |
 |---|---|---|
-| Button | primary, secondary, ghost, danger | one primary per view |
-| ... | | |
+| `AreaCard` | `@/components/ui/area-card` | The standard result card: `<AreaCard title="Water" result={result} facts={facts}>extra lines</AreaCard>`. Shows the big number, the comparison with a typical Utah home, actions, assumptions and sources. Use it for your card. |
+| `ActionRow`, `SourceLink` | `@/components/ui/area-card` | One action; an external link to a source |
+| `BigNumber` | `@/components/ui/big-number` | A large figure with its unit |
+| `Button`, `ButtonLink` | `@/components/ui/button` | `primary`, `secondary`, `ghost`. One primary per view. Labels say what happens. |
+| `Skeleton`, `ErrorNote`, `StepProgress` | `@/components/ui/feedback` | Loading placeholder, error message with icon, question progress |
+| `LakeGauge` | `@/components/ui/lake-gauge` | Lake level against the healthy range |
 
 ## 4. Screens
+- **`/` Today in Utah:** the eye lands on how far the lake is below healthy, with the gauge. Then today's air, then "Check my home".
+- **`/check` Six questions:** one question per screen, large controls, Back and Next. Ends with "Show my footprint".
+- **`/results` My footprint:** three area cards (water, energy, air) side by side on laptop, stacked on phone. Then the plan and the question box.
+- **`/sources`:** every fact with its source link.
 
-One block per screen in the demo script, in demo order. A lane builds exactly this.
+Every screen handles loading, empty, error and too-much content.
 
-### Screen: Lake today + start (`/`, lane screen-home)
-- **Job:** show the lake's level today and start a yard. One action: "Use a photo of my yard".
-- **First thing the eye lands on:** the lake elevation in feet, very large, with the healthy line drawn above it on a vertical gauge.
-- **Content, top to bottom:** gauge with today's level, the healthy minimum and the gap in feet; "measured" timestamp and "USGS" source line; one sentence of context; primary button "Use a photo of my yard"; a quiet row of three sample homes ("Try Marisol's yard in Rose Park").
-- **States:** loading: gauge skeleton, button usable. Empty: not reachable. Error: last good level with "as of" time and the word "Earlier reading". Too-much: not reachable. Photo upload in progress: the photo appears at once with a progress line naming the step ("Finding the lawn").
-- **Demo moment:** "This is the Great Salt Lake this morning."
+## 5. Avoid
+Slate grey and Inter; `rounded-lg` on everything; purple gradients, glows, glass; a centred hero with
+three feature cards; a border plus a shadow plus a background on one box; a pill around every label;
+emoji as icons; everything centred; invented content; spinners where a skeleton fits; tiny grey text.
 
-### Screen: My yard (`/yard/[id]`, lane screen-yard)
-- **Job:** show what this yard uses and let the owner try changes. One action: toggle an option.
-- **First thing the eye lands on:** gallons per summer, counting up, over the yard photo.
-- **Content, top to bottom:** yard photo (before and after compare once an option is on, labelled "illustration"); gallons per summer with the lawn and park-strip area beneath it, labelled "estimate" with an edit control; three option toggles ("Flip the park strip", "Swap half the lawn", "Add a smart controller"), each with gallons saved and cost; a totals line: gallons saved, dollars saved per year, rebate; button "See what my street could save".
-- **States:** loading: photo skeleton and number skeleton at final size. Empty (no lawn found): "We couldn't find lawn in this photo" with "Try another photo" and "Enter the size yourself". Error: sample home offered. Too-much (very large lot): numbers abbreviate ("1.2 million gallons"), layout unchanged.
-- **Demo moment:** the photo redraws while the gallons number drops.
-
-### Screen: Street and city (`/community`, lane screen-community)
-- **Job:** put one yard in scale, honestly. One action: drag the homes slider.
-- **First thing the eye lands on:** total gallons saved for the chosen number of homes.
-- **Content, top to bottom:** "If [n] homes on my street did this" slider and total; the same for the city as a share of households; the water-share bar (farming, homes, industry) with the household slice marked "the part we control" and a source line; QR code and "Try it on your yard".
-- **States:** loading: bar skeleton. Empty (no plan chosen): uses Marisol's plan and says so. Error: static fixture values. Too-much: totals switch to acre-feet with gallons beneath.
-- **Demo moment:** "This slice is the part households control."
-
-## 5. Anti-slop rules
-
-These are the tells that make a judge think "AI made this". Avoid every one:
-
-- Default shadcn/Tailwind look: slate grey, Inter, `rounded-lg` on everything, no point of view.
-- A purple-to-blue gradient, glowing blobs, glassmorphism, sparkle icons for "AI".
-- A centred hero with a big headline and three feature cards under it.
-- Cards inside cards. A border, a shadow and a background on the same box.
-- A pill or badge around every piece of metadata. Emoji used as icons.
-- Every element centred. Everything the same weight. No clear first thing to look at.
-- Placeholder or invented content: "Lorem", "John Doe", "Acme", fake logos, fake metrics.
-- Spinners where a skeleton fits. A blank screen while loading. Layout that jumps when data arrives.
-- Copy full of the banned words in `AGENTS.md`, or headings that are slogans instead of labels.
-- Tiny, low-contrast grey text. A dashboard where every number is the same size.
-
-What to do instead: a clear point of view from section 1, real content, strong type contrast
-(big against small, heavy against light), generous space, alignment to one grid, one accent used
-rarely, numbers in tabular figures, and details that only someone who knows the domain would put
-in.
-
-## 6. When rules conflict, protect them in this order
-1. Facts, prices, units and privacy. Never bent to fit a layout.
-2. The demo moment for this screen.
-3. The tokens and components here.
-4. Responsive behaviour and extra polish.
+## 6. When rules conflict, protect in this order
+1. Facts, units and sources. 2. The demo moment. 3. The tokens and components. 4. Extra polish.

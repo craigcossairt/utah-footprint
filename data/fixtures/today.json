@@ -1,0 +1,14 @@
+{
+  "lake": {
+    "elevationFt": 4190.4,
+    "measuredAtUtc": "2026-11-14T16:45:00.000Z",
+    "healthyMinFt": 4198,
+    "healthyMaxFt": 4205
+  },
+  "air": {
+    "usAqi": 57,
+    "pm25": 3.9,
+    "pm10": 4.0,
+    "measuredAtUtc": "2026-11-14T17:00:00.000Z"
+  }
+}

@@ -1,26 +1,71 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Design tokens. Direction: "Trailhead sign" (see DESIGN.md). Light only.
+   A component never uses a raw colour or size: use these names. */
+@theme {
+  --color-bg: #f4eedf; /* salt-flat cream: page */
+  --color-surface: #fbf7ec; /* raised panels, use sparingly */
+  --color-ink: #2b2118; /* body text */
+  --color-muted: #65574a; /* secondary text */
+  --color-line: #d6cab2; /* hairlines */
+  --color-accent: #a8432a; /* red rock: the one primary action, focus ring */
+  --color-accent-ink: #fffaf0; /* text on accent */
+  --color-lake: #3f6679; /* water */
+  --color-sage: #55693f; /* land, "good" */
+  --color-ok: #46602f;
+  --color-warn: #8a5a00;
+  --color-bad: #9b2c1f;
+
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-control: 6px;
+  --radius-panel: 10px;
+
+  --shadow-raise: 0 1px 0 var(--color-line);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  font-size: 17px;
+  color-scheme: light;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Laptop is mirrored to a projector: body text must be at least 20px there. */
+@media (min-width: 1024px) {
+  html {
+    font-size: 20px;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.num {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
