@@ -123,7 +123,7 @@ Do: one thing you learned about Utah's water, air or power; one about building w
 Done when: all four sections are filled.
 
 ### B11. Dollar savings on the energy actions
-Good fit: Jennifer · Size: M · Claimed: (open)
+Good fit: Jennifer · Size: M · Claimed: Jennifer 12:07
 Touches: `areas/energy/**`
 Do: add "About $N a year" to each energy action, from kWh saved × Utah's average residential electricity price (EIA Electric Power Monthly) and heating savings × Utah's residential natural gas price (EIA Natural Gas, or Enbridge Gas Utah's residential rate). Add both as facts and an assumptions line. EN and ES. Pattern: the Air card's gas savings in `areas/air/calc.ts`.
 Done when: each energy action on `/results` shows a dollar figure, with both prices on `/sources`.
