@@ -83,6 +83,12 @@ export default async function Results({
         <ButtonLink href={lang === "es" ? "/check?lang=es" : "/check"} variant={isSample ? "primary" : "secondary"}>
           {isSample ? d.checkOwn : d.change}
         </ButtonLink>
+        <ButtonLink
+          href={`/progress?${isSample ? "" : toQuery(answers) + "&"}${lang === "es" ? "lang=es" : ""}`.replace(/[?&]$/, "")}
+          variant="secondary"
+        >
+          {lang === "es" ? "Seguir mi progreso" : "Track my progress"}
+        </ButtonLink>
       </div>
     </main>
   );
