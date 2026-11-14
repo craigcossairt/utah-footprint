@@ -9,6 +9,7 @@ export type AirReading = {
   measuredAtUtc: string;
   stale: boolean; // showing a saved reading
   forZip: boolean; // false when we fell back to Salt Lake City
+  live: boolean; // false in DEMO_MODE=fixtures, where we never look up the zip
 };
 
 async function getJson(url: string) {
@@ -40,11 +41,14 @@ export async function getAirForZip(zip?: string): Promise<AirReading> {
         measuredAtUtc: new Date(`${c.time}Z`).toISOString(),
         stale: false,
         forZip: true,
+        live: true,
       };
     } catch {
       // fall through to Salt Lake City
     }
   }
   const today = await getToday();
-  return { place: "Salt Lake City", ...today.air, stale: today.stale, forZip: false };
+  const live = demoMode() === "live";
+  // In fixtures mode the reading is saved data, so say so rather than calling it "now".
+  return { place: "Salt Lake City", ...today.air, stale: today.stale || !live, forZip: false, live };
 }

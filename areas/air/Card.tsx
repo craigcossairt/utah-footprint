@@ -46,7 +46,7 @@ async function TodayAir({ zip }: { zip?: string }) {
           Air in {air.place} {air.stale ? "(last saved reading)" : "now"}: {aqiWord(usAqi)}, AQI{" "}
           <span className="num">{usAqi}</span>
         </p>
-        {zip && !air.forZip ? (
+        {zip && air.live && !air.forZip ? (
           <p className="text-muted">We couldn&apos;t get a reading for {zip}, so this is Salt Lake City.</p>
         ) : null}
         <p className="text-muted">
