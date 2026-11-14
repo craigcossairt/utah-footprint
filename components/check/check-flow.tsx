@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Minus, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { BillUpload } from "@/components/check/bill-upload";
 import { CommuteRoute } from "@/components/check/commute-route";
 import { ErrorNote, StepProgress } from "@/components/ui/feedback";
 import { STORAGE_KEY, toQuery } from "@/lib/answers";
@@ -436,6 +437,7 @@ export function CheckFlow() {
               />
               <span className="text-muted">{c.q6[3]}</span>
             </div>
+            <BillUpload lang={lang} onUse={(kwh) => (setError(""), set({ kwh }))} />
           </Question>
         )}
 

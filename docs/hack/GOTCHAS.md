@@ -11,6 +11,7 @@ Known traps, collected from past events. One line each: the symptom, then the fi
   in the dashboard. Don't fight it with `vercel.json`.
 - Next 16 dev blocks requests from `127.0.0.1` or tunnel origins → add them to `allowedDevOrigins`.
 - Env added in Vercel doesn't show up → it's scoped to the wrong environment (Preview or Production), or no redeploy happened.
+- Build fails with `Route segment config "runtime" is not compatible with nextConfig.cacheComponents` → delete `export const runtime` from the route; `maxDuration` is fine.
 - Serverless function timeout on slow AI calls → stream the response, or run the call in the
   background and poll. Raise `maxDuration` if the plan allows.
 - Gateways and proxies can cut long-lived streams (one cut every SSE at exactly 15 s) → test a
