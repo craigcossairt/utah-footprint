@@ -21,6 +21,10 @@ const T = {
   en: {
     title: "Air",
     whereYouLive: "The air where you live",
+    alertTitle: "Bad-air alert",
+    alertDay: (day: string, word: string, aqi: number) => `${day}: forecast ${word}, AQI up to ${aqi}.`,
+    alertDo: "That day, share the ride, take transit or work from home if you can, and limit hard exercise outdoors.",
+    noAlert: (aqi: number) => `No bad-air days forecast in the next 3 days (AQI up to ${aqi}).`,
     spend: (d: number) => `Your commute costs about $${fmt(d)} a year in gas. Here is how to keep more of it:`,
     change: "What would change it most",
     keep: (d: number) => `Save $${fmt(d)} a year`,
@@ -64,6 +68,11 @@ const T = {
   es: {
     title: "Aire",
     whereYouLive: "El aire donde usted vive",
+    alertTitle: "Alerta de aire malo",
+    alertDay: (day: string, word: string, aqi: number) => `${day}: pronóstico ${word}, AQI de hasta ${aqi}.`,
+    alertDo:
+      "Ese día, comparta el viaje, use el transporte público o trabaje desde casa si puede, y limite el ejercicio fuerte al aire libre.",
+    noAlert: (aqi: number) => `No se pronostican días de aire malo en los próximos 3 días (AQI de hasta ${aqi}).`,
     spend: (d: number) => `Ir al trabajo le cuesta unos $${fmt(d)} al año en gasolina. Así puede ahorrar más:`,
     change: "Lo que más lo cambiaría",
     keep: (d: number) => `Ahorre $${fmt(d)} al año`,
@@ -201,8 +210,25 @@ async function Outlook({ zip, t }: { zip?: string; t: (typeof T)["en"] | (typeof
     weekday: "long",
     timeZone: "America/Denver",
   });
+  // Bad-air alert: EPA's "Unhealthy for sensitive groups" starts at AQI 101.
+  const bad = o.aqiDay && o.aqiMax !== null && o.aqiMax >= 101;
+  const aqiWeekday = o.aqiDay
+    ? new Date(`${o.aqiDay}T12:00:00-07:00`).toLocaleDateString(t.locale, { weekday: "long", timeZone: "America/Denver" })
+    : "";
   return (
     <div className="mt-3 text-sm">
+      {bad ? (
+        <div role="status" className="mb-3 border-l-4 border-warn pl-3">
+          <p className="font-extrabold text-warn">{t.alertTitle}</p>
+          <p className="font-semibold">
+            {t.alertDay(aqiWeekday, t.aqi(aqiWord(o.aqiMax!)), o.aqiMax!)}
+          </p>
+          <p>{t.alertDo}</p>
+          <SourceLink href={todaySources.aqi.url}>{todaySources.aqi.name}</SourceLink>
+        </div>
+      ) : o.aqiMax !== null ? (
+        <p className="mb-3">{t.noAlert(o.aqiMax)}</p>
+      ) : null}
       <p className="font-semibold">{t.outlook(weekday, o.pm10Max)}</p>
       <p className="text-muted">{t.outlookNote(o.place, when(o.fetchedAtUtc, t.locale))}</p>
       <SourceLink href={todaySources.air.url}>Open-Meteo air quality model</SourceLink>

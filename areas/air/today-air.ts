@@ -53,6 +53,9 @@ export type DustOutlook = {
   day: string; // "2026-11-16", local date in Utah
   pm10Max: number; // highest hourly coarse dust forecast that day, µg/m³
   fetchedAtUtc: string;
+  // Worst forecast US AQI in the same three days, for the bad-air alert. Null if the forecast had none.
+  aqiDay: string | null;
+  aqiMax: number | null;
 };
 
 // The dustiest of the next three days (tomorrow through three days out) from Open-Meteo's hourly PM10
@@ -62,7 +65,7 @@ export async function getDustOutlook(zip?: string): Promise<DustOutlook | null> 
     const place = await placeForZip(zip);
     if (!place) return null;
     const res = await fetch(
-      `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${place.latitude}&longitude=${place.longitude}&hourly=pm10&forecast_days=4&timezone=America%2FDenver`,
+      `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${place.latitude}&longitude=${place.longitude}&hourly=pm10,us_aqi&forecast_days=4&timezone=America%2FDenver`,
       { cache: "no-store", signal: AbortSignal.timeout(3000) },
     );
     if (!res.ok) return null;
@@ -81,7 +84,25 @@ export async function getDustOutlook(zip?: string): Promise<DustOutlook | null> 
       }
     }
     if (!day) return null;
-    return { place: place.name, day, pm10Max: Math.round(max), fetchedAtUtc: new Date().toISOString() };
+    const aqi: (number | null)[] = m.hourly?.us_aqi ?? [];
+    let aqiDay: string | null = null;
+    let aqiMax = -1;
+    for (let i = 0; i < times.length; i++) {
+      const v = aqi[i];
+      const d = times[i].slice(0, 10);
+      if (typeof v === "number" && Number.isFinite(v) && days.includes(d) && v > aqiMax) {
+        aqiMax = v;
+        aqiDay = d;
+      }
+    }
+    return {
+      place: place.name,
+      day,
+      pm10Max: Math.round(max),
+      fetchedAtUtc: new Date().toISOString(),
+      aqiDay,
+      aqiMax: aqiDay ? Math.round(aqiMax) : null,
+    };
   } catch {
     return null;
   }
