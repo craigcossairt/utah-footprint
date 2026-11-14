@@ -39,7 +39,7 @@ export function LakeGauge({
       <p className="absolute left-24 translate-y-1/2 text-sm leading-tight text-lake" style={{ bottom: `${pct(level)}%` }}>
         <span className="font-semibold">Today</span>
         <br />
-        <span className="num">{level.toFixed(1)} ft</span>
+        <span className="num">{level.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} ft</span>
       </p>
     </div>
   );

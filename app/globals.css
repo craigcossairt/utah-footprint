@@ -69,3 +69,8 @@ h3 {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Headings that receive focus only so screen readers announce a new step. */
+[tabindex="-1"]:focus-visible {
+  outline: none;
+}
