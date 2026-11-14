@@ -38,9 +38,12 @@ export type AreaResult = {
 
 export type AreaId = "water" | "energy" | "air";
 
+// Page language. Areas may translate their text when lang is "es"; English is the default.
+export type Lang = "en" | "es";
+
 export type Area = {
   id: AreaId;
   label: string;
   facts: Fact[];
-  calculate(a: Answers): AreaResult;
+  calculate(a: Answers, lang?: Lang): AreaResult;
 };

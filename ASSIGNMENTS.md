@@ -155,6 +155,66 @@ line that doesn't sound like you. It must fit in 3 minutes.
 | 4 | Gemini: plain-language plan and question box, answering only from our facts and naming the ones used | `app/api/**`, `lib/gemini.ts` |
 | 5 | Spanish toggle, QR code, reset, README, submission | see `docs/hack/02-plan.md` |
 
+---
+
+## Round 2 (from 11:35; stop at the 12:52 freeze)
+
+Done with your card? Work down your list in order. Same rules: your folder only, every number has
+an official source you opened, build, then push. Each item is about 20 to 30 minutes. If one fights
+you for more than 15 minutes, skip it and post in `#ship`.
+
+**New since Round 1 (Craig, already on main):** the results page has a Spanish toggle
+(`/results?lang=es`). Your `Card` now receives `lang` (`"en"` or `"es"`) next to `result`, and your
+`calculate(answers, lang)` receives it as a second argument. `AreaCard` takes `lang={lang}` and
+translates its own labels. Gemini reads every fact in your `facts.ts`, so each new sourced fact is
+something it can now answer questions about.
+
+### Everyone: Spanish for your card (first)
+> Read lib/contract.ts and lib/areas.ts. My Card now receives `lang` ("en" or "es") and calculate
+> receives `lang` as a second argument. In my folder only: when lang is "es", return the summary,
+> action titles, cost notes and assumptions in plain Spanish for a Utah family, and pass
+> `lang={lang}` to AreaCard. Keep numbers, units and links the same. English stays the default.
+> Build, commit, pull --rebase, build, push. Then tell me to check /results?lang=es.
+
+### Jenn: water
+1. **Spanish for your card** (above).
+2. **Answer the demo question.** The demo asks Gemini "Does my lawn really affect the lake?" and right now
+   no fact connects home water use to the lake, so Gemini will say it has no source. Find official
+   figures, for example from the Great Salt Lake Strike Team or the Utah Division of Water Resources:
+   what share of water diverted from the lake's rivers goes to cities and homes versus farms and
+   industry, and how much of a home's outdoor water is not returned to the rivers. Add them as facts
+   in `areas/water/facts.ts` and one plain line on your card. Use the wording in `docs/hack/FACTS.md`:
+   yards are the part households control, never "your lawn is draining the lake".
+3. **Tester:** from 11:40, the live site on your phone every 20 minutes, both languages. Bugs in `#bugs` with a screenshot.
+
+### Jennifer: energy
+1. **Finish the energy card** (Round 1). It is the one card still showing "being built", and the
+   11:40 checkpoint needs it live.
+2. **Spanish for your card** (above).
+3. **Data center line** (Round 1 "Then"), only with a public figure for a named facility and year.
+4. **Submission:** form fields into `docs/hack/SUBMISSION.md` and the project story, by 12:30.
+
+### Britney: air
+1. **Spanish for your card** (above).
+2. **Dust outlook for the next 3 days.** Open-Meteo's air quality API also forecasts hourly PM10 (coarse
+   dust). Show one line on your card: the day in the next three with the highest PM10 forecast for the
+   user's ZIP, in plain words ("Dustiest day ahead: Tuesday, coarse dust up to N µg/m³"), with the
+   source link and the time it was fetched. Fall back to no line when the call fails. No new
+   dependency; reuse `today-air.ts`.
+3. **Winter inversion line,** only with an official source (Utah Division of Air Quality): what share
+   of the Wasatch Front's winter pollution comes from cars and trucks. Add it as a fact and one line
+   that ties it to her commute actions.
+4. **Presenter:** at 12:10, the first timed run of `docs/hack/01-demo.md` on the live site. Rewrite
+   any line that doesn't sound like you. It must fit in 3 minutes.
+
+### Everyone: team learning (15 points), 5 minutes, before 12:40
+Add two lines under your name in `docs/hack/LEARNED.md` (Craig creates it): one thing you learned about
+Utah's water, air or power, and one about building with a coding agent. The demo's closing line uses them.
+
+### Craig
+Spanish on `/` and `/check`; saved Gemini answers for the three demo questions; warm the Gemini cache
+before the demo; remove the "cards are in English" note once all three cards translate.
+
 ## Checkpoints
 | Time | Must be true |
 |---|---|

@@ -24,10 +24,10 @@ export default async function Results({
   const { answers, isSample } = fromQuery(params);
   const lang = params.lang === "es" ? "es" : "en";
   const d = t[lang];
-  const otherHref = `/results?${isSample ? "" : toQuery(answers) + "&"}${lang === "es" ? "" : "lang=es"}`.replace(/[?&]$/, "");
-  const computed = computeAll(answers);
+  const computed = computeAll(answers, lang);
   const ranked = rankActions(computed);
-
+  const otherHref = `/results?${isSample ? "" : toQuery(answers) + "&"}${lang === "es" ? "" : "lang=es"}`.replace(/[?&]$/, "");
+    
   return (
     <main lang={lang} className="mx-auto w-full max-w-5xl px-4 py-8 lg:px-8 lg:py-12">
       <p className="text-sm font-semibold uppercase tracking-wide text-muted">
@@ -57,9 +57,9 @@ export default async function Results({
         {areas.map(({ area, Card }, i) => {
           const c = computed[i];
           return c.ready ? (
-            <Card key={area.id} result={c.result} />
+            <Card key={area.id} result={c.result} lang={lang} />
           ) : (
-            <AreaCard key={area.id} title={area.label} result={c.result} />
+            <AreaCard key={area.id} title={area.label} result={c.result} lang={lang} />
           );
         })}
       </div>

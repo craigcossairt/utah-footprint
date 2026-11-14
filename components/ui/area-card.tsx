@@ -1,5 +1,10 @@
 import { ExternalLink } from "lucide-react";
-import type { Action, AreaResult, Fact } from "@/lib/contract";
+import type { Action, AreaResult, Fact, Lang } from "@/lib/contract";
+
+const L = {
+  en: { you: "Your home", typical: "Typical Utah home", same: "About the same as", more: "more than", less: "less than", aHome: "a typical Utah home", change: "What would change it most", assumed: "What we assumed", from: "Where these numbers come from", saves: "Saves about", newTab: "(opens in a new tab)" },
+  es: { you: "Su hogar", typical: "Hogar típico de Utah", same: "Casi igual que", more: "más que", less: "menos que", aHome: "un hogar típico de Utah", change: "Lo que más lo cambiaría", assumed: "Lo que supusimos", from: "De dónde vienen estos números", saves: "Ahorra unos", newTab: "(se abre en una pestaña nueva)" },
+};
 import { BigNumber } from "./big-number";
 
 // The standard result card. Area owners: render this from your Card.tsx, e.g.
@@ -9,13 +14,16 @@ export function AreaCard({
   title,
   result,
   facts = [],
+  lang = "en",
   children,
 }: {
   title: string;
   result: AreaResult;
   facts?: Fact[];
+  lang?: Lang;
   children?: React.ReactNode;
 }) {
+  const l = L[lang];
   const ready = result.unit !== "";
   return (
     <section className="border-t-4 border-ink pt-4">
@@ -25,21 +33,21 @@ export function AreaCard({
           <div className="mt-3">
             <BigNumber value={result.headline} unit={result.unit} />
           </div>
-          <Compare value={result.headline} typical={result.typical} unit={result.unit} />
+          <Compare value={result.headline} typical={result.typical} unit={result.unit} lang={lang} />
           <p className="mt-3">{result.summary}</p>
           {children}
           {result.actions.length > 0 ? (
             <div className="mt-5">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-muted">What would change it most</h3>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-muted">{l.change}</h3>
               <ul className="mt-2 divide-y divide-line border-y border-line">
                 {result.actions.map((a) => (
-                  <ActionRow key={a.id} action={a} />
+                  <ActionRow key={a.id} action={a} lang={lang} />
                 ))}
               </ul>
             </div>
           ) : null}
-          <Details title="What we assumed" items={result.assumptions} />
-          <Sources facts={facts} />
+          <Details title={l.assumed} items={result.assumptions} />
+          <Sources facts={facts} lang={lang} />
         </>
       ) : (
         <p className="mt-3 text-muted">{result.summary}</p>
@@ -48,17 +56,18 @@ export function AreaCard({
   );
 }
 
-function Compare({ value, typical, unit }: { value: number; typical: number; unit: string }) {
+function Compare({ value, typical, unit, lang = "en" }: { value: number; typical: number; unit: string; lang?: Lang }) {
   if (!typical) return null;
+  const l = L[lang];
   const max = Math.max(value, typical) || 1;
   const diff = Math.round(((value - typical) / typical) * 100);
-  const word = diff === 0 ? "About the same as" : diff > 0 ? `${diff}% more than` : `${Math.abs(diff)}% less than`;
+  const word = diff === 0 ? l.same : diff > 0 ? `${diff}% ${l.more}` : `${Math.abs(diff)}% ${l.less}`;
   return (
-    <div className="mt-4" role="img" aria-label={`${word} a typical Utah home`}>
-      <Bar label="Your home" width={(value / max) * 100} tone="bg-ink" />
-      <Bar label="Typical Utah home" width={(typical / max) * 100} tone="bg-line" />
+    <div className="mt-4" role="img" aria-label={`${word} ${l.aHome}`}>
+      <Bar label={l.you} width={(value / max) * 100} tone="bg-ink" />
+      <Bar label={l.typical} width={(typical / max) * 100} tone="bg-line" />
       <p className="mt-1 text-sm text-muted">
-        {word} a typical Utah home ({typical.toLocaleString("en-US")} {unit}).
+        {word} {l.aHome} ({typical.toLocaleString("en-US")} {unit}).
       </p>
     </div>
   );
@@ -75,12 +84,12 @@ function Bar({ label, width, tone }: { label: string; width: number; tone: strin
   );
 }
 
-export function ActionRow({ action }: { action: Action }) {
+export function ActionRow({ action, lang = "en" }: { action: Action; lang?: Lang }) {
   return (
     <li className="py-3">
       <p className="font-semibold">{action.title}</p>
       <p className="text-sm">
-        Saves about <span className="num font-semibold">{action.saves.toLocaleString("en-US")}</span> {action.unit}.{" "}
+        {L[lang].saves} <span className="num font-semibold">{action.saves.toLocaleString("en-US")}</span> {action.unit}.{" "}
         <span className="text-muted">{action.costNote}</span>
       </p>
       {action.program ? <SourceLink href={action.program.url}>{action.program.name}</SourceLink> : null}
@@ -117,11 +126,11 @@ function Details({ title, items }: { title: string; items: string[] }) {
   );
 }
 
-function Sources({ facts }: { facts: Fact[] }) {
+function Sources({ facts, lang = "en" }: { facts: Fact[]; lang?: Lang }) {
   if (facts.length === 0) return null;
   return (
     <details className="mt-2 text-sm">
-      <summary className="cursor-pointer font-semibold">Where these numbers come from</summary>
+      <summary className="cursor-pointer font-semibold">{L[lang].from}</summary>
       <ul className="mt-2 space-y-1">
         {facts.map((f) => (
           <li key={f.key}>

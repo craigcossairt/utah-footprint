@@ -1,4 +1,4 @@
-import type { Action, Answers, Area, AreaResult, Fact } from "./contract";
+import type { Action, Answers, Area, AreaResult, Fact, Lang } from "./contract";
 import { areas } from "./areas";
 
 export type Computed = { area: Area; result: AreaResult; ready: boolean };
@@ -13,10 +13,10 @@ const notReady = (label: string): AreaResult => ({
 });
 
 // Runs every area's formula. An area that throws or isn't built yet shows as "not ready".
-export function computeAll(answers: Answers): Computed[] {
+export function computeAll(answers: Answers, lang: Lang = "en"): Computed[] {
   return areas.map(({ area }) => {
     try {
-      const result = area.calculate(answers);
+      const result = area.calculate(answers, lang);
       return { area, result, ready: result.unit !== "" };
     } catch {
       return { area, result: notReady(area.label), ready: false };

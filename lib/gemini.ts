@@ -1,5 +1,5 @@
 import saved from "@/data/fixtures/gemini.json";
-import type { Answers } from "./contract";
+import type { Answers, Lang } from "./contract";
 import { demoMode } from "./demo-mode";
 import { allFacts, computeAll, rankActions } from "./results";
 import { getToday, todaySources } from "./today";
@@ -9,7 +9,7 @@ export const MODEL = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 export const NO_SOURCE = { en: "I don't have a source for that.", es: "No tengo una fuente para eso." };
 const TIMEOUT_MS = 15000;
 
-export type Lang = "en" | "es";
+export type { Lang };
 export type Citation = { key: string; label: string; url: string };
 export type Origin = "gemini" | "cache" | "saved" | "template" | "unavailable";
 export type PlanReply = { kind: "plan"; intro: string; steps: { text: string; factKeys: string[] }[]; citations: Citation[]; origin: Origin };
