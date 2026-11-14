@@ -33,7 +33,14 @@ const T = {
     airIn: (place: string, stale: boolean) => `Air in ${place} ${stale ? "(last saved reading)" : "now"}`,
     aqi: (word: string) => word,
     noZip: (zip: string) => `We couldn't get a reading for ${zip}, so this is Salt Lake City.`,
-    fine: "Fine particles (PM2.5)",
+    driver: {
+      pm25: "set by fine particles averaged over the past 24 hours",
+      pm10: "set by coarse dust averaged over the past 24 hours",
+      ozone: "set by ozone",
+      no2: "set by nitrogen dioxide",
+    },
+    thisHour: "This hour:",
+    fine: "fine particles (PM2.5)",
     coarse: "coarse dust (PM10)",
     measured: "Measured",
     locale: "en-US",
@@ -68,7 +75,14 @@ const T = {
     airIn: (place: string, stale: boolean) => `Aire en ${place} ${stale ? "(última lectura guardada)" : "ahora"}`,
     aqi: (word: string) => AQI_ES[word] ?? word,
     noZip: (zip: string) => `No pudimos obtener una lectura para ${zip}, así que esta es de Salt Lake City.`,
-    fine: "Partículas finas (PM2.5)",
+    driver: {
+      pm25: "determinado por las partículas finas en promedio de las últimas 24 horas",
+      pm10: "determinado por el polvo grueso en promedio de las últimas 24 horas",
+      ozone: "determinado por el ozono",
+      no2: "determinado por el dióxido de nitrógeno",
+    },
+    thisHour: "Esta hora:",
+    fine: "partículas finas (PM2.5)",
     coarse: "polvo grueso (PM10)",
     measured: "Medido",
     locale: "es-US",
@@ -196,10 +210,11 @@ async function TodayAir({ zip, t }: { zip?: string; t: (typeof T)["en"] | (typeo
       <div className="mt-4 border-l-4 border-line pl-3 text-sm">
         <p className="font-semibold">
           {t.airIn(air.place, air.stale)}: {t.aqi(aqiWord(usAqi))}, AQI <span className="num">{usAqi}</span>
+          {air.driver ? <span className="font-normal">, {t.driver[air.driver]}</span> : null}
         </p>
         {zip && air.live && !air.forZip ? <p className="text-muted">{t.noZip(zip)}</p> : null}
         <p className="text-muted">
-          {t.fine} <span className="num">{Math.round(pm25)}</span> µg/m³, {t.coarse}{" "}
+          {t.thisHour} {t.fine} <span className="num">{Math.round(pm25)}</span> µg/m³, {t.coarse}{" "}
           <span className="num">{Math.round(pm10)}</span> µg/m³. {t.measured} {when(measuredAtUtc, t.locale)}.
         </p>
         <SourceLink href={todaySources.air.url}>Open-Meteo air quality model</SourceLink>

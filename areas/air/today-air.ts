@@ -10,7 +10,28 @@ export type AirReading = {
   stale: boolean; // showing a saved reading
   forZip: boolean; // false when we fell back to Salt Lake City
   live: boolean; // false in DEMO_MODE=fixtures, where we never look up the zip
+  // The pollutant whose sub-index sets the AQI (US AQI is the highest of them). Unknown on the fallback path.
+  driver?: "pm25" | "pm10" | "ozone" | "no2";
 };
+
+// Open-Meteo: particles use a 24-hour rolling average, ozone 1 or 8 hours, NO2 hourly; us_aqi is the maximum.
+function aqiDriver(c: Record<string, unknown>): AirReading["driver"] {
+  const subs: [NonNullable<AirReading["driver"]>, unknown][] = [
+    ["pm25", c.us_aqi_pm2_5],
+    ["pm10", c.us_aqi_pm10],
+    ["ozone", c.us_aqi_ozone],
+    ["no2", c.us_aqi_nitrogen_dioxide],
+  ];
+  let best: AirReading["driver"];
+  let max = -1;
+  for (const [k, v] of subs) {
+    if (typeof v === "number" && Number.isFinite(v) && v > max) {
+      max = v;
+      best = k;
+    }
+  }
+  return best;
+}
 
 async function getJson(url: string) {
   const res = await fetch(url, { next: { revalidate: 900 }, signal: AbortSignal.timeout(3000) });
@@ -74,7 +95,7 @@ export async function getAirForZip(zip?: string): Promise<AirReading> {
       const place = await placeForZip(zip);
       if (!place) throw new Error("zip not found");
       const meteo = await getJson(
-        `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${place.latitude}&longitude=${place.longitude}&current=pm2_5,pm10,us_aqi&timezone=UTC`,
+        `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${place.latitude}&longitude=${place.longitude}&current=pm2_5,pm10,us_aqi,us_aqi_pm2_5,us_aqi_pm10,us_aqi_ozone,us_aqi_nitrogen_dioxide&timezone=UTC`,
       );
       const c = meteo.current;
       if (![c?.us_aqi, c?.pm2_5, c?.pm10].every(Number.isFinite)) throw new Error("bad air reading");
@@ -87,6 +108,7 @@ export async function getAirForZip(zip?: string): Promise<AirReading> {
         stale: false,
         forZip: true,
         live: true,
+        driver: aqiDriver(c),
       };
     } catch {
       // fall through to Salt Lake City
