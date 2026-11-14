@@ -8,8 +8,7 @@ const SWAP_SQFT = 500; // the lawn area the "replace lawn" action assumes
 const round = (n: number, to = 100) => Math.round(n / to) * to;
 
 export function lawnGallons(sqFt: number): number {
-  const inches = (fact("water.lawnInchesLow") + fact("water.lawnInchesHigh")) / 2;
-  return sqFt * inches * GALLONS_PER_SQFT_INCH;
+  return sqFt * fact("water.lawnInches") * GALLONS_PER_SQFT_INCH;
 }
 
 export function calculate(a: Answers): AreaResult {
@@ -19,7 +18,7 @@ export function calculate(a: Answers): AreaResult {
   const indoor = people * fact("water.indoorGpcd") * 365;
   const outdoor = lawnGallons(yard);
   const total = indoor + outdoor;
-  const typical = people * (fact("water.indoorGpcd") + fact("water.outdoorGpcd")) * 365;
+  const typical = people * (fact("water.indoorGpcd2009") + fact("water.outdoorGpcd")) * 365;
   const yardShare = total > 0 ? Math.round((outdoor / total) * 100) : 0;
 
   const actions: Action[] = [];
@@ -57,9 +56,9 @@ export function calculate(a: Answers): AreaResult {
         : "With no watered lawn, all of this is indoor use.",
     actions,
     assumptions: [
-      `Indoor use is ${fact("water.indoorGpcd")} gallons per person per day, the state's 2009 estimate. Newer fixtures use less.`,
-      `The lawn is Kentucky bluegrass and gets ${(fact("water.lawnInchesLow") + fact("water.lawnInchesHigh")) / 2} inches of water a season, the middle of USU's ${fact("water.lawnInchesLow")} to ${fact("water.lawnInchesHigh")} inch range.`,
-      `The typical Utah home has as many people as yours and uses the state's average ${fact("water.outdoorGpcd")} gallons per person per day outdoors (2009). That is metered use, which includes overwatering and bigger yards; your yard figure is what the lawn needs, so the gap may be smaller in practice.`,
+      `Indoor use is ${fact("water.indoorGpcd")} gallons per person per day, Salt Lake City's 2024 figure for its residents.`,
+      `The lawn gets ${fact("water.lawnInches")} inches of water a year, what Salt Lake City customers applied on average in 2024.`,
+      `The typical Utah home has as many people as yours and uses the state's 2009 averages: ${fact("water.indoorGpcd2009")} gallons per person per day indoors and ${fact("water.outdoorGpcd")} outdoors. That is the newest statewide indoor and outdoor split we found, and it counts bigger yards in other towns.`,
       "Savings are upper bounds. Drip-watered plants still need some water, and a smart controller saves less on a well-set timer.",
       "Rebate amounts vary by water district. Check before you start; most require approval before you remove any lawn.",
     ],

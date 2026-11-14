@@ -1,6 +1,7 @@
 import type { Fact } from "@/lib/contract";
 
 const DWR_2009 = "https://water.utah.gov/wp-content/uploads/2019/08/2009-Residential-Water-Use.pdf";
+const SLC_2025 = "https://www.slc.gov/utilities/wp-content/uploads/sites/22/2026/03/SLCDPU_Water_Conservation_Plan_2025.pdf";
 const USU_2025 =
   "https://extension.usu.edu/climate/research/reducing-residential-landscape-water-use-in-utah-technologies-and-strategies";
 
@@ -8,6 +9,22 @@ const USU_2025 =
 export const facts: Fact[] = [
   {
     key: "water.indoorGpcd",
+    value: 54,
+    unit: "gallons per person per day indoors, Salt Lake City residents",
+    source: "Salt Lake City Public Utilities, Water Conservation Plan 2025",
+    url: SLC_2025,
+    year: 2024,
+  },
+  {
+    key: "water.lawnInches",
+    value: 24.1,
+    unit: "inches of water applied to outdoor landscapes per year, Salt Lake City average",
+    source: "Salt Lake City Public Utilities, Water Conservation Plan 2025",
+    url: SLC_2025,
+    year: 2024,
+  },
+  {
+    key: "water.indoorGpcd2009",
     value: 60,
     unit: "gallons per person per day indoors, statewide estimate",
     source: "Utah Division of Water Resources, Residential Water Use study",
@@ -21,22 +38,6 @@ export const facts: Fact[] = [
     source: "Utah Division of Water Resources, Residential Water Use study",
     url: DWR_2009,
     year: 2009,
-  },
-  {
-    key: "water.lawnInchesLow",
-    value: 24,
-    unit: "inches of water a Kentucky bluegrass lawn needs per season (low end)",
-    source: "USU Extension, Reducing Residential Landscape Water Use in Utah",
-    url: USU_2025,
-    year: 2025,
-  },
-  {
-    key: "water.lawnInchesHigh",
-    value: 30,
-    unit: "inches of water a Kentucky bluegrass lawn needs per season (high end)",
-    source: "USU Extension, Reducing Residential Landscape Water Use in Utah",
-    url: USU_2025,
-    year: 2025,
   },
   {
     key: "water.smartControllerSaves",
