@@ -13,7 +13,15 @@ function round(n: number, to = 10): number {
   return Math.round(n / to) * to;
 }
 
+// The shared Card only receives the result, so we carry the zip along for today's air reading.
+export type AirResult = AreaResult & { zip?: string };
+
 export function calculate(a: Answers): AreaResult {
+  const r: AirResult = { ...calculateCore(a), zip: a.zip };
+  return r;
+}
+
+function calculateCore(a: Answers): AreaResult {
   const commuteMilesPerYear = Math.max(0, a.commuteMiles) * 2 * WORKDAYS_PER_YEAR;
   const commute = lbsCo2(commuteMilesPerYear);
   const typical = lbsCo2(fact("air.utahMilesPerPerson").value);
