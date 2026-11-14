@@ -22,7 +22,7 @@ Goal line, at the open and the close: **"Most Utahns can't see their environment
 
 | Time | Slide / route | Who | Say |
 |---|---|---|---|
-| 0:00–0:12 | 1 Cover | Jenn | The goal line. "I'm Jenn, this is Jennifer; with Craig and Britney we built EcoSwitch today." |
+| 0:00–0:12 | 1 Cover | Jenn | The goal line. "We're team Ctrl + Alt + Conserve. I'm Jenn, this is Jennifer, and with Craig and Britney we built EcoSwitch today." |
 | 0:12–0:24 | 2 Problem | Jenn | "The Great Salt Lake is below its healthy range today. The facts are spread across a dozen agency sites, so a family can't tell which habits matter." |
 | 0:24–0:38 | 3 How it works | Jennifer | "Marisol in Rose Park answers six questions on her phone, in English or Spanish, no account: lawn, commute, car, heat." |
 | 0:38–0:58 | 4 Water | Jenn | "I built water. Her lawn costs about $160 a year to water; a smart controller saves $89, with a $100 rebate. 91% of yard water never flows back to the rivers, so yards are the part households control." |
