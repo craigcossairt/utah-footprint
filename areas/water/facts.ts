@@ -2,6 +2,8 @@ import type { Fact } from "@/lib/contract";
 
 const DWR_2009 = "https://water.utah.gov/wp-content/uploads/2019/08/2009-Residential-Water-Use.pdf";
 const SLC_2025 = "https://www.slc.gov/utilities/wp-content/uploads/sites/22/2026/03/SLCDPU_Water_Conservation_Plan_2025.pdf";
+const EPA_LEAKS = "https://www.epa.gov/watersense/fix-leak-week";
+const USU_RAIN = "https://extension.usu.edu/sustainability/research/rain-barrels-in-utah";
 const USU_2025 =
   "https://extension.usu.edu/climate/research/reducing-residential-landscape-water-use-in-utah-technologies-and-strategies";
 
@@ -63,7 +65,39 @@ export const facts: Fact[] = [
     url: "https://jvwcd.gov/public/conservation",
     year: 2026,
   },
+  {
+    key: "water.householdLeaksGallons",
+    value: 9300,
+    unit: "gallons a year the average household's leaks waste",
+    source: "US EPA WaterSense, Fix a Leak Week",
+    url: EPA_LEAKS,
+    year: 2026,
+  },
+  {
+    key: "water.rainParcelCapGallons",
+    value: 2500,
+    unit: "gallons, most rainwater a Utah parcel may store",
+    source: "USU Extension, Rain Barrels in Utah (Utah SB 32, 2010; HB 36, 2013)",
+    url: USU_RAIN,
+    year: 2013,
+  },
+  {
+    key: "water.rainRegisterOverGallons",
+    value: 100,
+    unit: "gallons, container size above which a rain system must be registered (also if more than two containers)",
+    source: "USU Extension, Rain Barrels in Utah",
+    url: USU_RAIN,
+    year: 2013,
+  },
 ];
+
+export const links = {
+  epaLeaks: EPA_LEAKS,
+  rainRegister: "https://waterrights.utah.gov/forms/rainwater.asp",
+  usuRain: USU_RAIN,
+  usuGraywater: "https://extension.usu.edu/sustainability/research/graywater-systems",
+  slcWaterCheck: "https://www.slc.gov/utilities/conservation/free-water-check/",
+};
 
 export function fact(key: string): number {
   const f = facts.find((x) => x.key === key);

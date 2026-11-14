@@ -1,5 +1,5 @@
 import type { Action, Answers, AreaResult } from "@/lib/contract";
-import { fact } from "./facts";
+import { fact, links } from "./facts";
 
 // One inch of water over one square foot is 144 cubic inches; a US gallon is 231 cubic inches.
 const GALLONS_PER_SQFT_INCH = 144 / 231;
@@ -44,6 +44,14 @@ export function calculate(a: Answers): AreaResult {
       },
     });
   }
+  actions.push({
+    id: "water.fixLeaks",
+    title: "Find and fix leaks: put food coloring in each toilet tank and look for drips",
+    saves: fact("water.householdLeaksGallons"),
+    unit: "gallons per year, the average home's leaks",
+    costNote: "Free to check. A worn toilet flapper is a quick, cheap fix.",
+    program: { name: "EPA WaterSense: how to check for leaks", url: links.epaLeaks },
+  });
   actions.sort((x, y) => y.saves - x.saves);
 
   return {
@@ -60,6 +68,7 @@ export function calculate(a: Answers): AreaResult {
       `The lawn gets ${fact("water.lawnInches")} inches of water a year, what Salt Lake City customers applied on average in 2024.`,
       `The typical Utah home has as many people as yours and uses the state's 2009 averages: ${fact("water.indoorGpcd2009")} gallons per person per day indoors and ${fact("water.outdoorGpcd")} outdoors. That is the newest statewide indoor and outdoor split we found, and it counts bigger yards in other towns.`,
       "Savings are upper bounds. Drip-watered plants still need some water, and a smart controller saves less on a well-set timer.",
+      "Leak savings are the national average from EPA. Your home may have no leaks, or far bigger ones.",
       "Rebate amounts vary by water district. Check before you start; most require approval before you remove any lawn.",
     ],
   };
