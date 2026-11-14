@@ -36,7 +36,7 @@ export default async function Home({
   );
 
   return (
-    <main lang={lang} className="waterline flex flex-1 flex-col overflow-x-clip">
+    <main lang={lang} className="waterline flex flex-1 flex-col overflow-hidden">
       <div className="border-y-2 border-dashed border-sage bg-sage/15">
         <div className={ROW} style={{ minHeight: `calc(var(--ft) * ${lake.healthyMaxFt - lake.healthyMinFt})` }}>
           <div className={`${SCALE} border-ink`} aria-hidden>
