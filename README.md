@@ -28,7 +28,7 @@ Try asking: "Does my lawn really affect the lake?" Then ask something we have no
 | Screen | What it shows | Judging criterion it answers |
 |---|---|---|
 | `/` Home | Today's lake level and air reading, live, next to "Check my home" | Creativity; Challenge solution (credible sources) |
-| `/check` Six questions | ZIP code, people, lawn, commute and car, heating, electricity. Phone first, plain words, English and Spanish. Commute miles can come from two addresses. | Challenge solution (easy to use, language, mobile) |
+| `/check` Six questions | ZIP code, people, lawn, commute and car, heating, electricity. Phone first, plain words, English and Spanish. Lawn size can be measured on a satellite map, and commute miles can come from two addresses. | Challenge solution (easy to use, language, mobile) |
 | `/results` Results | Water, energy and air cards next to a typical Utah home, with assumptions. Top changes with dollars a year and Utah rebates. Bad-air alert from the 3-day forecast. | Challenge solution (understand impacts, ways to reduce them) |
 | `/results` Plan and questions | Gemini's plain-language plan and answers, each with the sources it used | Technical implementation (Gemini, responsible AI) |
 | `/progress` My progress | Tick off the changes you have made and see the yearly savings add up. Saved on your device only. | Challenge solution (ways to reduce) |
@@ -61,8 +61,7 @@ Try asking: "Does my lawn really affect the lake?" Then ask something we have no
   the sample home (Rose Park to the University of Utah). Code: [`lib/maps-server.ts`](lib/maps-server.ts),
   [`app/api/distance`](app/api/distance/route.ts).
 - **Lawn size on a satellite map.** On the lawn question, "Measure it on a map" lets you tap the
-  corners of your lawn on a Google satellite view and uses the measured area. The link shows only when
-  a Maps browser key is set for the deploy. Code: [`components/check/yard-map.tsx`](components/check/yard-map.tsx).
+  corners of your lawn on a Google satellite view and uses the measured area. Code: [`components/check/yard-map.tsx`](components/check/yard-map.tsx).
 
 ## What is real and what is estimated
 - **Real:** the live lake level (USGS) and air reading (Open-Meteo), and every sourced fact on `/sources`.

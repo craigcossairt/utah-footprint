@@ -31,6 +31,8 @@ Goal line, at the open and the close: **"Most Utahns can't see their environment
 | 1:30–1:46 | 7 Ask | Jennifer | "She can ask. Gemini answers only from our 41 sourced facts and names them; no source, it says so. Our formulas do the math, not the model." |
 | 1:46–2:00 | 9 Close · QR | Jenn | "Four of us built this today, three with a coding agent for the first time." The goal line. "Scan it and try your own home." |
 
+**CHECK before saying "41 sourced facts" (1:30, slide 7):** on `main` at 12:47 the three `facts.ts` files hold 38 fact keys (water 14, energy 11, air 13). Say "38", or say "our sourced facts" with no number.
+
 Numbers are the sample home (Marisol: 4 people, 1,800 sq ft lawn, 6-mile commute, gas heat) as shown on `/results` at 12:35.
 
 **If the map lanes ship (optional, cut first):** at 0:20–0:50, on the lawn question tap "Measure it on a map", trace Marisol's

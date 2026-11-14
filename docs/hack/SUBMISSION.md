@@ -14,7 +14,7 @@ Paste-ready text, one block per form field. Drafted by Craig's agent, 14 Nov, ab
 - [ ] **Your two lines in `LEARNED.md`**, then paste them into "What we learned" below where it says CRAIG.
 - [ ] **Team members:** full names, emails or MLH usernames for Jenn, Jennifer and Britney, as the form asks.
 - [ ] **Prize categories to tick:** "Water, Lake Dust & Data Centers" and "Best Use of the Google Gemini API".
-- [ ] **Two map sentences** are marked CHECK below. Keep each only if you see it working on the live site.
+- [ ] **The commute-from-addresses sentence** is marked CHECK below. Try one other address pair on the live site first. (The lawn map was confirmed on the live site by Craig.)
 - [ ] Make the repo public (MIT license is already in `LICENSE`).
 
 ## Form fields
@@ -53,12 +53,12 @@ Long:
 
 ### What it does
 Short:
-> You answer six questions on your phone (ZIP code, people at home, lawn size, commute, heating, monthly electricity). EcoSwitch shows your home's water, energy and air numbers next to a typical Utah home, ranks the changes that matter most with dollar savings and Utah rebates, and lets you ask questions. Gemini answers only from our list of sourced facts and names the ones it used. Works in English and Spanish.
+> You answer six questions on your phone (ZIP code, people at home, lawn size, commute, heating, monthly electricity). You can measure your lawn on a satellite map. EcoSwitch shows your home's water, energy and air numbers next to a typical Utah home, ranks the changes that matter most with dollar savings and Utah rebates, and lets you ask questions. Gemini answers only from our list of sourced facts and names the ones it used. Works in English and Spanish.
 
 Long:
 > **Home page.** Today's Great Salt Lake level from the USGS gauge at Saltair and today's air reading for Salt Lake City from Open-Meteo, so the first thing you see is Utah this morning.
 >
-> **Six questions.** ZIP code, people in the home, lawn size, one-way commute and car type, how the home is heated, and monthly electricity use. If you don't know your electricity use, we use the Utah average and say so. You can also work out your commute from two addresses instead of guessing the miles.
+> **Six questions.** ZIP code, people in the home, lawn size, one-way commute and car type, how the home is heated, and monthly electricity use. If you don't know your electricity use, we use the Utah average and say so. You can measure your lawn by tapping its corners on a Google satellite map, and work out your commute from two addresses instead of guessing the miles.
 >
 > **Results.** Three cards, water, energy and air, each with your number next to a typical Utah home and the assumptions behind it. Below them, your top changes ranked across all three areas. Each change shows about how many dollars a year it saves and the Utah program that helps pay for it, such as the $100 Utah Water Savers smart controller rebate. The air card also shows today's air and a bad-air alert from the 3-day forecast for your ZIP code.
 >
@@ -69,9 +69,6 @@ Long:
 > **Sources.** One page lists every number in the app with its source link and year, and marks what is estimated.
 >
 > **Spanish.** "Ver en español" switches the home page, the questions, the results, the plan and the answers.
-
-CHECK (Craig: add this sentence to "Six questions" only if "Measure it on a map" shows under the lawn question on the live site):
-> You can also measure your lawn by tapping its corners on a Google satellite map.
 
 CHECK (Craig: the commute-from-addresses sentence above is true today for the saved Rose Park to University of Utah route. It is true for any address pair only if `GOOGLE_MAPS_SERVER_KEY` is in Vercel. If it is not, change the sentence to: "For the sample home, the commute miles come from a Google Maps route.")
 
