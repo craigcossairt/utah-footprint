@@ -27,7 +27,7 @@ const L = {
   },
 };
 
-const AREA_TONE = { water: { text: "text-lake", bar: "bg-lake" }, energy: { text: "text-sun", bar: "bg-sun" }, air: { text: "text-sage", bar: "bg-sage" } } as const;
+const AREA_TONE = { water: { text: "text-lake", bar: "bg-lake" }, energy: { text: "text-sun", bar: "bg-sun" }, air: { text: "text-sky", bar: "bg-sky" } } as const;
 
 // The first screen: all three numbers in one row, each against its typical figure.
 export function Scoreboard({ computed, lang = "en" }: { computed: Computed[]; lang?: Lang }) {
