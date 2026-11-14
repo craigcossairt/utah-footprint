@@ -1,4 +1,4 @@
-import type { Answers } from "./contract";
+import { VEHICLES, type Answers, type Vehicle } from "./contract";
 import { sample } from "./sample";
 
 export const STORAGE_KEY = "uf.answers";
@@ -12,6 +12,7 @@ export function toQuery(a: Answers): string {
     heat: a.heating,
   });
   if (a.monthlyKwh) q.set("kwh", String(a.monthlyKwh));
+  if (a.vehicle && a.vehicle !== "gas") q.set("car", a.vehicle);
   return q.toString();
 }
 
@@ -34,8 +35,10 @@ export function fromQuery(p: Params): { answers: Answers; isSample: boolean } {
   }
   const heating = heat === "electric" || heat === "heat-pump" ? heat : "gas";
   const kwh = num(p.kwh, 50, 10000);
+  const carRaw = Array.isArray(p.car) ? p.car[0] : p.car;
+  const vehicle = VEHICLES.includes(carRaw as Vehicle) ? (carRaw as Vehicle) : undefined;
   return {
-    answers: { zip, household, yardSqFt: yard, commuteMiles: miles, heating, ...(kwh ? { monthlyKwh: kwh } : {}) },
+    answers: { zip, household, yardSqFt: yard, commuteMiles: miles, heating, ...(kwh ? { monthlyKwh: kwh } : {}), ...(vehicle ? { vehicle } : {}) },
     isSample: false,
   };
 }
