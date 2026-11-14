@@ -79,6 +79,9 @@ Do: "One large data center uses as much power as about N homes like yours", only
 facility and year (utility filing, state report or the operator's own disclosure). Add the figure to `facts.ts`, EN and ES.
 No figure you can open and read? Write that under this item and close it.
 Done when: the line shows on `/results?sample=marisol` with its source on `/sources`.
+**Closed by Jennifer, 12:05: no figure we can open and cite.** Meta Eagle Mountain publishes investment, square feet and
+renewable matching, but no kWh or MW. The NSA Utah Data Center's 65 MW comes only from 2013 press (NPR, WSJ), not a
+filing or the operator. Rocky Mountain Power or Utah PSC filings would be the place to look after the event.
 
 ### B4. Submission form and project story
 Good fit: Jennifer · Size: M · Claimed: (open)
