@@ -36,7 +36,7 @@ export default async function Home({
   );
 
   return (
-    <main lang={lang} className="waterline flex flex-1 flex-col overflow-hidden">
+    <main lang={lang} className="waterline flex grow flex-col overflow-hidden">
       <div className="border-y-2 border-dashed border-sage bg-sage/15">
         <div className={ROW} style={{ minHeight: `calc(var(--ft) * ${lake.healthyMaxFt - lake.healthyMinFt})` }}>
           <div className={`${SCALE} border-ink`} aria-hidden>
@@ -90,9 +90,9 @@ export default async function Home({
         </section>
       )}
 
-      <div className="relative flex-1 bg-lake text-bg">
+      <div className="relative flex grow flex-col bg-lake text-bg">
         <Wave />
-        <div className={`${ROW} h-full`}>
+        <div className={`${ROW} grow`}>
           <div className={`${SCALE} border-bg/50`} aria-hidden />
           <div className="min-w-0 flex-1 px-4 pb-12 pt-4 lg:px-8">
             <p className="num font-extrabold">{d.todayIs(ft(lake.elevationFt, 1))}</p>

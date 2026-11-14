@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Link>
           </div>
         </header>
-        <div className="flex flex-1 flex-col">{children}</div>
+        <div className="flex grow flex-col">{children}</div>
       </body>
     </html>
   );
