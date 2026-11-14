@@ -90,12 +90,6 @@ Do: on your phone, go `/` → `/check` → `/results` → ask a question → `/s
 Screenshot anything broken, cut off or confusing into `#bugs` with the page.
 Done when: posted. Leave this item open for the next pass.
 
-### B7. Home page in Spanish
-Good fit: anyone · Size: M · Claimed: Craig's agent 12:08
-Touches: `app/page.tsx`, `components/home/**`, `lib/i18n.ts`
-Do: `/?lang=es` shows the home page labels in Spanish, the way `/check` and `/results` already do. Numbers and sources stay the same.
-Done when: `/?lang=es` reads fully in Spanish on a phone.
-
 ### B8. Timed run of the demo script
 Good fit: Britney · Size: S · Repeat 3 times from 12:10 · Claimed: (open)
 Touches: `docs/hack/01-demo.md`
@@ -118,3 +112,4 @@ Done when: each energy action on `/results` shows a dollar figure, with both pri
 - B10. Dollar savings on the water actions, Jenn, c2e52e2, /results (water actions: about $89, $55 and $44 a year at SLC 2026 rates; rate on /sources)
 - Car type on the driving question (own idea), Jenn, 930d341, /check question 4 then /results air card
 - B2. Commute miles from two addresses, Craig's agent, 78b17f1, /check question 4, "Work it out from my addresses". Works now with the saved route (type "Rose Park" and "University of Utah"); any other pair shows the error note until `GOOGLE_MAPS_SERVER_KEY` is in Vercel (Routes API enabled, then redeploy). Live call not yet run against Google.
+- B7. Home page in Spanish, Craig's agent, 7e749eb, /?lang=es (all home labels, gauge and air word in Spanish; "Ver en español" on / switches; links carry lang to /check and /results; `LakeGauge` got an optional `lang` prop)
