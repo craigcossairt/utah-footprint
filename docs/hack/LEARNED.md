@@ -16,5 +16,5 @@ The demo's closing line and the submission's "what we learned" field come from h
 -
 
 ## Britney
--
--
+- About half of a winter inversion comes from vehicles, trains and planes, and lake dust is mostly coarse PM10 that the usual air quality number doesn't fully capture.
+- The agent found numbers fast, but I still had to open and check every source before it went on the screen.
