@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1300" viewBox="0 0 1000 1300" font-family="Arial, Helvetica, sans-serif" fill="#111">
+  <rect width="1000" height="1300" fill="#fff"/>
+  <rect x="40" y="40" width="920" height="70" fill="#111"/>
+  <text x="500" y="86" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">Sample bill for demonstration. Not a real customer.</text>
+
+  <text x="60" y="180" font-size="40" font-weight="bold">Residential Electric Bill</text>
+  <text x="60" y="220" font-size="22">Sample electric utility (illustrative)</text>
+
+  <line x1="60" y1="250" x2="940" y2="250" stroke="#111" stroke-width="3"/>
+  <text x="60" y="300" font-size="24" font-weight="bold">Service address</text>
+  <text x="60" y="336" font-size="24">Sample household</text>
+  <text x="60" y="368" font-size="24">Rose Park, Salt Lake City, UT 84116</text>
+
+  <text x="560" y="300" font-size="24" font-weight="bold">Service period</text>
+  <text x="560" y="336" font-size="24">Oct 1, 2026 to Oct 30, 2026</text>
+  <text x="560" y="368" font-size="24">Days in period: 30</text>
+
+  <line x1="60" y1="420" x2="940" y2="420" stroke="#111" stroke-width="3"/>
+  <text x="60" y="470" font-size="28" font-weight="bold">Electricity used this period</text>
+  <text x="60" y="560" font-size="96" font-weight="bold">774 kWh</text>
+  <text x="60" y="604" font-size="22">Total billed usage for 30 days</text>
+
+  <line x1="60" y1="660" x2="940" y2="660" stroke="#111" stroke-width="3"/>
+  <text x="60" y="710" font-size="28" font-weight="bold">Charges</text>
+  <text x="60" y="766" font-size="24">Energy charge: 774 kWh x $0.1222 per kWh</text>
+  <text x="940" y="766" font-size="24" text-anchor="end">$94.58</text>
+  <line x1="60" y1="796" x2="940" y2="796" stroke="#111" stroke-width="1"/>
+  <text x="60" y="846" font-size="30" font-weight="bold">Amount due</text>
+  <text x="940" y="846" font-size="30" font-weight="bold" text-anchor="end">$94.58</text>
+
+  <text x="60" y="960" font-size="20">Usage is the average Utah home month and the price is the average Utah home price,</text>
+  <text x="60" y="990" font-size="20">both from the U.S. Energy Information Administration (Table 5a, 2024).</text>
+  <text x="60" y="1020" font-size="20">Made for the My Utah Footprint demo. No taxes or fees are shown.</text>
+
+  <rect x="40" y="1190" width="920" height="70" fill="#111"/>
+  <text x="500" y="1236" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">Sample bill for demonstration. Not a real customer.</text>
+</svg>

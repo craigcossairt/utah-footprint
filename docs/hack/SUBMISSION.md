@@ -58,7 +58,7 @@ Short:
 Long:
 > **Home page.** Today's Great Salt Lake level from the USGS gauge at Saltair and today's air reading for Salt Lake City from Open-Meteo, so the first thing you see is Utah this morning.
 >
-> **Six questions.** ZIP code, people in the home, lawn size, one-way commute and car type, how the home is heated, and monthly electricity use. If you don't know your electricity use, we use the Utah average and say so. You can measure your lawn by tapping its corners on a Google satellite map, and work out your commute from two addresses instead of guessing the miles.
+> **Six questions.** ZIP code, people in the home, lawn size, one-way commute and car type, how the home is heated, and monthly electricity use. If you don't know your electricity use, we use the Utah average and say so. You can measure your lawn by tapping its corners on a Google satellite map, and work out your commute from two addresses instead of guessing the miles. CHECK (bill upload, not yet confirmed live by Craig): If you don't know your monthly electricity use, you can upload a photo or PDF of your power bill, Gemini reads the kWh, and you confirm the number before it is used. A sample bill is included.
 >
 > **Results.** Three cards, water, energy and air, each with your number next to a typical Utah home and the assumptions behind it. Below them, your top changes ranked across all three areas. Each change shows about how many dollars a year it saves and the Utah program that helps pay for it, such as the $100 Utah Water Savers smart controller rebate. The air card also shows today's air and a bad-air alert from the 3-day forecast for your ZIP code.
 >

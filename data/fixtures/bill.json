@@ -1,0 +1,10 @@
+{
+  "sample": {
+    "file": "/sample-bill.png",
+    "kwh": 774,
+    "days": 30,
+    "kwhFactKey": "energy.utahMonthlyKwh",
+    "priceFactKey": "energy.utahCentsPerKwh",
+    "note": "Saved reading of public/sample-bill.png. The bill's kWh is the EIA Utah average month (the number the sample home's results already use) and its amount is kWh times the EIA Utah price. Both come from areas/energy/facts.ts."
+  }
+}
