@@ -180,9 +180,8 @@ function calculateCore(a: Answers, lang: Lang): AirResult {
     headline: round(commute, 10),
     unit: t.unit,
     typical: round(typical, 100),
-    summary: gas
-      ? t.summaryGas(a.commuteMiles, round(commuteMilesPerYear, 100), round(gas, 10))
-      : t.summary(a.commuteMiles, round(commuteMilesPerYear, 100)),
+    // The card states the gas cost in its own line just below, so the summary keeps to miles.
+    summary: t.summary(a.commuteMiles, round(commuteMilesPerYear, 100)),
     actions: [
       {
         id: "air.transit2",
