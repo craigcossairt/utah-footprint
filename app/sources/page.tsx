@@ -4,6 +4,7 @@ import { areas } from "@/lib/areas";
 import { computeAll } from "@/lib/results";
 import { sample } from "@/lib/sample";
 import { todaySources } from "@/lib/today";
+import { WaterBand } from "@/components/ui/water-band";
 
 export const metadata: Metadata = { title: "Sources | EcoSwitch" };
 
@@ -12,7 +13,8 @@ export default function Sources() {
   const total = areas.reduce((n, { area }) => n + area.facts.length, 0);
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-4 py-8 lg:px-8 lg:py-12">
+    <main>
+      <WaterBand>
       <h1 className="text-3xl font-extrabold lg:text-5xl">Where every number comes from</h1>
       <p className="mt-3 max-w-3xl">
         Our own formulas do the math, using the <span className="num font-semibold">{total}</span> public figures
@@ -29,7 +31,9 @@ export default function Sources() {
           </a>
         ))}
       </nav>
+      </WaterBand>
 
+      <div className="mx-auto w-full max-w-5xl px-4 pb-12 lg:px-8">
       <section id="today" className="mt-10 scroll-mt-4 border-t-4 border-ink pt-4">
         <h2 className="text-2xl font-extrabold">Today&apos;s readings</h2>
         <p className="mt-1 text-sm text-muted">Fetched live, refreshed every 15 minutes. A saved reading is shown and labelled if a source is down.</p>
@@ -80,6 +84,7 @@ export default function Sources() {
           </section>
         );
       })}
+      </div>
     </main>
   );
 }

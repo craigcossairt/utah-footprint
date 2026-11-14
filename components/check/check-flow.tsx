@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { BillUpload } from "@/components/check/bill-upload";
 import { CommuteRoute } from "@/components/check/commute-route";
 import { ErrorNote, StepProgress } from "@/components/ui/feedback";
+import { WaterBand } from "@/components/ui/water-band";
 import { STORAGE_KEY, toQuery } from "@/lib/answers";
 import { mapsAvailable } from "@/lib/maps-browser";
 import { YardMap } from "./yard-map";
@@ -224,9 +225,10 @@ export function CheckFlow() {
       }}
       noValidate
     >
+      <WaterBand width="max-w-xl">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
-          <StepProgress step={step} total={TOTAL} label={c.progress(step, TOTAL)} />
+          <StepProgress onDark step={step} total={TOTAL} label={c.progress(step, TOTAL)} />
         </div>
         <button
           type="button"
@@ -241,6 +243,8 @@ export function CheckFlow() {
           {c.other}
         </button>
       </div>
+      </WaterBand>
+      <div className="mx-auto w-full max-w-xl px-4 py-6 lg:px-8">
 
       {step === 1 && (
         <section aria-labelledby="need-title" className="mt-4 border-l-4 border-line pl-3 text-sm">
@@ -456,6 +460,7 @@ export function CheckFlow() {
           {step < TOTAL ? c.next : sending ? c.working : c.show}
           <ArrowRight size={20} strokeWidth={2} aria-hidden />
         </Button>
+      </div>
       </div>
     </form>
   );

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { WaterBand } from "@/components/ui/water-band";
 import type { AreaId, Lang } from "@/lib/contract";
 
 export type TrackAction = {
@@ -113,8 +114,11 @@ export function Tracker({ actions, lang, resultsHref }: { actions: TrackAction[]
 
   return (
     <div>
-      <h1 className="text-3xl font-extrabold lg:text-5xl">{c.title}</h1>
-      <p className="mt-3 text-muted">{c.intro}</p>
+      <WaterBand width="max-w-2xl">
+        <h1 className="text-3xl font-extrabold lg:text-5xl">{c.title}</h1>
+        <p className="mt-3">{c.intro}</p>
+      </WaterBand>
+      <div className="mx-auto w-full max-w-2xl px-4 pb-12 lg:px-8">
 
       <section aria-labelledby="totals" className="mt-8 border-t-4 border-ink pt-4">
         <h2 id="totals" className="text-sm font-semibold uppercase tracking-wide text-muted">
@@ -194,6 +198,7 @@ export function Tracker({ actions, lang, resultsHref }: { actions: TrackAction[]
       <Link href={resultsHref} className="mt-6 inline-block font-semibold underline underline-offset-4">
         {c.back}
       </Link>
+      </div>
     </div>
   );
 }

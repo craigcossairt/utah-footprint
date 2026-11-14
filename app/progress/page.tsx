@@ -40,7 +40,7 @@ export default async function ProgressPage({
   const resultsHref = `/results?${isSample ? "" : toQuery(answers) + "&"}${lang === "es" ? "lang=es" : ""}`.replace(/[?&]$/, "");
 
   return (
-    <main lang={lang} className="mx-auto w-full max-w-2xl px-4 py-8 lg:py-12">
+    <main lang={lang}>
       <Tracker actions={actions} lang={lang} resultsHref={resultsHref} />
     </main>
   );

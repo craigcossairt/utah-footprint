@@ -47,6 +47,7 @@ around sections, no cards inside cards, no shadows, no gradients, no emoji.
 | `BigNumber` | `@/components/ui/big-number` | A large figure with its unit |
 | `Button`, `ButtonLink` | `@/components/ui/button` | `primary`, `secondary`, `ghost`, and `inverse` on the lake ground. One primary per view. Labels say what happens. |
 | `Skeleton`, `ErrorNote`, `StepProgress` | `@/components/ui/feedback` | Loading placeholder, error message with icon, question progress |
+| `WaterBand` | `@/components/ui/water-band` | The lake title band that opens every page after `/`. Title and intro only; data stays on salt. |
 | `LakeGauge` | `@/components/ui/lake-gauge` | Lake level against the healthy range |
 
 ## 4. Screens

@@ -9,6 +9,7 @@ import { areas } from "@/lib/areas";
 import { computeAll, rankActions } from "@/lib/results";
 import { sample } from "@/lib/sample";
 import { t } from "@/lib/i18n";
+import { WaterBand } from "@/components/ui/water-band";
 import { toQuery } from "@/lib/answers";
 
 // Reads the answers from the URL on each request.
@@ -30,14 +31,15 @@ export default async function Results({
   const otherHref = `/results?${isSample ? "" : toQuery(answers) + "&"}${lang === "es" ? "" : "lang=es"}`.replace(/[?&]$/, "");
     
   return (
-    <main lang={lang} className="mx-auto w-full max-w-5xl px-4 py-8 lg:px-8 lg:py-12">
-      <p className="text-sm font-semibold uppercase tracking-wide text-muted">
+    <main lang={lang}>
+      <WaterBand>
+      <p className="text-sm font-semibold">
         {isSample ? d.sample : d.yourHome(answers.zip)}
       </p>
       <h1 className="mt-2 text-3xl font-extrabold lg:text-5xl">
         {isSample ? `${sample.name}, ${sample.neighborhood}` : d.title}
       </h1>
-      <p className="mt-3 max-w-3xl text-muted">
+      <p className="mt-3 max-w-3xl">
         {answers.household} {d.person(answers.household)},{" "}
         <span className="num">{answers.yardSqFt.toLocaleString("en-US")}</span> {d.lawn}, {d.miles(answers.commuteMiles)},{" "}
         {d.heat[answers.heating]}. {d.estimates} {d.cardsNote}
@@ -50,7 +52,9 @@ export default async function Results({
           {d.other}
         </a>
       </div>
+      </WaterBand>
 
+      <div className="mx-auto w-full max-w-5xl px-4 pb-12 lg:px-8">
       <div className="mt-8">
         <Scoreboard computed={computed} lang={lang} />
       </div>
@@ -89,6 +93,7 @@ export default async function Results({
         >
           {lang === "es" ? "Seguir mi progreso" : "Track my progress"}
         </ButtonLink>
+      </div>
       </div>
     </main>
   );

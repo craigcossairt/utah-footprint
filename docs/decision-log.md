@@ -56,3 +56,23 @@ a headline, more than the palette, was what read as generated.
 **Built differently from the prototype:** the kicker lost its uppercase tracking; the scale is real (min-height
 per foot), so long Spanish copy stretches the gap rather than clipping. `LakeGauge` is no longer used on `/`.
 Shared changes: `ButtonLink` gained an `inverse` variant and `SourceLink` an `onDark` prop, both for the lake ground.
+
+## 14 Nov 2026, 1:05: The other pages ("Surface"), pages grill
+
+**Chosen: S, Surface.** `/check`, `/results`, `/sources` and `/progress` each open with a band of lake water
+(`WaterBand` in `components/ui/water-band.tsx`) whose lower edge is the home screen's wave. The title and intro
+sit in the band; everything with data stays on salt below it.
+
+**Rejected** (`docs/design/pages-grill.html`):
+- **Q, Quiet** (the pages as they were): safe, but going from the lake to a plain form read as two sites.
+- **R, Rail** (the gauge scale down every page, filling as the check progresses): the best idea for `/check`,
+  but it takes 4rem of a phone's width and means nothing on `/sources` or `/progress`.
+- **U, Under water** (every page white on teal): the area colours and comparison bars on `/results` would all
+  need new colours on a teal ground.
+
+**What the round showed:** R and U both failed on the screens that carry data. Whatever carries the look has to
+stay out of the content area.
+
+**Built differently from the prototype:** on `/check` only the progress bar and language switch are in the band;
+the question heading stays on salt, because moving it meant restructuring the form's focus handling minutes
+before submission. The site header stays salt above the band. `StepProgress` gained an `onDark` prop.
