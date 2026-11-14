@@ -1,3 +1,4 @@
+import { cacheLife } from "next/cache";
 import fallback from "@/data/fixtures/today.json";
 import { demoMode } from "./demo-mode";
 
@@ -33,6 +34,8 @@ async function getJson(url: string) {
 }
 
 export async function getToday(): Promise<Today> {
+  "use cache";
+  cacheLife({ stale: 300, revalidate: 900, expire: 3600 });
   const saved = { ...(fallback as Omit<Today, "stale">), stale: true };
   if (demoMode() === "fixtures") return { ...saved, stale: false };
   try {
