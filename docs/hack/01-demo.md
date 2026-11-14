@@ -29,7 +29,7 @@ Goal line, at the open and the close: **"Most Utahns can't see their environment
 | 0:58–1:14 | 5 Energy | Jennifer | "I built energy. About 60% of her 20,400 lbs of CO2 is her power bill: Utah's grid put out 1,322 lbs of CO2 per MWh in 2024. Insulation saves about $220 a year." |
 | 1:14–1:30 | 6 Air | Jennifer | "Britney built driving. Her commute costs about $530 a year in gas; sharing it saves $270. An electric car counts at about a third of a gas car." |
 | 1:30–1:46 | 7 Ask | Jennifer | "She can ask. Gemini answers only from our 41 sourced facts and names them; no source, it says so. Our formulas do the math, not the model." |
-| 1:46–2:00 | 9 Close · QR | Jenn | "Four of us built this today, three with a coding agent for the first time." The goal line. "Scan it and try your own home." |
+| 1:46–2:00 | 9 Close · QR | Jenn | "We're Ctrl + Alt + Conserve: Jenn, Jennifer, Craig and Britney." The goal line. "Scan it and try your own home." |
 
 **CHECK before saying "41 sourced facts" (1:30, slide 7):** on `main` at 12:47 the three `facts.ts` files hold 38 fact keys (water 14, energy 11, air 13). Say "38", or say "our sourced facts" with no number.
 
