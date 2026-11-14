@@ -58,13 +58,16 @@ export function calculate(a: Answers): AreaResult {
       unit: "lbs CO2 per year",
       costNote: gasHeat
         ? `Rebate up to $${fact("energy.thermwiseThermostatRebate")}.`
-        : "Pick an ENERGY STAR model.",
+        : "Rocky Mountain Power offers a rebate.",
       program: gasHeat
         ? {
             name: "ThermWise smart thermostat rebate",
             url: "https://www.enbridgegas.com/utwyid/save-money/thermwise/appliance-rebates",
           }
-        : undefined,
+        : {
+            name: "Wattsmart heating and cooling rebates",
+            url: "https://wattsmarthomes.com/rebate-categories/heating-and-cooling/",
+          },
     },
   ].sort((x, y) => y.saves - x.saves);
 
